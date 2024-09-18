@@ -7,6 +7,8 @@
      <x-navbar></x-navbar>
     
      {{-- endnavbar --}}
+
+     
    
        <div class="flex pt-12 overflow-hidden">
    
@@ -17,9 +19,33 @@
            </x-side-bar-mhs>
    
          {{-- end sidebar --}}
-   
+
+    
    
          <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto text-gray-900 dark:text-gray-200  lg:ml-64">
+            
+            @if (session('error'))
+                <div id="error-message" class="bg-red-600 text-white p-4 rounded-lg my-4 mx-5 transition-opacity ease-in-out delay-150 duration-300 opacity-100">
+                    {{ session('error') }}
+                </div>
+            
+                <script>
+                    // Hide the error message after 5 seconds
+                    setTimeout(function() {
+                        let errorMessage = document.getElementById('error-message');
+                        if (errorMessage) {
+                            errorMessage.classList.add('opacity-0');
+                            
+                            // Optional: Completely remove the element from the DOM after fade-out
+                            setTimeout(function() {
+                                errorMessage.remove();
+                            }, 300); // Matches the duration of the transition (300ms)
+                        }
+                    }, 5000); // Display for 5 seconds
+                </script>
+            @endif
+        
+
             <h1 class="font-semibold text-4xl mt-10 mb-4">Pilih Status Akademik</h1>
             <h1 class="text-[#9CA3AF]">Silahkan pilih status akademik untuk semester ini</h1>
             <div class="grid grid-cols-2 mt-16 mx-7 h-[60vh]">

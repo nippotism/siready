@@ -14,7 +14,7 @@ class IrsController extends Controller
     {
     
         $data = Irs::select('semester',DB::raw('sum(sks) as sks'))->groupBy('semester')->get();
-        return view('irs',compact('data'));
+        return view('mhsIrs',compact('data'));
     }
     
 
