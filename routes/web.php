@@ -44,19 +44,19 @@ Route::get('/m',function(){
 });
 
 //IRS
-Route::get('/irs',[IrsController::class,'all']);
+Route::get('/irs',[IrsController::class,'all']) -> name('irs');
 Route::get('/irs/{id}',[IrsController::class,'index']);
 
 
 //KHS
-Route::get('/khs',[KhsController::class,'all']);
+Route::get('/khs',[KhsController::class,'all']) -> name('khs');
 Route::get('/khs/{id}',[KhsController::class,'index']);
 
 
 //Transkrip
 Route::get('m/transkrip', function () {
     return view('mhsTranskrip');
-});
+})->name('transkrip');
 
 //Buat IRS
 Route::get('m/buat-irs', function () {
@@ -70,18 +70,17 @@ Route::get('m/registrasi', function () {
 
 Route::get('p/perwalian', function () {
     return view('paPerwalian');
-});
+})->name('perwalian');
+
 Route::get('p/ajuan-irs', function () {
     return view('paAjuanIrs');
-});
-Route::get('k/dashboard', function () {
-    return view('kpDashboard');
-});
+})->name('ajuanIrs');
+
 Route::get('k/buat-jadwal', function () {
     return view('kpBuatJadwal');
-});
+})->name('buatJadwal');
 Route::get('k/rombel', function () {
     return view('kpRombel');
-});
+})->name('rombel');
 
 
