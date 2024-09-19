@@ -1,12 +1,13 @@
 <?php
 
+use Monolog\Registry;
+use App\Http\Middleware\RegistFirst;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IrsController;
 use App\Http\Controllers\KhsController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RuangController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Middleware\RegistFirst;
-use Illuminate\Support\Facades\Route;
-use Monolog\Registry;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -30,6 +31,9 @@ Route::get('dashboard', function() {
             break;
         case 'Dekan':
             return view('dkDashboard');
+            break;
+        case 'BA':
+            return view('baDashboard');
             break;
     }
 })->name('dashboard')->middleware('auth');
@@ -67,6 +71,10 @@ Route::get('m/buat-irs', function () {
 Route::get('m/registrasi', function () {
     return view('mhsRegistrasi');
 })->name('registration');
+
+
+//Ruang
+Route::get('ruang',[RuangController::class,'index']);
 
 Route::get('p/perwalian', function () {
     return view('paPerwalian');

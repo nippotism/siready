@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
             ['name' => 'Muhaimin Iskandar', 'email' => 'muhaimin@gmail.com', 'password' => '12345678', 'role' => 'Pembimbing Akademik'],
             ['name' => 'Mahfud MD', 'email' => 'mahfud@gmail.com', 'password' => '12345678', 'role' => 'Kaprodi'],
             ['name' => 'Airlangga Hartarto', 'email' => 'airlangga@gmail.com', 'password' => '12345678', 'role' => 'Dekan'],
+            ['name' => 'Bahlil Lahadalia', 'email' => 'bahlil@gmail.com', 'password' => '12345678', 'role' => 'BA'],
         ];
 
         foreach ($user as $p) {
