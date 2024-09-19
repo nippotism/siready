@@ -21,14 +21,14 @@
       <div id="main-content" class="relative font-poppins w-full h-full overflow-y-auto lg:pl-52">
 
         <div class = "text-gray-900 dark:text-gray-200">
-          <h1 class="font-bold text-3xl mb-0 px-14 mt-6">Hai {{ $userName }}👋</h1>
+          <h1 class="font-bold text-3xl mb-0 px-14 mt-6">Hai {{ $data['userName'] }}👋</h1>
         
           <div class="px-14 pt-3 pb-2">
             <div class="p-10 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-[#1D2125]">
               
                 <div class="grid grid-cols-3 pt-4 py-8">
-                    <div class="bg-[#2ACD7F] p-6 rounded-2xl text-right mx-9">
-                        <h1 class="text-2xl font-bold">AKTIF</h1>
+                    <div class="{{ $data['status']=='Aktif'?'bg-[#2ACD7F]':'bg-red-500' }} p-6 rounded-2xl text-right mx-9">
+                        <h1 class="text-2xl font-bold">{{ $data['status']=='Aktif'?'AKTIF':'CUTI' }}</h1>
                         <h1>Status Mahasiswa</h1>
                     </div>
                     <div class="bg-[#2AA6CD] p-6 rounded-2xl text-right mx-9">
