@@ -11,7 +11,7 @@
 
         {{-- sidebar --}}
   
-          <x-side-bar-pa>
+          <x-side-bar-pa :active="request()->route()->getName()">
               
           </x-side-bar-pa>
         {{-- end sidebar --}}

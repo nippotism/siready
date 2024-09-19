@@ -20,7 +20,7 @@
 
         {{-- sidebar --}}
   
-          <x-side-bar-dekan>
+          <x-side-bar-dekan :active="request()->route()->getName()">
             
           </x-side-bar-dekan>
         {{-- end sidebar --}}
