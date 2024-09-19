@@ -2,11 +2,7 @@
 
 use App\Http\Controllers\IrsController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\product;
-use App\Http\Controllers\productController;
-use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RegisterController;
-use App\Http\Middleware\RegistFirst;
 use Illuminate\Support\Facades\Route;
 use Monolog\Registry;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -16,48 +12,34 @@ Route::get('/', function () {
 });
 
 
-
-
-
-
 Route::get('/login',[LoginController::class,'index'])->name('login')->middleware('guest');
 Route::post('/login',[LoginController::class,'authenticate']);
 
-
-Route::get('dashboard',function(){
-    if(auth()->user()->role == 'Student'){
-        return app('App\Http\Controllers\DashboardController')->index();
-    }else{
-        return view('paDashboard');
+Route::get('dashboard', function() {
+    switch(auth()->user()->role) {
+        case 'Mahasiswa':
+            return app('App\Http\Controllers\DashboardController')->index();
+            break;
+        case 'Pembimbing Akademik':
+            return view('paDashboard');
+            break;
+        case 'Kaprodi':
+            return view('kpDashboard');
+            break;
+        case 'Dekan':
+            return view('dkDashboard');
+            break;
     }
 })->name('dashboard')->middleware('auth');
 
+
 Route::get('/logout',[LoginController::class,'logout']);
 
-
-
-// Route::get('registration',[RegisterController::class,'index']);
-
-
 Route::get('product/{product}/delete',[ProductsController::class,'destroy']);
-
-// Route::post('/register',[RegisterController::class,'store']);
-
-
-
-
-Route::resource('product', ProductsController::class);
-
-
-
-Route::get('/p',function(){
-    return view('desbor');
-});
 
 Route::get('/m',function(){
     return view('maintenance');
 });
-
 
 //IRS
 Route::get('/irs',[IrsController::class,'all']);
@@ -67,6 +49,12 @@ Route::get('/irs/{id}',[IrsController::class,'index']);
 //KHS
 Route::get('m/khs', function () {
     return view('mhsKhs');
+});
+
+
+//Transkrip
+Route::get('m/transkrip', function () {
+    return view('mhsTranskrip');
 });
 
 //Buat IRS

@@ -37,42 +37,42 @@
                     </div>
                     <div class="grid grid-cols-6 text-center mt-16 pr-[5%] py-5 text-gray-500 dark:text-[#9CA3AF]   ">
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">No</h1>
+                            <h1 class="pb-2 font-semibold">No</h1>
                             <h1>1</h1>
                             <h1>2</h1>
                             <h1>3</h1>
                             <h1>4</h1>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">Angkatan</h1>
+                            <h1 class="pb-2 font-semibold">Angkatan</h1>
                             <h1>2022</h1>
                             <h1>2024</h1>
                             <h1>2020</h1>
                             <h1>2021</h1>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">Strata</h1>
+                            <h1 class="pb-2 font-semibold">Strata</h1>
                             <h1>S1</h1>
                             <h1>S1</h1>
                             <h1>S1</h1>
                             <h1>S2</h1>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">Prodi</h1>
+                            <h1 class="pb-2 font-semibold">Prodi</h1>
                             <h1>Informatika</h1>
                             <h1>Informatika</h1>
                             <h1>Informatika</h1>
                             <h1>Sistem Informasi</h>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">Kelas</h1>
+                            <h1 class="pb-2 font-semibold">Kelas</h1>
                             <h1>A</h1>
                             <h1>C</h1>
                             <h1>A</h1>
                             <h1>D</h1>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">Rata-rata IPK</h1>
+                            <h1 class="pb-2 font-semibold">Rata-rata IPK</h1>
                             <h1>3.9</h1>
                             <h1>3.1</h1>
                             <h1>3.3</h1>

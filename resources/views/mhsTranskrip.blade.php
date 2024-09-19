@@ -75,7 +75,7 @@
                     <h1>SKS Kumulatif</h1>
                 </div>
                 <div class="bg-[#C34444] p-6 rounded-3xl text-right mx-9 flex flex-col items-end">
-                    <img src="unduhPdf.png" class="mb-2" width="25" alt="">
+                    <img src="{{ asset('unduhPdf.png') }}" class="mb-2" width="25" alt="">
                     <h1>Unduh PDF</h1>
                 </div>
             </div>
