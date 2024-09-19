@@ -15,7 +15,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $user = [
-            ['name' => 'Mulyono', 'email' => 'mulyono@gmail.com', 'password' => '12345678', 'role' => 'Mahasiswa'],
+            ['name' => 'Mulyono', 'email' => 'mulyono@gmail.com', 'password' => '12345678', 'role' => 'Mahasiswa', 'status' => 'Non Aktif'],
+            ['name' => 'Bobby Nasution', 'email' => 'bobby@gmail.com', 'password' => '12345678', 'role' => 'Mahasiswa', 'status' => 'Aktif'],
             ['name' => 'Muhaimin Iskandar', 'email' => 'muhaimin@gmail.com', 'password' => '12345678', 'role' => 'Pembimbing Akademik'],
             ['name' => 'Mahfud MD', 'email' => 'mahfud@gmail.com', 'password' => '12345678', 'role' => 'Kaprodi'],
             ['name' => 'Airlangga Hartarto', 'email' => 'airlangga@gmail.com', 'password' => '12345678', 'role' => 'Dekan'],

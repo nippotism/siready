@@ -3,6 +3,7 @@
 use App\Http\Controllers\IrsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Middleware\RegistFirst;
 use Illuminate\Support\Facades\Route;
 use Monolog\Registry;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;

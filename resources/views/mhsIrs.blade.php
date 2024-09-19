@@ -60,7 +60,7 @@ $(document).ready(function() {
 
             // AJAX request to fetch data
             $.ajax({
-                url: `/m/irs/${semester}`, // Replace with your server endpoint
+                url: `/irs/${semester}`, // Replace with your server endpoint
                 method: 'GET',
                 data: { semester: semester },
                 success: function(response) {
