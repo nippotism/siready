@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="grid grid-cols-3 gap-16 px-16 py-5">
-                        <div class="bg-[#5F138D] p-6 rounded-2xl text-right">
+                        <div class="bg-[#873fb4] p-6 rounded-2xl text-right">
                             <h1 class="text-2xl font-bold">3400</h1>
                             <h1>Mahasiswa Aktif</h1>
                         </div>

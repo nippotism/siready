@@ -27,8 +27,8 @@
                         </button> 
                     </div>
                 </div> 
-                <table class="w-full text-white text-center">
-                    <thead class="bg-[#283445]">
+                <table class="w-full text-center">
+                    <thead class="bg-gray-500 text-white dark:bg-[#283445]">
                         <tr>
                             <th class="w-[10%] py-6 px-7">MK</th>
                             <th class="w-[10%] py-6 px-7">Kelas</th>

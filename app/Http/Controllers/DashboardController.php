@@ -15,13 +15,8 @@ class DashboardController extends Controller
 
         // Access user name
         $userName = $user->name;
-        // Access user email
-        $userEmail = $user->email;
 
         // Pass the user data to a view, or return a response
-        return view('MhsDashboard', [
-            'userName' => $userName,
-            'userEmail' => $userEmail,
-        ]);
+        return view('MhsDashboard', ['userName' => $userName]);
     }
 }

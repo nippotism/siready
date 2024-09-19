@@ -1,4 +1,3 @@
-@props(['userName'])
 <aside id="sidebar" class="fixed w-52 top-0 left-0 z-20 font-poppins flex flex-col flex-shrink-0 sm:hidden h-full pt-12 font-normal duration-75 lg:flex transition-width" aria-label="Sidebar">
     <div class="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-gray-200 dark:bg-blek-800 dark:border-gray-700">
       <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
@@ -19,7 +18,7 @@
               <img src="{{ asset('profile.png') }}" class="rounded-full flex mx-auto" width="100" alt="">
             </li>
             <ul class=" font-medium text-base text-center p-2 text-gray-900 rounded-lg dark:text-gray-200 tracking-normal"> 
-                <li>{{ $userName }}</li>
+                <li>Mulyono</li>
                 <li>24060122110001</li>
                 <li>Informatika S1</li>
             </ul>

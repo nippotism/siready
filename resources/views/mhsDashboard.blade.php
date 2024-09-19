@@ -4,7 +4,7 @@
 
 @section('page')
     {{-- navbar --}}
-    <x-navbar-mhs :userName="$userName" :userEmail="$userEmail"></x-navbar-mhs>
+    <x-navbar></x-navbar>
     
   {{-- endnavbar --}}
 
@@ -12,10 +12,9 @@
 
       {{-- sidebar --}}
 
-      <x-side-bar-mhs :userName="$userName">
-
-      </x-side-bar-mhs>
-
+        <x-side-bar-mhs>
+            
+        </x-side-bar-mhs>
       {{-- end sidebar --}}
 
 

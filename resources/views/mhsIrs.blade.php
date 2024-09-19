@@ -14,7 +14,7 @@
 
       {{-- sidebar --}}
 
-        <x-side-bar-mhs>
+        <x-side-bar-mhs >
             
         </x-side-bar-mhs>
       {{-- end sidebar --}}
