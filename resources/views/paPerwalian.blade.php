@@ -20,7 +20,7 @@
         <div id="main-content" class="relative text-gray-900 dark:text-gray-200 font-poppins w-full h-full overflow-y-auto lg:pl-52">
             <div class="px-8 py-8">
                 <div class="  2xl:col-span-2 dark:border-gray-700 sm:p-6">
-                    <div class="flex justify-around gap-16 px-16">
+                    <div class="flex gap-8">
                         <div>            
                             <button id="dropdownButton1" data-dropdown-toggle="dropdownMenu1" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
                                 Strata 
@@ -115,35 +115,35 @@
                 <div class="bg-white border border-gray-200 h-[45vh] mt-10 rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
                     <div class="grid grid-cols-5 text-center pr-[5%] py-5 text-gray-500 dark:text-[#9CA3AF]   ">
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">No</h1>
+                            <h1 class="pb-2  font-semibold">No</h1>
                             <h1>1</h1>
                             <h1>2</h1>
                             <h1>3</h1>
                             <h1>4</h1>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">Nama</h1>
+                            <h1 class="pb-2  font-semibold">Nama</h1>
                             <h1>Gibran Rakabuming</h1>
                             <h1>Kaesang Pangarep</h1>
                             <h1>Bobby Nasution</h1>
                             <h1>Jan Ethes</h1>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">Status</h1>
+                            <h1 class="pb-2  font-semibold">Status</h1>
                             <h1 class="text-[#30DE00]">Aktif</h1>
                             <h1 class="text-[#DB1C1C]">Cuti</h1>
                             <h1 class="text-[#30DE00]">Aktif</h1>
                             <h1 class="text-[#30DE00]">Aktif</h1>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">SKS</h1>
+                            <h1 class="pb-2  font-semibold">SKS</h1>
                             <h1>80</h1>
                             <h1>70</h1>
                             <h1>89</h1>
                             <h1>69</h1>
                         </div>
                         <div class="space-y-4">
-                            <h1 class="pb-2 text-white font-semibold">Rata-rata IPK</h1>
+                            <h1 class="pb-2  font-semibold">Rata-rata IPK</h1>
                             <h1>3.9</h1>
                             <h1>3.1</h1>
                             <h1>3.3</h1>
