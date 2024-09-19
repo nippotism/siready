@@ -27,8 +27,8 @@
                         <input type="text" placeholder="Search" class="bg-white dark:bg-gray-700 rounded-lg">
                     </div>
                 </div> 
-                <table class="w-full text-white text-center">
-                    <thead class="bg-[#283445]">
+                <table class="w-full text-center">
+                    <thead class="bg-gray-500 text-white dark:bg-[#283445]">
                         <tr>
                             <th class="w-[10%] py-6 px-7">No</th>
                             <th class="w-[20%] py-6 px-7">NIM</th>
