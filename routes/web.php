@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\IrsController;
+use App\Http\Controllers\KhsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Middleware\RegistFirst;
@@ -48,9 +49,8 @@ Route::get('/irs/{id}',[IrsController::class,'index']);
 
 
 //KHS
-Route::get('m/khs', function () {
-    return view('mhsKhs');
-});
+Route::get('/khs',[KhsController::class,'all']);
+Route::get('/khs/{id}',[KhsController::class,'index']);
 
 
 //Transkrip
