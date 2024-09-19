@@ -37,7 +37,7 @@ Route::get('dashboard', function() {
 
 Route::get('/logout',[LoginController::class,'logout']);
 
-Route::get('product/{product}/delete',[ProductsController::class,'destroy']);
+// Route::get('product/{product}/delete',[ProductsController::class,'destroy']);
 
 Route::get('/m',function(){
     return view('maintenance');

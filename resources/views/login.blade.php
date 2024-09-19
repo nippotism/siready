@@ -7,10 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body class="bg-[#111827] min-h-screen w-full text-white flex items-center justify-center">
+<body class="bg-blek-900 min-h-screen w-full text-white flex items-center justify-center">
     <div class="flex flex-col justify-center items-center text-center">
         <img src="siready.png" class="mb-5" width="120" alt="">
-        <div class="bg-[#1F2A36] flex flex-col p-7 rounded-2xl">
+        <div class="bg-blek-700 flex flex-col p-7 rounded-2xl">
             <h1 class="text-2xl font-semibold py-2">Log in to your account</h1>
             <h1 class="text-gray-400 py-2">Enter your credentials to access your account</h1>
             <form action="{{ route('login') }}" method="POST" class="flex flex-col">

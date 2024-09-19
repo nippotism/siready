@@ -15,8 +15,14 @@ class DashboardController extends Controller
 
         // Access user name
         $userName = $user->name;
+        $status = $user->status;
+
+        $data = [
+            'userName' => $userName,
+            'status' => $status
+        ];
 
         // Pass the user data to a view, or return a response
-        return view('MhsDashboard', ['userName' => $userName]);
+        return view('MhsDashboard',compact('data'));
     }
 }
