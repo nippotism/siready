@@ -29,7 +29,26 @@ class RuangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $request -> validate([
+            'noruang' => 'required',
+            'blokgedung' => 'required',
+            'lantai' => 'required',
+            'fungsi' => 'required',
+            'kapasitas' => 'required',
+        ]);
+
+        $data = [
+            'noruang' => $request->noruang,
+            'blokgedung' => $request->blokgedung,
+            'lantai' => $request->lantai,
+            'fungsi' => $request->fungsi,
+            'kapasitas' => $request->kapasitas,
+            'status' => 'Pending',
+        ];
+
+        Ruang::create($data);
+        return redirect()->route('ruang.index');
     }
 
     /**

@@ -74,7 +74,9 @@ Route::get('m/registrasi', function () {
 
 
 //Ruang
-Route::get('ruang',[RuangController::class,'index']);
+Route::resource('/ruang', RuangController::class);
+
+
 
 Route::get('p/perwalian', function () {
     return view('paPerwalian');
