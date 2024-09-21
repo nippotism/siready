@@ -16,6 +16,22 @@ class RuangController extends Controller
         return view('baBuatRuang', compact('data'));
     }
 
+    public function index2()
+    {
+
+        //check if there is a last prodi that was edited return ruang data with the last prodi
+        if(session('lastprodi')){
+            $data = Ruang::where('prodi', session('lastprodi'))->get();
+            $prodi = session('lastprodi');
+            return view('baPlotRuang', compact('data', 'prodi'));
+        }else{
+            $data = [];
+            $prodi = '';
+            return view('baPlotRuang', compact('data', 'prodi'));
+        }
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -45,6 +61,7 @@ class RuangController extends Controller
             'fungsi' => $request->fungsi,
             'kapasitas' => $request->kapasitas,
             'status' => 'Pending',
+            'prodi' => 'free'
         ];
 
         Ruang::create($data);
@@ -113,5 +130,18 @@ class RuangController extends Controller
         $data = Ruang::where('prodi', $prodi)->get();
 
         return response()->json(['data' => $data]);
+    }
+
+    public function editProdi(string $id){
+
+
+        //select data from database where id = $id and update the prodi to 'free'
+        $data = Ruang::find($id);
+        Ruang::find($id)->update(['prodi' => 'free']);
+
+        return redirect()->route('plotruang')->with('lastprodi', $data->prodi);
+        
+
+
     }
 }

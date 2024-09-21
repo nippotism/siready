@@ -75,9 +75,8 @@ Route::get('m/registrasi', function () {
 
 //Ruang
 Route::resource('/ruang', RuangController::class);
-Route::get('/plotruang',function(){
-    return view('baPlotRuang');
-});
+Route::get('/plotruang',[RuangController::class,'index2'])->name('plotruang');
+Route::post('/plotruang/{id}',[RuangController::class,'editProdi']);
 Route::get('/prodi',[RuangController::class,'plotProdi']);
 
 
