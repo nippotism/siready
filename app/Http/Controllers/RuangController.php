@@ -65,6 +65,7 @@ class RuangController extends Controller
     public function edit(string $id)
     {
         //
+        
     }
 
     /**
@@ -73,6 +74,25 @@ class RuangController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $request -> validate([
+            'noruang' => 'required',
+            'blokgedung' => 'required',
+            'lantai' => 'required',
+            'fungsi' => 'required',
+            'kapasitas' => 'required',
+        ]);
+
+        $data = [
+            'noruang' => $request->noruang,
+            'blokgedung' => $request->blokgedung,
+            'lantai' => $request->lantai,
+            'fungsi' => $request->fungsi,
+            'kapasitas' => $request->kapasitas,
+            'status' => 'Pending',
+        ];
+
+        Ruang::find($id)->update($data);
+        return redirect()->route('ruang.index');
     }
 
     /**
@@ -81,5 +101,17 @@ class RuangController extends Controller
     public function destroy(string $id)
     {
         //
+        Ruang::find($id)->delete();
+        return redirect()->route('ruang.index');
+    }
+
+    public function plotProdi(Request $request)
+    {
+        $prodi = $request->input('prodi');
+
+        // Fetch data based on the selected program
+        $data = Ruang::where('prodi', $prodi)->get();
+
+        return response()->json(['data' => $data]);
     }
 }

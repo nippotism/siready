@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('fungsi');
             $table->string('kapasitas');
             $table->string('status');
+            $table->string('prodi');
             $table->timestamps();
         });
     }
