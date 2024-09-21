@@ -16,14 +16,14 @@ class RuangSeeder extends Seeder
         
 
         $ruang = [
-            ['noruang' => 'A101', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Informatika'],
-            ['noruang' => 'A102', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Informatika'],
-            ['noruang' => 'A103', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Informatika'],
-            ['noruang' => 'A104', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Biologi'],
-            ['noruang' => 'A105', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Biologi'],
-            ['noruang' => 'A106', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Matematika'],
-            ['noruang' => 'A107', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Matematika'],
-            ['noruang' => 'A108', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Informatika'],
+            ['noruang' => 'A101', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Informatika'],
+            ['noruang' => 'A102', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Informatika'],
+            ['noruang' => 'A103', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Informatika'],
+            ['noruang' => 'A104', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Biologi'],
+            ['noruang' => 'A105', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Biologi'],
+            ['noruang' => 'A106', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Matematika'],
+            ['noruang' => 'A107', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Matematika'],
+            ['noruang' => 'A108', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Tersedia', 'prodi' => 'Informatika'],
         ];
 
         foreach ($ruang as $p) {

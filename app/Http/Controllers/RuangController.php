@@ -47,7 +47,7 @@ class RuangController extends Controller
     {
         // dd($request->all());
         $request -> validate([
-            'noruang' => 'required',
+            'noruang' => 'required|unique:noruang',
             'blokgedung' => 'required',
             'lantai' => 'required',
             'fungsi' => 'required',
