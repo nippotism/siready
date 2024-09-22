@@ -25,24 +25,29 @@
          <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto text-gray-900 dark:text-gray-200  lg:ml-64">
             
             @if (session('error'))
-                <div id="error-message" class="bg-red-600 text-white p-4 rounded-lg my-4 mx-5 transition-opacity ease-in-out delay-150 duration-300 opacity-100">
-                    {{ session('error') }}
+                <div id="alert" class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 px-4 py-3 mt-3 rounded absolute z-50 w-[95%]" role="alert">
+                    <strong class=" text-gray-300 font-bold">Error !</strong>
+                    <span class="text-white block sm:inline">{{ session('error') }}</span>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                        <svg id="closeAlert" class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <title>Close</title>
+                            <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                        </svg>
+                    </span>
                 </div>
-            
+                
                 <script>
-                    // Hide the error message after 5 seconds
+                    // Close alert when clicking the cross button
+                    document.getElementById('closeAlert').addEventListener('click', function() {
+                        document.getElementById('alert').style.display = 'none';
+                    });
+                
+                    // Auto dismiss alert after 3 seconds
                     setTimeout(function() {
-                        let errorMessage = document.getElementById('error-message');
-                        if (errorMessage) {
-                            errorMessage.classList.add('opacity-0');
-                            
-                            // Optional: Completely remove the element from the DOM after fade-out
-                            setTimeout(function() {
-                                errorMessage.remove();
-                            }, 300); // Matches the duration of the transition (300ms)
-                        }
-                    }, 5000); // Display for 5 seconds
+                        document.getElementById('alert').style.display = 'none';
+                    }, 3000);
                 </script>
+            
             @endif
         
 
@@ -57,7 +62,7 @@
                         </div>
                         <h1 class="text-[#9CA3AF] px-5">Anda akan mengikuti kegiatan perkuliahan pada semester ini serta mengisi Isian Rencana Studi (IRS).</h1>
                     </div>
-                    <h1 class="bg-[#ecaa54] dark:bg-[#F87430] duration-300 dark:hover:bg-white dark:hover:text-[#F87430] text-white text-center px-6 py-3 font-bold rounded-2xl">Pilih</h1>
+                    <h1 class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 text-white text-center px-6 py-3 font-bold rounded-2xl">Pilih</h1>
                 </div>
                 <div class="bg-white dark:bg-blek-700 dark:border-gray-700 p-6 mx-7 w-[85%] rounded-2xl h-full flex flex-col justify-between">
                     <div>
@@ -67,7 +72,7 @@
                         </div>
                         <h1 class="text-[#9CA3AF] px-5">Menghentikan kuliah sementara untuk semester ini tanpa kehilangan status sebagai mahasiswa Undip.</h1>
                     </div>
-                    <h1 class="bg-[#ecaa54] dark:bg-[#F87430] duration-300 dark:hover:bg-white dark:hover:text-[#F87430] text-white text-center px-6 py-3 font-bold rounded-2xl">Pilih</h1>
+                    <h1 class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 text-center px-6 py-3 font-bold rounded-2xl">Pilih</h1>
                 </div>
             </div>
         </div>

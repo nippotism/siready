@@ -17,7 +17,8 @@ class Ruang extends Model
         'lantai',
         'fungsi',
         'kapasitas',
-        'status'
+        'status',
+        'prodi'
     ];
 
 }

@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('ruang', function (Blueprint $table) {
             $table->id();
-            $table->string('noruang');
+            $table->string('noruang')->unique();
             $table->string('blokgedung');
             $table->string('lantai');
             $table->string('fungsi');
             $table->string('kapasitas');
             $table->string('status');
+            $table->string('prodi');
             $table->timestamps();
         });
     }

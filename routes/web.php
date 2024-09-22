@@ -11,7 +11,7 @@ use App\Http\Controllers\RegisterController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 
@@ -74,7 +74,12 @@ Route::get('m/registrasi', function () {
 
 
 //Ruang
-Route::get('ruang',[RuangController::class,'index']);
+Route::resource('/ruang', RuangController::class);
+Route::get('/plotruang',[RuangController::class,'index2'])->name('plotruang');
+Route::post('/plotruang/{id}',[RuangController::class,'editProdi']);
+Route::get('/prodi',[RuangController::class,'plotProdi']);
+
+
 
 Route::get('p/perwalian', function () {
     return view('paPerwalian');

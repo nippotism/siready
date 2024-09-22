@@ -23,17 +23,17 @@
           <div class="px-14 pt-3 pb-2">
             <div class="p-10 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-[#1D2125]"> 
                 <div class="grid grid-cols-3 pt-4 py-8">
-                    <div class="{{ $data['status'] == 'Aktif' ? 'bg-[#2ACD7F]' : ($data['status'] == 'Cuti' ? 'bg-red-500' : 'bg-orange-300') }} p-6 rounded-2xl text-right mx-9">
-                        <h1 class="text-2xl font-bold">
-                            {{ $data['status'] == 'Aktif' ? 'AKTIF' : ($data['status'] == 'Cuti' ? 'CUTI' : 'Belum Her-Reg') }}
+                    <div class="{{ $data['status'] == 'Aktif' ? 'text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800' : ($data['status'] == 'Cuti' ? 'text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800' : 'text-white bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800') }} p-6 rounded-2xl text-right mx-9">
+                        <h1 class="text-2xl font-bold tracking-wider">
+                            {{ $data['status'] == 'Aktif' ? 'Aktif' : ($data['status'] == 'Cuti' ? 'CUTI' : 'Belum Her-Reg') }}
                         </h1>  
                         <h1>Status Mahasiswa</h1>
                     </div>
-                    <div class="bg-[#2AA6CD] p-6 rounded-2xl text-right mx-9">
+                    <div class="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 p-6 rounded-2xl text-right mx-9">
                         <h1 class="text-2xl font-bold">3.2</h1>
                         <h1>IP Kumulatif</h1>
                     </div>
-                    <div class="bg-[#3478C7] p-6 rounded-2xl text-right mx-9">
+                    <div class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 p-6 rounded-2xl text-right mx-9">
                         <h1 class="text-2xl font-bold">86</h1>
                         <h1>SKS</h1>
                     </div>
