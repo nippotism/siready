@@ -25,8 +25,8 @@
          <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto text-gray-900 dark:text-gray-200  lg:ml-64">
             
             @if (session('error'))
-                <div id="alert" class="bg-red-500 border border-red-800 text-red-700 px-4 py-3 mt-3 rounded absolute z-50 w-[95%]" role="alert">
-                    <strong class="text-black font-bold">Error !</strong>
+                <div id="alert" class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 px-4 py-3 mt-3 rounded absolute z-50 w-[95%]" role="alert">
+                    <strong class=" text-gray-300 font-bold">Error !</strong>
                     <span class="text-white block sm:inline">{{ session('error') }}</span>
                     <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                         <svg id="closeAlert" class="fill-current h-6 w-6 text-red-500 cursor-pointer" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
