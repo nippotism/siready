@@ -51,7 +51,12 @@
                                         <td>{{ $ruang->lantai }}</td>
                                         <td>{{ $ruang->fungsi }}</td>
                                         <td>{{ $ruang->kapasitas }}</td>
-                                        <td>{{ $ruang->status }}</td>
+                                        <td class="{{ 
+                                            $ruang->status == 'Pending' ? 'text-yellow-300' : 
+                                            ($ruang->status == 'Disetujui' ? 'text-[#2ACD7F]' : 'text-[#C34444]') 
+                                            }}">
+                                            {{ $ruang->status }}
+                                        </td>
                                         <td>
                                             <button type="button"  data-modal-target="updateModal-{{ $ruang->id }}" data-modal-toggle="updateModal-{{ $ruang->id }}"class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 px-3 py-2 text-xs font-medium text-center rounded-lg ">Edit</button>
                                             <button type="button" data-modal-target="deleteModal-{{ $ruang->id }}" data-modal-toggle="deleteModal-{{ $ruang->id }}"class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 px-3 py-2 text-xs font-medium text-center rounded-lg ml-2">Delete</button>
