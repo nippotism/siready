@@ -34,6 +34,12 @@
                                         <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-prodi="Informatika">Informatika</a>
                                     </li>
                                     <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-prodi="Matematika">Matematika</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-prodi="Statistika">Statistika</a>
+                                    </li>
+                                    <li>
                                         <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-prodi="Biologi">Biologi</a>
                                     </li>
                                     <li>
@@ -70,7 +76,7 @@
                                     <td>{{ $ruang->lantai }}</td>
                                     <td>{{ $ruang->fungsi }}</td>
                                     <td>{{ $ruang->kapasitas }}</td>
-                                    <td>{{ $ruang->status }}</td>
+                                    <td class="text-yellow-300">{{ $ruang->status }}</td>
                                     <td>
                                         <form action="plotruang/{{ $ruang->id }}" method="POST">
                                             @csrf
@@ -262,15 +268,19 @@
 
                                     // Add new row to the DataTable
                                     tableRuang.row.add([
-                                        index + 1, // Loop iteration for row number
-                                        ruang.noruang,
-                                        ruang.blokgedung,
-                                        ruang.lantai,
-                                        ruang.fungsi,
-                                        ruang.kapasitas,
-                                        ruang.status,
-                                        `<td>${deleteButton}</td>`
-                                    ]).draw(false);  // Draw the row without resetting the entire table
+                                    index + 1, // Loop iteration for row number
+                                    ruang.noruang,
+                                    ruang.blokgedung,
+                                    ruang.lantai,
+                                    ruang.fungsi,
+                                    ruang.kapasitas,
+                                    `<td class="${
+                                        ruang.status == 'Pending' ? 'text-yellow-300' :
+                                        ruang.status == 'Disetujui' ? 'text-[#2ACD7F]' : 'text-[#C34444]'
+                                    }">${ruang.status}</td>`,
+                                    `<td>${deleteButton}</td>`
+                                ]).draw(false);  // Draw the row without resetting the entire table
+
                                 });
                             },
                             error: function (xhr, status, error) {

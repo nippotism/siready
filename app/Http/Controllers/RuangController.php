@@ -15,10 +15,9 @@ class RuangController extends Controller
         $data = Ruang::all();
         return view('baBuatRuang', compact('data'));
     }
-
+    
     public function index2()
     {
-
         //check if there is a last prodi that was edited return ruang data with the last prodi
         if(session('lastprodi')){
             $data = Ruang::where('prodi', session('lastprodi'))->get();
@@ -30,7 +29,12 @@ class RuangController extends Controller
             return view('baPlotRuang', compact('data', 'prodi'));
         }
     }
-
+    
+    public function index3()
+    {
+        $data = Ruang::all();
+        return view('dkAjuanRuang', compact('data'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -126,8 +130,8 @@ class RuangController extends Controller
     {
         $prodi = $request->input('prodi');
 
-        // Fetch data based on the selected program
-        $data = Ruang::where('prodi', $prodi)->get();
+        // Fetch data based on the selected program and status = disetujui
+        $data = Ruang::where('prodi', $prodi)->where('status', 'Disetujui')->get();
 
         return response()->json(['data' => $data]);
     }
@@ -140,8 +144,24 @@ class RuangController extends Controller
         Ruang::find($id)->update(['prodi' => 'free']);
 
         return redirect()->route('plotruang')->with('lastprodi', $data->prodi);
-        
+    
+    }
 
+    public function updateStatus(Request $request, $id)
+    {   
+        if ($id == 'all') {
+            $ruang = Ruang::where('status', 'Pending')->get();
+            foreach ($ruang as $r) {
+                $r->status = $request->status;
+                $r->save();
+            }
+        }
+        else {
+            $ruang = Ruang::findOrFail($id);
+            $ruang->status = $request->status;
+            $ruang->save();
+        }
 
+        return response()->json(['message' => 'Status updated successfully.', 'data' => $ruang]);
     }
 }

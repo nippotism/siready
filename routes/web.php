@@ -7,6 +7,7 @@ use App\Http\Controllers\IrsController;
 use App\Http\Controllers\KhsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RuangController;
+use App\Http\Controllers\AjuanRuangController;
 use App\Http\Controllers\RegisterController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -79,7 +80,8 @@ Route::get('/plotruang',[RuangController::class,'index2'])->name('plotruang');
 Route::post('/plotruang/{id}',[RuangController::class,'editProdi']);
 Route::get('/prodi',[RuangController::class,'plotProdi']);
 
-
+Route::get('/ajuanRuang', [RuangController::class, 'index3']);
+Route::post('/ruang/{id}/update-status', [RuangController::class, 'updateStatus'])->name('ruang.updateStatus');
 
 Route::get('p/perwalian', function () {
     return view('paPerwalian');
