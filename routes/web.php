@@ -34,7 +34,7 @@ Route::get('dashboard', function() {
             return view('dkDashboard');
             break;
         case 'BA':
-            return view('baDashboard');
+            return app('App\Http\Controllers\RuangController')->dashboard();
             break;
     }
 })->name('dashboard')->middleware('auth');
