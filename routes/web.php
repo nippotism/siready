@@ -9,6 +9,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RuangController;
 use App\Http\Controllers\AjuanRuangController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\MatakuliahController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -94,6 +95,9 @@ Route::get('p/ajuan-irs', function () {
 Route::get('k/buat-jadwal', function () {
     return view('kpBuatJadwal');
 })->name('buatJadwal');
+
+Route::resource('/buat-mk', MatakuliahController::class);
+
 Route::get('k/rombel', function () {
     return view('kpRombel');
 })->name('rombel');
