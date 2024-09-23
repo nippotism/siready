@@ -1,6 +1,6 @@
 @extends('header')
 
-@section('title','Buat Ruang')
+@section('title','Buat Mata Kuliah')
 
 @section('page')
 
@@ -23,13 +23,13 @@
                 <div class="bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
                     <div class="2xl:col-span-2 sm:p-6 ">
                         <div class="flex justify-between">
-                            <input id = "searchRuang" type="text" placeholder="Cari Ruang" class="bg-white dark:bg-gray-700 rounded-lg">
+                            <input id = "searchMk" type="text" placeholder="Cari Mata Kuliah" class="bg-white dark:bg-gray-700 rounded-lg">
                             <button id="selectAll" data-modal-target="crud-modal" data-modal-toggle="crud-modal" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">
                                 Buat Mata Kuliah + 
                             </button> 
                         </div>
                     </div>
-                    <table id="Ruang" class = "display">
+                    <table id="Matakuliah" class = "display">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -53,7 +53,7 @@
                                         <td>{{ $matakuliah->sifat == 'W' ? 'Wajib' : 'Pilihan' }}</td>
                                         <td>{{ $matakuliah->jumlah_kelas }}</td>
                                         <td>
-                                            <button type="button"  data-modal-target="updateModal-{{ $matakuliah->id }}" data-modal-toggle="updateModal-{{ $matakuliah->id }}"class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 px-3 py-2 text-xs font-medium text-center rounded-lg ">Edit</button>
+                                            <button type="button" data-modal-target="updateModal-{{ $matakuliah->id }}" data-modal-toggle="updateModal-{{ $matakuliah->id }}"class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 px-5 py-2 text-xs font-medium text-center rounded-lg ">Edit</button>
                                             <button type="button" data-modal-target="deleteModal-{{ $matakuliah->id }}" data-modal-toggle="deleteModal-{{ $matakuliah->id }}"class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 px-3 py-2 text-xs font-medium text-center rounded-lg ml-2">Delete</button>
                                         </td>
                                     </tr>
@@ -65,7 +65,7 @@
                      
                 </div>
   
-                {{-- Create Ruang Modal --}}
+                {{-- Create Mata Kuliah Modal --}}
                     <div id="crud-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-md max-h-full">
                             <!-- Modal content -->
@@ -82,8 +82,8 @@
                                         <span class="sr-only">Close modal</span>
                                     </button>
                                 </div>
-                                <!-- Modal Create Ruang -->
-                                <form class="p-4 md:p-5" action = "{{ route('buat-mk.store') }}" method = "POST">
+                                <!-- Modal Create Mata Kuliah -->
+                                <form class="p-4 md:p-5" action = "{{ route('matakuliah.store') }}" method = "POST">
                                     @csrf
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                         <div class="col-span-1">
@@ -96,7 +96,15 @@
                                         </div>
                                         <div class="col-span-1 ">
                                             <label for="plotsemester" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plot Semester</label>
-                                            <input type="number" name="plotsemester" id="plotsemester" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="example : 1" required="">
+                                            <select id="plotsemester" name = "plotsemester" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                <option selected="">Plot Semester</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                            </select>
                                         </div>
                                         <div class="col-span-1 ">
                                             <label for="sks" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SKS</label>
@@ -117,7 +125,7 @@
                                     </div>
                                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                         <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                        Tambah Ruang
+                                        Tambah Mata Kuliah
                                     </button>
                                 </form>
                             </div>
@@ -125,63 +133,69 @@
                     </div> 
                 {{-- create end --}}
 
-                @foreach ($data as $ruang)
+                @foreach ($data as $matakuliah)
                 {{-- editmodal --}}
-                    <div id="updateModal-{{ $ruang->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div id="updateModal-{{ $matakuliah->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-md max-h-full">
                             <!-- Modal content -->
                             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                 <!-- Modal header -->
                                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                        Edit Ruang
+                                        Edit Mata Kuliah
                                     </h3>
-                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="updateModal-{{ $ruang->id }}">
+                                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="updateModal-{{ $matakuliah->id }}">
                                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                         </svg>
                                         <span class="sr-only">Close modal</span>
                                     </button>
                                 </div>
-                                <!-- Modal Edit Ruang -->
-                                <form class="p-4 md:p-5" action = "ruang/{{ $ruang->id }}" method = "POST">
+                                <!-- Modal Edit MK -->
+                                <form class="p-4 md:p-5" action = "matakuliah/{{ $matakuliah->id }}" method = "POST">
                                     @csrf
                                     @method('PUT')
                                     <div class="grid gap-4 mb-4 grid-cols-2">
-                                        <div class="col-span-2">
-                                            <label for="noruang" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No Ruang</label>
-                                            <input type="text" name="noruang" id="noruang" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="No Ruang" value = "{{ $ruang->noruang }}"required="">
+                                        <div class="col-span-1">
+                                            <label for="kodemk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kode MK</label>
+                                            <input type="text" name="kodemk" id="kodemk " class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Kode MK" required="">
                                         </div>
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="blokgedung" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Blok Gedung</label>
-                                            <input type="text" name="blokgedung" id="blokgedung" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Blok Gedung" value="{{ $ruang->blokgedung }}" required="">
+                                        <div class="col-span-1 ">
+                                            <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama MK</label>
+                                            <input type="text" name="nama" id="nama" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nama MK" required="">
                                         </div>
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fungsi</label>
-                                            <select id="lantai" name = "lantai" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                <option selected="">Pilih Lantai</option>
-                                                <option value="1" {{ ($ruang->lantai)==1?'selected':'' }}>1</option>
-                                                <option value="2" {{ ($ruang->lantai)==2?'selected':'' }}>2</option>
-                                                <option value="3" {{ ($ruang->lantai)==3?'selected':'' }}>3</option>    
+                                        <div class="col-span-1 ">
+                                            <label for="plotsemester" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Plot Semester</label>
+                                            <select id="plotsemester" name = "plotsemester" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                <option selected="">Plot Semester</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
                                             </select>
                                         </div>
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kapasitas</label>
-                                            <input type="number" name="kapasitas" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="example : 50" value = "{{ $ruang->kapasitas }}"required="">
+                                        <div class="col-span-1 ">
+                                            <label for="sks" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SKS</label>
+                                            <input type="number" name="sks" id="sks" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="example : 3" required="">
                                         </div>
-                                        <div class="col-span-2 sm:col-span-1">
-                                            <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Fungsi</label>
-                                            <select id="category" name = "fungsi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                <option selected="">Pilih Fungsi</option>
-                                                <option value="Ruang Kelas" {{($ruang->fungsi)=='Ruang Kelas'?'selected':'' }}>Ruang Kelas</option>
-                                                <option value="Lab Komputer" {{($ruang->fungsi)=='Lab Komputer'?'selected':'' }}>Lab Komputer</option>
-                                                <option value="Ruang Seminar" {{($ruang->fungsi)=='Ruang Seminar'?'selected':'' }}>Ruang Seminar</option>
+                                        <div class="col-span-1 ">
+                                            <label for="sifat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sifat</label>
+                                            <select id="sifat" name = "sifat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                <option selected="">Sifat</option>
+                                                <option value="W">Wajib</option>
+                                                <option value="P">Pilihan</option>
                                             </select>
+                                        </div>
+                                        <div class="col-span-1 ">
+                                            <label for="jumlah_kelas" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jumlah Kelas</label>
+                                            <input type="number" name="jumlah_kelas" id="jumlah_kelas" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="example : 3" required="">
                                         </div>
                                     </div>
                                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                         <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                        Ubah Ruang
+                                        Ubah Mata Kuliah
                                     </button>
                                 </form>
                             </div>
@@ -204,7 +218,7 @@
                                     <button data-modal-toggle="deleteModal" type="button" class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
                                         Tidak
                                     </button>
-                                    <form action="{{ route('buat-mk.destroy',$matakuliah->id) }}" method="POST">
+                                    <form action="{{ route('matakuliah.destroy',$matakuliah->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900">
@@ -228,21 +242,33 @@
 
 
         {{-- datatable  --}}
-            <script>
-                $(document).ready( function () {
-                    var tableRuang = $('#Ruang').DataTable({
-                        layout :{
-                            topStart: null,
-                            topEnd: null,
-                            bottomStart: 'pageLength',
-                            bottomEnd: 'paging'
-                        }
-                    });
+        <script>
+            $(document).ready( function () {
+                var tableMk = $('#Matakuliah').DataTable({
+                    pageLength : [10,25,50,100],
+                    pageLength: -1, 
+                    layout :{
+                        topStart: null,
+                        topEnd: null,
+                        bottomStart: 'pageLength',
+                        bottomEnd: 'paging'
+                    },
+                    "columnDefs": [
+                        {className: "dt-head-center", "targets": [0,1,2,3,4,5,6,7] },
+                        {className: "dt-body-center", "targets": [0,1,2,3,4,5,6,7] },
+                    ],
+                });
 
-                    $('#searchRuang').keyup(function() {
-                        tableRuang.search($(this).val()).draw();
-                    });
-                } );
-            </script>
+                setTimeout(() => {
+                    tableMk.page.len(10).draw();
+                }, 10);
+
+
+
+                $('#searchMk').keyup(function() {
+                    tableMk.search($(this).val()).draw();
+                });
+            } );
+        </script>
         {{-- datatble_end --}}
 @endsection

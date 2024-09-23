@@ -46,7 +46,7 @@ class MatakuliahController extends Controller
         ];
 
         Matakuliah::create($data);
-        return redirect()->route('buat-mk.index');
+        return redirect()->route('matakuliah.index');
     }
 
     /**
@@ -73,6 +73,34 @@ class MatakuliahController extends Controller
     {
         //
         Matakuliah::find($id)->delete();
+        return redirect()->route('matakuliah.index');
+    }
+
+        /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+        $request -> validate([
+            'kodemk' => 'required',
+            'nama' => 'required',
+            'plotsemester' => 'required',
+            'sks' => 'required',
+            'sifat' => 'required',
+            'jumlah_kelas' => 'required',
+        ]);
+
+        $data = [
+            'kodemk' => $request->kodemk,
+            'nama' => $request->nama,
+            'plotsemester' => $request->plotsemester,
+            'sks' => $request->sks,
+            'sifat' => $request->sifat,
+            'jumlah_kelas' => $request->jumlah_kelas,
+        ];
+
+        Matakuliah::find($id)->update($data);
         return redirect()->route('matakuliah.index');
     }
 }

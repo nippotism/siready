@@ -96,7 +96,7 @@ Route::get('k/buat-jadwal', function () {
     return view('kpBuatJadwal');
 })->name('buatJadwal');
 
-Route::resource('/buat-mk', MatakuliahController::class);
+Route::resource('/matakuliah', MatakuliahController::class);
 
 Route::get('k/rombel', function () {
     return view('kpRombel');
