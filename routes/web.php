@@ -11,6 +11,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AjuanRuangController;
 use App\Http\Controllers\MatakuliahController;
+use App\Http\Controllers\BuatIrsController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -64,11 +65,12 @@ Route::get('/khs/{id}',[KhsController::class,'index']);
 Route::get('m/transkrip', function () {
     return view('mhsTranskrip');
 })->name('transkrip');
+Route::get('m/make-irs', function () {
+    return view('mhsBuatIrs');
+})->name('transkrip');
 
 //Buat IRS
-Route::get('m/buat-irs', function () {
-    return view('mhsBuatIrs');
-})->name('buatIrs')->middleware(RegistFirst::class);
+Route::get('/buat-irs',[BuatIrsController::class,'index']) -> name('buat-irs');
 
 //Registrasi
 Route::get('m/registrasi', function () {
