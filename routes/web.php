@@ -7,8 +7,9 @@ use App\Http\Controllers\IrsController;
 use App\Http\Controllers\KhsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RuangController;
-use App\Http\Controllers\AjuanRuangController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AjuanRuangController;
 use App\Http\Controllers\MatakuliahController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -84,6 +85,13 @@ Route::get('/prodi',[RuangController::class,'plotProdi']);
 Route::get('/ajuanRuang', [RuangController::class, 'index3']);
 Route::post('/ruang/{id}/update-status', [RuangController::class, 'updateStatus'])->name('ruang.updateStatus');
 
+
+//Jadwal
+Route::get('/buatjadwal',[JadwalController::class,'index'])->name('buatjadwal');
+Route::post('/buatjadwal/{id}',[JadwalController::class,'update']);
+Route::post('/checkjadwal',[JadwalController::class,'isJadwalExist']);
+
+
 Route::get('p/perwalian', function () {
     return view('paPerwalian');
 })->name('perwalian');
@@ -92,9 +100,6 @@ Route::get('p/ajuan-irs', function () {
     return view('paAjuanIrs');
 })->name('ajuanIrs');
 
-Route::get('k/buat-jadwal', function () {
-    return view('kpBuatJadwal');
-})->name('buatJadwal');
 
 Route::resource('/matakuliah', MatakuliahController::class);
 

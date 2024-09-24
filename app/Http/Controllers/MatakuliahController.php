@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Jadwal;
 use App\Models\Matakuliah;
+use Illuminate\Http\Request;
 
 class MatakuliahController extends Controller
 {
@@ -44,6 +45,22 @@ class MatakuliahController extends Controller
             'sifat' => $request->sifat,
             'jumlah_kelas' => $request->jumlah_kelas,
         ];
+
+        for($i=0; $i<$request->jumlah_kelas; $i++){
+            $datajadwal = [
+                'hari' => null,
+                'jam'=> null,
+                'ruang' => null,
+                'kodemk' => $request->kodemk,
+                'kelas' => chr(65+$i),
+                'kapasitas'=> null,
+                'status' => 'Belum Dibuat'
+            ];
+
+            Jadwal::create($datajadwal);
+        }
+
+
 
         Matakuliah::create($data);
         return redirect()->route('matakuliah.index');
@@ -99,6 +116,26 @@ class MatakuliahController extends Controller
             'sifat' => $request->sifat,
             'jumlah_kelas' => $request->jumlah_kelas,
         ];
+
+        if($request->jumlah_kelas > Matakuliah::find($id)->jumlah_kelas){
+            for($i=Matakuliah::find($id)->jumlah_kelas; $i<$request->jumlah_kelas; $i++){
+                $datajadwal = [
+                    'hari' => null,
+                    'jam'=> null,
+                    'ruang' => null,
+                    'kodemk' => $request->kodemk,
+                    'kelas' => chr(65+$i),
+                    'kapasitas'=> null,
+                    'status' => 'Belum Dibuat'
+                ];
+    
+                Jadwal::create($datajadwal);
+            }
+        }else{
+            for($i=Matakuliah::find($id)->jumlah_kelas-1; $i>=$request->jumlah_kelas; $i--){
+                Jadwal::where('kodemk', $request->kodemk)->where('kelas', chr(65+$i))->delete();
+            }
+        }
 
         Matakuliah::find($id)->update($data);
         return redirect()->route('matakuliah.index');
