@@ -36,6 +36,26 @@ class RuangController extends Controller
         return view('dkAjuanRuang', compact('data'));
     }
 
+    public function dashboard()
+    {
+        $ajuan = Ruang::where('status', 'Pending')->count();
+        $disetujui = Ruang::where('status', 'Disetujui')->count();
+        $ditolak = Ruang::where('status', 'Ditolak')->count();
+
+        //count ruang and group by prodi
+        $ruang = Ruang::select('prodi')->selectRaw('count(*) as total')->groupBy('prodi')->get();
+
+
+        $data = [
+            'ajuan' => $ajuan,
+            'disetujui' => $disetujui,
+            'ditolak' => $ditolak,
+            'dataruang' => $ruang
+        ];
+
+        return view('baDashboard', compact('data'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

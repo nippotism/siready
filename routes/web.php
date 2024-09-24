@@ -7,8 +7,11 @@ use App\Http\Controllers\IrsController;
 use App\Http\Controllers\KhsController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RuangController;
-use App\Http\Controllers\AjuanRuangController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AjuanRuangController;
+use App\Http\Controllers\MatakuliahController;
+use App\Http\Controllers\BuatIrsController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
@@ -34,7 +37,7 @@ Route::get('dashboard', function() {
             return view('dkDashboard');
             break;
         case 'BA':
-            return view('baDashboard');
+            return app('App\Http\Controllers\RuangController')->dashboard();
             break;
     }
 })->name('dashboard')->middleware('auth');
@@ -62,11 +65,12 @@ Route::get('/khs/{id}',[KhsController::class,'index']);
 Route::get('m/transkrip', function () {
     return view('mhsTranskrip');
 })->name('transkrip');
+Route::get('m/make-irs', function () {
+    return view('mhsBuatIrs');
+})->name('transkrip');
 
 //Buat IRS
-Route::get('m/buat-irs', function () {
-    return view('mhsBuatIrs');
-})->name('buatIrs')->middleware(RegistFirst::class);
+Route::get('/buat-irs',[BuatIrsController::class,'index']) -> name('buat-irs');
 
 //Registrasi
 Route::get('m/registrasi', function () {
@@ -83,6 +87,13 @@ Route::get('/prodi',[RuangController::class,'plotProdi']);
 Route::get('/ajuanRuang', [RuangController::class, 'index3']);
 Route::post('/ruang/{id}/update-status', [RuangController::class, 'updateStatus'])->name('ruang.updateStatus');
 
+
+//Jadwal
+Route::get('/buatjadwal',[JadwalController::class,'index'])->name('buatjadwal');
+Route::post('/buatjadwal/{id}',[JadwalController::class,'update']);
+Route::post('/checkjadwal',[JadwalController::class,'isJadwalExist']);
+
+
 Route::get('p/perwalian', function () {
     return view('paPerwalian');
 })->name('perwalian');
@@ -91,9 +102,9 @@ Route::get('p/ajuan-irs', function () {
     return view('paAjuanIrs');
 })->name('ajuanIrs');
 
-Route::get('k/buat-jadwal', function () {
-    return view('kpBuatJadwal');
-})->name('buatJadwal');
+
+Route::resource('/matakuliah', MatakuliahController::class);
+
 Route::get('k/rombel', function () {
     return view('kpRombel');
 })->name('rombel');
