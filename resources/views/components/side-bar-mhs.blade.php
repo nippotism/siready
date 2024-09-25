@@ -48,7 +48,7 @@
               </button>
               <ul id="dropdown-layouts" class="{{ in_array($active, ['buatIrs', 'irs', 'khs', 'transkrip']) ? '' : 'hidden' }}  py-2 space-y-2">
                 <li>
-                  <a href="/m/buat-irs" class="{{ $active==='buatIrs' ? 'bg-gray-200 dark:bg-blek-600' : '' }} flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">Buat IRS</a>
+                  <a href="/buat-irs" class="{{ $active==='buatIrs' ? 'bg-gray-200 dark:bg-blek-600' : '' }} flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">Buat IRS</a>
                 </li>
                 <li>
                   <a href="/irs" class="{{ $active==='irs' ? 'bg-gray-200 dark:bg-blek-600' : '' }} flex items-center p-2 text-base text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">IRS</a>

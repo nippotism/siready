@@ -14,6 +14,7 @@ class Matakuliah extends Model
     protected $fillable = [
         'kodemk',
         'nama',
+        'program_studi',
         'plotsemester',
         'sks',
         'sifat',
