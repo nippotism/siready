@@ -26,4 +26,6 @@ class IrsController extends Controller
             return response()->json($data);
         }
     }
+
+
 }
