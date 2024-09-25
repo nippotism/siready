@@ -29,7 +29,7 @@
         
 
         <!-- drawer init and toggle -->
-        <div class="text-right mr-[3.5%]">
+        <div class="text-right mr-14 px">
           <button id="show-irs-button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
           Show IRS
           </button>
@@ -48,7 +48,7 @@
           </button>
           
           <div id="irs-data-container">
-            {{-- Menampilkan Irs yang diambil email tersebut --}}
+            {{-- Menampilkan IRS yang diambil --}}
           </div>
           
         </div>
