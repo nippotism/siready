@@ -2,25 +2,22 @@
 
 namespace App\View\Components;
 
-use Closure;
-use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\Auth;
 
-class sideBarMhs extends Component
+class SideBarMhs extends Component
 {
-    /**
-     * Create a new component instance.
-     */
+    public $user;
+
     public function __construct()
     {
-        //
+        // Get the authenticated user
+        $this->user = Auth::user();
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
-    public function render(): View|Closure|string
+    public function render()
     {
-        return view('components.side-bar-mhs');
+        // Pass the user variable to the Blade view
+        return view('components.side-bar-mhs', ['user' => $this->user]);
     }
 }

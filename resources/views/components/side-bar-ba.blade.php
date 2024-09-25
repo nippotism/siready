@@ -18,7 +18,7 @@
               <img src="{{ asset('profile.png') }}" class="rounded-full flex mx-auto" width="100" alt="">
             </li>
             <ul class=" font-semibold text-base text-center p-2 text-gray-900 rounded-lg dark:text-gray-200 tracking-normal"> 
-                <li>Bahlil Lahadalia</li>
+                <li>{{ $user->name }}</li>
                 <li>1973893374432</li>
             </ul>
             <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700"> 

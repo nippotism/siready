@@ -18,7 +18,7 @@
               <img src="{{ asset('profile.png') }}" class="rounded-full flex mx-auto" width="100" alt="">
             </li>
             <ul class=" font-medium text-base text-center p-2 text-gray-900 rounded-lg dark:text-gray-200 tracking-normal"> 
-                <li>Mulyono</li>
+                <li>{{ $user->name }}</li>
                 <li>24060122110001</li>
                 <li>Informatika S1</li>
             </ul>
