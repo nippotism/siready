@@ -47,7 +47,7 @@ Route::get('/logout',[LoginController::class,'logout']);
 
 // Route::get('product/{product}/delete',[ProductsController::class,'destroy']);
 
-Route::get('/m',function(){
+Route::get('/maintenance',function(){
     return view('maintenance');
 });
 Route::get('/tes',function(){
