@@ -85,7 +85,7 @@ class RuangController extends Controller
             'fungsi' => $request->fungsi,
             'kapasitas' => $request->kapasitas,
             'status' => 'Pending',
-            'prodi' => 'free'
+            'prodi' => 'Informatika'
         ];
 
         Ruang::create($data);
