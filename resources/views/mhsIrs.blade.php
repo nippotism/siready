@@ -14,9 +14,9 @@
 
       {{-- sidebar --}}
 
-        <x-side-bar-mhs :active="request()->route()->getName()">
+        <x-side-bar :active="request()->route()->getName()">
             
-        </x-side-bar-mhs>
+        </x-side-bar>
       {{-- end sidebar --}}
 
       <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto lg:mt-4 bg-gray-50 lg:ml-52 dark:bg-blek-900">

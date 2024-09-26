@@ -64,7 +64,7 @@ class MatakuliahController extends Controller
 
 
         Matakuliah::create($data);
-        return redirect()->route('matakuliah.index');
+        return redirect()->route('matakuliah');
     }
 
     /**
@@ -91,7 +91,7 @@ class MatakuliahController extends Controller
     {
         //
         Matakuliah::find($id)->delete();
-        return redirect()->route('matakuliah.index');
+        return redirect()->route('matakuliah');
     }
 
         /**
@@ -139,6 +139,6 @@ class MatakuliahController extends Controller
         }
 
         Matakuliah::find($id)->update($data);
-        return redirect()->route('matakuliah.index');
+        return redirect()->route('matakuliah');
     }
 }

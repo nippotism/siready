@@ -86,12 +86,14 @@ Route::get('m/registrasi', function () {
 
 
 //Ruang
-Route::resource('/ruang', RuangController::class);
+Route::resource('/ruang', RuangController::class)->names([
+    'index' => 'ruang',
+]);
 Route::get('/plotruang',[RuangController::class,'index2'])->name('plotruang');
 Route::post('/plotruang/{id}',[RuangController::class,'editProdi']);
 Route::get('/prodi',[RuangController::class,'plotProdi']);
 
-Route::get('/ajuanRuang', [RuangController::class, 'index3']);
+Route::get('/ajuanRuang', [RuangController::class, 'index3'])->name('ajuanruang');
 Route::post('/ruang/{id}/update-status', [RuangController::class, 'updateStatus'])->name('ruang.updateStatus');
 
 
@@ -110,7 +112,10 @@ Route::get('p/ajuan-irs', function () {
 })->name('ajuanIrs');
 
 
-Route::resource('/matakuliah', MatakuliahController::class);
+Route::resource('/matakuliah', MatakuliahController::class)->names([
+    'index' => 'matakuliah',
+]);
+
 
 Route::get('k/rombel', function () {
     return view('kpRombel');

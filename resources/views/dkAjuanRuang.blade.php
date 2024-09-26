@@ -12,9 +12,9 @@
 
         {{-- sidebar --}}
   
-          <x-side-bar-dekan :active="request()->route()->getName()">
+          <x-side-bar :active="request()->route()->getName()">
               
-          </x-side-bar-dekan>
+          </x-side-bar>
         {{-- end sidebar --}}
   k
   
