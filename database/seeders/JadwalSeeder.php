@@ -24,9 +24,13 @@ class JadwalSeeder extends Seeder
             ['hari' => 5, 'jammulai' => 4, 'jamselesai' => 6, 'ruang' => 'A105', 'kodemk' => 'PAIK6105', 'kelas' => 'C', 'kapasitas' => 40, 'status' => 'Disetujui'],
             ['hari' => 5, 'jammulai' => 4, 'jamselesai' => 6, 'ruang' => 'A105', 'kodemk' => 'PAIK6105', 'kelas' => 'D', 'kapasitas' => 40, 'status' => 'Disetujui'],
             ['hari' => 5, 'jammulai' => 3, 'jamselesai' => 4, 'ruang' => 'E101', 'kodemk' => 'UUW00003', 'kelas' => 'A', 'kapasitas' => 40, 'status' => 'Disetujui'],
+            ['hari' => 5, 'jammulai' => 3, 'jamselesai' => 4, 'ruang' => 'E101', 'kodemk' => 'UUW00003', 'kelas' => 'B', 'kapasitas' => 40, 'status' => 'Disetujui'],
+            ['hari' => 5, 'jammulai' => 3, 'jamselesai' => 4, 'ruang' => 'E101', 'kodemk' => 'UUW00003', 'kelas' => 'C', 'kapasitas' => 40, 'status' => 'Disetujui'],
+            ['hari' => 5, 'jammulai' => 3, 'jamselesai' => 4, 'ruang' => 'E101', 'kodemk' => 'UUW00003', 'kelas' => 'D', 'kapasitas' => 40, 'status' => 'Disetujui'],
+            ['hari' => 3, 'jammulai' => 1, 'jamselesai' => 4, 'ruang' => 'E102', 'kodemk' => 'UUW00005', 'kelas' => 'A', 'kapasitas' => 40, 'status' => 'Disetujui'],
             ['hari' => 3, 'jammulai' => 1, 'jamselesai' => 4, 'ruang' => 'E102', 'kodemk' => 'UUW00005', 'kelas' => 'B', 'kapasitas' => 40, 'status' => 'Disetujui'],
-            ['hari' => 1, 'jammulai' => 5, 'jamselesai' => 6, 'ruang' => 'E103', 'kodemk' => 'UUW00007', 'kelas' => 'D', 'kapasitas' => 40, 'status' => 'Disetujui'],
-            ['hari' => 2, 'jammulai' => 8, 'jamselesai' => 9, 'ruang' => 'A303', 'kodemk' => 'PAIK6201', 'kelas' => 'A', 'kapasitas' => 40, 'status' => 'Disetujui'],
+            ['hari' => 3, 'jammulai' => 1, 'jamselesai' => 4, 'ruang' => 'E102', 'kodemk' => 'UUW00005', 'kelas' => 'C', 'kapasitas' => 40, 'status' => 'Disetujui'],
+            ['hari' => 3, 'jammulai' => 1, 'jamselesai' => 4, 'ruang' => 'E102', 'kodemk' => 'UUW00005', 'kelas' => 'D', 'kapasitas' => 40, 'status' => 'Disetujui'],
         ];
 
         DB::table('jadwal')->insert($data);

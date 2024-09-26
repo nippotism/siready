@@ -20,20 +20,21 @@
       {{-- end sidebar --}}
 
 
-      <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto lg:mt-4 bg-gray-50 lg:ml-52 dark:bg-blek-900">
+      <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto lg:ml-52 dark:bg-blek-900">
         
-        <div class="flex justify-between mx-14 my-8">
+        <div class="flex justify-between items-center mx-14 my-8">
           <h1 class=" text-3xl font-semibold text-gray-900 dark:text-gray-200">Buat IRS</h1>
-          <input type="text" placeholder="Search" class="bg-white dark:bg-blek-700 rounded-lg">
+          <div class="flex items-center justify-right">
+            <div class="text-right mr-14 px">
+              <button id="show-irs-button" class="my-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                Show IRS
+              </button>
+            </div>
+            <input type="text" placeholder="Search" class="bg-white dark:bg-blek-700 rounded-lg">
+          </div>
+          
         </div>
         
-
-        <!-- drawer init and toggle -->
-        <div class="text-right mr-14 px">
-          <button id="show-irs-button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-          Show IRS
-          </button>
-        </div>
 
         <!-- drawer component -->
         <div id="drawer-right-example" class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-[60vh] dark:bg-blek-700" tabindex="-1" aria-labelledby="drawer-right-label">
@@ -50,7 +51,6 @@
           <div id="irs-data-container">
             {{-- Menampilkan IRS yang diambil --}}
           </div>
-          
         </div>
 
         @foreach ($data as $matkul) 
@@ -78,8 +78,6 @@
           </div>
         </div>
         @endforeach
-
-
     </div>
 
     <script>

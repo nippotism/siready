@@ -37,9 +37,9 @@
                                     <th class="w-[10%]">Blok Gedung</th>
                                     <th class="w-[10%]">Lantai</th>
                                     <th class="w-[20%]">Fungsi</th>
-                                    <th class="w-[10%]">Kapasitas</th>
+                                    <th class="w-[5%]">Kapasitas</th>
                                     <th class="w-[15%]">Status</th>
-                                    <th class="w-[20%]" data-orderable="false">Aksi</th>
+                                    <th class="w-[25%]" data-orderable="false">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,7 +50,7 @@
                                         <td class="[10%]">{{ $ruang->blokgedung }}</td>   
                                         <td class="[10%]">{{ $ruang->lantai }}</td>
                                         <td class="[20%]">{{ $ruang->fungsi }}</td>
-                                        <td class="[10%]">{{ $ruang->kapasitas }}</td>
+                                        <td class="[5%]">{{ $ruang->kapasitas }}</td>
                                         <td id="statusNow-{{ $ruang->id }}" class="[10]"><span class="{{ 
                                             $ruang->status == 'Pending' ? 'bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300' : 
                                             ($ruang->status == 'Disetujui' ? 'bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300') 
