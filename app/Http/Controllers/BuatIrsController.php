@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Jadwal;
 use App\Models\Matakuliah;
-use App\Models\Ruang    ;
+use App\Models\Ruang;
+use App\Models\Irstest;
 
 class BuatIrsController extends Controller
 {
@@ -13,6 +14,8 @@ class BuatIrsController extends Controller
     {
         $data = Jadwal::select('kodemk')->groupBy('kodemk')->get();
 
+        $user = auth()->user();
+        $email = $user->email;
         //from kodemk get the name of the matakuliah
         
         $jamend = [
@@ -62,13 +65,74 @@ class BuatIrsController extends Controller
             $d->sks = Matakuliah::where('kodemk', $d->kodemk)->first()->sks;
             $d->kelas = Jadwal::where('kodemk', $d->kodemk)->get();
             foreach($d->kelas as $k){
+                $k->isselected = Irstest::where('email', $email)->where('kodejadwal', $k->id)->where('kodemk', $d->kodemk)->first() ? true : false;
                 $k->hari = $day[$k->hari];
                 $k->jam = $jamstart[$k->jammulai] . ' - ' . $jamend[$k->jamselesai]; 
             }
+
         }
         // dd($data);
         //and prodi = Informatika
         $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', 'Informatika')->get();
-        return view('mhsBuatIrs', compact('data'));
+        return view('mhsBuatIrs', compact('data','email'));
     }
+
+    public function createIrs(Request $request) {
+        $request -> validate([
+            'email' => 'required',
+            'kodejadwal' => 'required',
+            'kodemk' => 'required'
+        ]);
+
+        
+
+        $data = [
+            'email' => $request->email,
+            'kodejadwal' => $request->kodejadwal,
+            'kodemk' => $request->kodemk
+        ];
+
+        
+        //check if the email and kodemk already exist in the database
+        $check = Irstest::where('email', $data['email'])->where('kodemk', $data['kodemk'])->first();
+        // $check = Irstest::all();
+        if($check) {
+            $check->update($data);
+        }else{
+
+            Irstest::create($data);
+        }
+        return response()->json(['data' => $data]);   
+        
+
+    }
+
+    public function deleteIrs(Request $request) {
+
+        $request->validate(['id' => 'required']);
+
+        $id = $request->id;
+
+        $data = Irstest::find($id);
+        $data->delete();
+        
+        
+        return response()->json(['data' => $data]);
+    }
+
+    public function viewIrs(Request $request) {
+        $request->validate(['email' => 'required']);
+        
+        $data = Irstest::where('email', $request->email)->get();
+    
+        foreach ($data as $d) {
+            $matkul = Matakuliah::where('kodemk', $d->kodemk)->first();
+            $d->nama = $matkul ? $matkul->nama : 'N/A';
+            $d->sks = $matkul ? $matkul->sks : 0;
+            $d->kelas = Jadwal::where('id', $d->kodejadwal)->first();
+        }
+    
+        return response()->json($data);
+    }
+    
 }

@@ -41,6 +41,7 @@ class MatakuliahController extends Controller
             'kodemk' => $request->kodemk,
             'nama' => $request->nama,
             'plotsemester' => $request->plotsemester,
+            'program_studi' => 'Informatika',
             'sks' => $request->sks,
             'sifat' => $request->sifat,
             'jumlah_kelas' => $request->jumlah_kelas,

@@ -17,11 +17,11 @@
         <div class="bg-white dark:bg-blek-700 flex flex-col border dark:border-none p-7 rounded-2xl">
             <h1 class="text-gray-800 dark:text-white text-2xl font-semibold py-2">Log in to your account</h1>
             <h1 class="text-gray-400 py-2">Enter your credentials to access your account</h1>
-            <form action="{{ route('login') }}" method="POST" class="flex flex-col">
+            <form action="{{ route('login') }}" method="POST" class="flex text-gray-800 dark:text-white flex-col">
                 @csrf
                 <input type="text" name="email" placeholder="Enter your email" class="py-2 px-3 my-2 bg-gray-100 dark:bg-[#374250] rounded-lg" required>
                 <input type="password" name="password" placeholder="Password" class="py-2 px-3 my-2 bg-gray-100 dark:bg-[#374250] rounded-lg" required>
-                <button type="submit" class="py-[3%] px-[3%] my-4 mx-[21%] bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg">Login to your account</button>
+                <button type="submit" class="py-[3%] px-[3%] my-4 mx-[21%] text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg">Login to your account</button>
             </form>
             {{-- <h1 class="text-[#9CA3AE]">Forgot your password? <span class="underline text-blue-600"> Reset password</span></h1> --}}
         </div>

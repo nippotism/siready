@@ -50,6 +50,9 @@ Route::get('/logout',[LoginController::class,'logout']);
 Route::get('/m',function(){
     return view('maintenance');
 });
+Route::get('/tes',function(){
+    return view('tes');
+});
 
 //IRS
 Route::get('/irs',[IrsController::class,'all']) -> name('irs');
@@ -71,6 +74,10 @@ Route::get('m/make-irs', function () {
 
 //Buat IRS
 Route::get('/buat-irs',[BuatIrsController::class,'index']) -> name('buat-irs');
+Route::post('/buat-irstest',[BuatIrsController::class,'createIrs']) -> name('buat-irstest');
+Route::post('/viewirs',[BuatIrsController::class,'viewIrs']) -> name('viewirs');
+Route::post('/deleteirs',[BuatIrsController::class,'deleteIrs']) -> name('deleteirs');
+
 
 //Registrasi
 Route::get('m/registrasi', function () {
