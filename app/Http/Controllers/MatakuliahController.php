@@ -90,7 +90,9 @@ class MatakuliahController extends Controller
     public function destroy(string $id)
     {
         //
-        Matakuliah::find($id)->delete();
+        $kodemk = Matakuliah::find($id)->kodemk;
+        Jadwal::where('kodemk', $kodemk)->delete();
+        Matakuliah::destroy($id);
         return redirect()->route('matakuliah');
     }
 
