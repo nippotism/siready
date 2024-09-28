@@ -71,10 +71,19 @@ class BuatIrsController extends Controller
             }
 
         }
+
+        //count the total sks where email = data[email]
+        $picked = Irstest::where('email', $email)->get();
+        $total = 0;
+        foreach($picked as $p){
+            $total += Matakuliah::where('kodemk', $p->kodemk)->first()->sks;
+        }
+
+
         // dd($data);
         //and prodi = Informatika
         $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', 'Informatika')->get();
-        return view('mhsBuatIrs', compact('data','email'));
+        return view('mhsBuatIrs', compact('data','email','total'));
     }
 
     public function createIrs(Request $request) {
@@ -102,6 +111,19 @@ class BuatIrsController extends Controller
 
             Irstest::create($data);
         }
+
+        //count the total sks where email = data[email]
+        $picked = Irstest::where('email', $data['email'])->get();
+        $total = 0;
+        foreach($picked as $p){
+            $total += Matakuliah::where('kodemk', $p->kodemk)->first()->sks;
+        }
+
+        $data['sks'] = $total;
+        
+
+
+
         return response()->json(['data' => $data]);   
         
 
@@ -116,9 +138,20 @@ class BuatIrsController extends Controller
 
         $kodejadwal = $data->kodejadwal;
         $data->delete();
+
+        //count the total sks where email = data[email]
+        $user = auth()->user();
+        $email = $user->email;
+        $picked = Irstest::where('email', $email)->get();
+        $total = 0;
+        foreach($picked as $p){
+            $total += Matakuliah::where('kodemk', $p->kodemk)->first()->sks;
+        }
+
+
         
         
-        return response()->json(['kodejadwal' => $kodejadwal]);
+        return response()->json(['kodejadwal' => $kodejadwal,'sks' => $total]);
     }
 
     public function viewIrs(Request $request) {

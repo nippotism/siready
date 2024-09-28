@@ -27,6 +27,9 @@
         <div class = " fixed right-0 bottom-28">
             <button id="show-irs-button" class="my-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800font-medium rounded-l-full text-sm px-4 py-3" type="button" data-drawer-target="drawer-right-example"   data-drawer-body-scrolling="true" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                 Lihat IRS
+                <span id = "skscount" class="inline-flex items-center justify-center w-4 h-4 ms-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                    {{$total}}
+                    </span>
             </button>
         </div>
 
@@ -111,6 +114,9 @@
                   // Handle success
                   // alert('Success: ' + response.data);
                   console.log(response.data+response.check);
+                  //change skscount value to response.sks
+                document.getElementById('skscount').innerText = response.data.sks;
+
               },
               error: function(xhr, status, error) {
                   // Handle error
@@ -210,6 +216,7 @@
             //   console.log('Deleting IRS with ID: ' + id);
               console.log(response);
               $(`#kelas-${response.kodejadwal}`).prop('checked', false);
+              document.getElementById('skscount').innerText = response.sks;
               removeConflict(checkConflict(document.querySelector(`#kelas-${response.kodejadwal}`)));
 
               fetchIrsData('{{ $email }}');
@@ -297,6 +304,8 @@
             checkConflict(selectedRadio);  // Call the function to check conflicts for the selected radio button
         }
     })
+
+
 </script>
 
 
