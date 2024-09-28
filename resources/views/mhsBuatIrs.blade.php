@@ -7,7 +7,7 @@
 
   {{-- navbar --}}
     <x-navbar></x-navbar>
-    
+
   {{-- endnavbar --}}
 
     <div class="flex pt-12 overflow-hidde">
@@ -15,13 +15,13 @@
       {{-- sidebar --}}
 
         <x-side-bar :active="request()->route()->getName()">
-            
+
         </x-side-bar>
       {{-- end sidebar --}}
 
 
       <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto lg:ml-52 dark:bg-blek-900">
-        
+
         <div class="z-20 flex justify-between w-full fixed bg-white py-4 dark:bg-blek-600 items-center">
           <h1 class=" text-3xl px-[10%] font-semibold text-gray-900 dark:text-gray-200">Buat IRS</h1>
           <div class="flex items-center px-[20%]">
@@ -32,8 +32,9 @@
             </div>
             <input type="text" placeholder="Search" class="bg-white dark:bg-blek-700 rounded-lg">
           </div>
+
         </div>
-        
+
 
         <!-- drawer component -->
         <div id="drawer-right-example" class="fixed top-0 right-0 z-50 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-[60vh] dark:bg-blek-700" tabindex="-1" aria-labelledby="drawer-right-label">
@@ -46,7 +47,7 @@
              </svg>
              <span class="sr-only">Close menu</span>
           </button>
-          
+
           <div id="irs-data-container">
             {{-- Menampilkan IRS yang diambil --}}
           </div>
@@ -64,7 +65,7 @@
         </div>
 
         <div class="pt-24"> <!-- Add enough padding to account for the height of the fixed header -->
-          @foreach ($data as $matkul) 
+          @foreach ($data as $matkul)
           <div class="mt-2 mb-8 mx-14 bg-white border border-gray-200 font-semibold text-[#374250] dark:text-white rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
               <h2 class="mt-4">{{ $matkul->matakuliah }} - {{ $matkul->kodemk }} ({{ $matkul->sks }} SKS)</h2>
               <div class="mt-4">
@@ -75,7 +76,7 @@
                               @foreach($matkul->kelas as $kelas)
                               <tr class="border-y">
                                   <td class="px-auto py-4 w-[10%]">
-                                      <input type="radio" name="{{ $matkul->matakuliah }}" id="kelas-{{ $kelas->id }}" onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}'); checkConflict(this)" data-hari="{{ $kelas->hari }}" data-jam="{{ $kelas->jam }}" {{ $kelas->isselected ? 'checked' : '' }} />
+                                      <input type="radio"name="{{ $matkul->matakuliah }}"id="kelas-{{ $kelas->id }}"onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}'); checkConflict(this)"data-hari="{{ $kelas->hari }}"data-jam="{{ $kelas->jam }}" {{ $kelas->isselected ? 'checked' : '' }} />
                                   </td>
                                   <td class="px-auto py-4 w-[40%]">{{ $matkul->matakuliah }} {{ $kelas->kelas }}</td>
                                   <td class="px-auto py-4 w-[10%]">{{ $kelas->kapasitas }}</td>
@@ -148,7 +149,7 @@
                               </tr>
                           </thead>
                           <tbody>`;
-                          
+
               response.forEach(row => {
                   tabel += `
                   <tr class="text-center text-sm font-medium">
@@ -163,7 +164,7 @@
                                                           </button></td>
                   </tr>`;
               });
-              
+
               tabel += `
                       </tbody>
                   </table>
@@ -256,7 +257,7 @@
               console.log(`Same day as selected (${hari}). Checking time conflict...`);
 
               if (
-                  (startTime < selectedEndTime && startTime >= selectedStartTime) || 
+                  (startTime < selectedEndTime && startTime >= selectedStartTime) ||
                   (selectedStartTime < endTime && selectedStartTime >= startTime)
               ) {
                   console.log(`Conflict found! Disabling radio and adding 'bg-red-800' for time: ${startTime} - ${endTime}`);
@@ -283,7 +284,7 @@
           row.classList.remove('bg-red-800');
       });
   }
-      
+
 
 
   document.addEventListener('DOMContentLoaded', function() {
