@@ -112,12 +112,13 @@ class BuatIrsController extends Controller
         $request->validate(['id' => 'required']);
 
         $id = $request->id;
-
         $data = Irstest::find($id);
+
+        $kodejadwal = $data->kodejadwal;
         $data->delete();
         
         
-        return response()->json(['data' => $data]);
+        return response()->json(['kodejadwal' => $kodejadwal]);
     }
 
     public function viewIrs(Request $request) {

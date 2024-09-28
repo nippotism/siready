@@ -208,9 +208,13 @@
           },
           success: function(response) {
               // Handle success
-              console.log('Deleting IRS with ID: ' + id);
+            //   console.log('Deleting IRS with ID: ' + id);
               console.log(response);
-              fetchIrsData('{{ $email }}'); // Fetch IRS data again
+              $(`#kelas-${response.kodejadwal}`).prop('checked', false);
+              removeConflict(checkConflict(document.querySelector(`#kelas-${response.kodejadwal}`)));
+
+              fetchIrsData('{{ $email }}');
+
           },
           error: function(xhr, status, error) {
               // Handle error
@@ -221,7 +225,7 @@
 </script>
 
 <script>
-  // Function to extract start and end times from "jam" string (e.g., "07.00 - 09.30")
+
   function extractTimeRange(jamString) {
       let [startTime, endTime] = jamString.split(' - ');
       console.log(`Extracted time range: Start - ${startTime}, End - ${endTime}`);
@@ -234,6 +238,8 @@
       let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
 
       console.log(`Selected Schedule: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
+
+      let conflict = [];
 
       document.querySelectorAll('input[type="radio"]').forEach(radio => {
           let hari = radio.getAttribute('data-hari');
@@ -261,13 +267,29 @@
                   console.log(`Conflict found! Disabling radio and adding 'bg-red-800' for time: ${startTime} - ${endTime}`);
                   // Disable the conflicting schedule and highlight the row
                   radio.disabled = true;
+                  // Add the conflicting radio id to the list
+                    conflict.push(radio.getAttribute('id'));
                   row.classList.add('bg-red-800');  // Add bg-red-800 to the conflicting row
               } else {
                   console.log(`No conflict with ${startTime} - ${endTime}`);
               }
           }
       });
+
+        console.log('Conflicting radio buttons:', conflict);
+        return conflict;
   }
+
+  function removeConflict(conflict) {
+      conflict.forEach(radioId => {
+          let radio = document.getElementById(radioId);
+          let row = radio.closest('tr');
+          radio.disabled = false;
+          row.classList.remove('bg-red-800');
+      });
+  }
+      
+
 
   document.addEventListener('DOMContentLoaded', function() {
         // Find the already selected radio button (if any) and check for conflicts
