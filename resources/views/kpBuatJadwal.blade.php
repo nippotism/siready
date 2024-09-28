@@ -12,9 +12,9 @@
 
         {{-- sidebar --}}
   
-          <x-side-bar-kp :active="request()->route()->getName()">
+          <x-side-bar :active="request()->route()->getName()">
               
-          </x-side-bar-kp>
+          </x-side-bar>
         {{-- end sidebar --}}
   k
   
@@ -54,7 +54,13 @@
                                         <td>
                                             <button type="button" data-modal-target="updateModal-{{ $jadwal->id }}" data-modal-toggle="updateModal-{{ $jadwal->id }}"class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 px-5 py-2 text-xs font-medium text-center rounded-lg ">Buat</button>
                                         </td>
-                                        <td>{{ $jadwal->status }}</td>
+                                        <td>
+                                            <span class="{{ 
+                                                $jadwal->status == 'Pending' ? 'bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300' : 
+                                                ($jadwal->status == 'Disetujui' ? 'bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300') 
+                                                }}">{{ $jadwal->status }}
+                                            </span>
+                                        </td>
                                     </tr>
                                 @endforeach
     
@@ -64,8 +70,6 @@
                      
                 </div>
   
-            
-
                 @foreach ($data as $jadwal)
                 {{-- editmodal --}}
                     <div id="updateModal-{{ $jadwal->id }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -135,7 +139,7 @@
                                     </div>
                                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                         <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                                        Ubah Mata Kuliah
+                                        Buat Jadwal
                                     </button>
                                 </form>
                             </div>

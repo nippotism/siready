@@ -5,15 +5,19 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\Auth;
 
-class sideBarKp extends Component
+class sideBar extends Component
 {
     /**
      * Create a new component instance.
      */
+
+    public $user;
+
     public function __construct()
     {
-        //
+        $this->user = Auth::user();
     }
 
     /**
@@ -21,6 +25,6 @@ class sideBarKp extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.side-bar-kp');
+        return view('components.side-bar', ['user' => $this->user]);
     }
 }

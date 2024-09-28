@@ -14,9 +14,9 @@
 
       {{-- sidebar --}}
 
-        <x-side-bar-mhs :active="request()->route()->getName()">
+        <x-side-bar :active="request()->route()->getName()">
             
-        </x-side-bar-mhs>
+        </x-side-bar>
       {{-- end sidebar --}}
 
 

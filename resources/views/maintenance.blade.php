@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    @vite(['resources/css/app.css','resources/js/app.js'])
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
-</head>
+@extends('header')
 
-<body>
+@section('title','Maintenance')
 
-    <div class="flex flex-col justify-center items-center px-6 mx-auto h-screen xl:px-0 dark:bg-gray-900">
+@section('page')
+
+    <div class="flex flex-col justify-center items-center px-6 mx-auto h-screen xl:px-0 dark:bg-blek-900">
         <div class="block mb-5 md:max-w-md">
             <img src="{{ asset('images/maintenance.svg') }}"alt="maintenance image">
         </div>
@@ -24,48 +18,4 @@
         </div>
     </div>
 
-    {{-- darkmode --}}
-        <script>
-            const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-            const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-            // Check and apply the theme based on previous settings
-            if (localStorage.getItem('color-theme') === 'dark' || 
-                (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                themeToggleLightIcon.classList.remove('hidden');
-            } else {
-                themeToggleDarkIcon.classList.remove('hidden');
-            }
-
-            const themeToggleBtn = document.getElementById('theme-toggle');
-
-            // Event for dark mode toggle
-            let event = new Event('dark-mode');
-
-            themeToggleBtn.addEventListener('click', function() {
-
-                // Toggle the icons
-                themeToggleDarkIcon.classList.toggle('hidden');
-                themeToggleLightIcon.classList.toggle('hidden');
-
-                // Check the current theme and toggle it
-                if (localStorage.getItem('color-theme') === 'light') {
-                    document.documentElement.classList.add('dark');
-                    localStorage.setItem('color-theme', 'dark'); // Save dark mode preference
-                } else {
-                    document.documentElement.classList.remove('dark');
-                    localStorage.setItem('color-theme', 'light'); // Save light mode preference
-                }
-
-                // Dispatch a custom event (if needed for other parts of your app)
-                document.dispatchEvent(event);
-            });
-
-        </script>
-   {{-- enddarkmode --}}
-
-    
-</body>
-
-</html>
+@endsection

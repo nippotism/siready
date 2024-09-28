@@ -12,9 +12,9 @@
 
         {{-- sidebar --}}
   
-          <x-side-bar-ba :active="request()->route()->getName()">
+          <x-side-bar :active="request()->route()->getName()">
               
-          </x-side-bar-ba>
+          </x-side-bar>
         {{-- end sidebar --}}
   
   

@@ -85,11 +85,11 @@ class RuangController extends Controller
             'fungsi' => $request->fungsi,
             'kapasitas' => $request->kapasitas,
             'status' => 'Pending',
-            'prodi' => 'free'
+            'prodi' => 'Informatika'
         ];
 
         Ruang::create($data);
-        return redirect()->route('ruang.index');
+        return redirect()->route('ruang');
     }
 
     /**
@@ -133,7 +133,7 @@ class RuangController extends Controller
         ];
 
         Ruang::find($id)->update($data);
-        return redirect()->route('ruang.index');
+        return redirect()->route('ruang');
     }
 
     /**
@@ -143,7 +143,7 @@ class RuangController extends Controller
     {
         //
         Ruang::find($id)->delete();
-        return redirect()->route('ruang.index');
+        return redirect()->route('ruang');
     }
 
     public function plotProdi(Request $request)

@@ -41,6 +41,7 @@ class MatakuliahController extends Controller
             'kodemk' => $request->kodemk,
             'nama' => $request->nama,
             'plotsemester' => $request->plotsemester,
+            'program_studi' => 'Informatika',
             'sks' => $request->sks,
             'sifat' => $request->sifat,
             'jumlah_kelas' => $request->jumlah_kelas,
@@ -63,7 +64,7 @@ class MatakuliahController extends Controller
 
 
         Matakuliah::create($data);
-        return redirect()->route('matakuliah.index');
+        return redirect()->route('matakuliah');
     }
 
     /**
@@ -89,8 +90,10 @@ class MatakuliahController extends Controller
     public function destroy(string $id)
     {
         //
-        Matakuliah::find($id)->delete();
-        return redirect()->route('matakuliah.index');
+        $kodemk = Matakuliah::find($id)->kodemk;
+        Jadwal::where('kodemk', $kodemk)->delete();
+        Matakuliah::destroy($id);
+        return redirect()->route('matakuliah');
     }
 
         /**
@@ -138,6 +141,6 @@ class MatakuliahController extends Controller
         }
 
         Matakuliah::find($id)->update($data);
-        return redirect()->route('matakuliah.index');
+        return redirect()->route('matakuliah');
     }
 }

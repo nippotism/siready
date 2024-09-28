@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('kodemk')->unique();
             $table->string('nama');     
+            $table->string('program_studi');
             $table->string('plotsemester');    
             $table->integer('sks');         
             $table->string('sifat');            

@@ -47,8 +47,11 @@ Route::get('/logout',[LoginController::class,'logout']);
 
 // Route::get('product/{product}/delete',[ProductsController::class,'destroy']);
 
-Route::get('/m',function(){
+Route::get('/maintenance',function(){
     return view('maintenance');
+});
+Route::get('/tes',function(){
+    return view('tes');
 });
 
 //IRS
@@ -71,6 +74,10 @@ Route::get('m/make-irs', function () {
 
 //Buat IRS
 Route::get('/buat-irs',[BuatIrsController::class,'index']) -> name('buat-irs');
+Route::post('/buat-irstest',[BuatIrsController::class,'createIrs']) -> name('buat-irstest');
+Route::post('/viewirs',[BuatIrsController::class,'viewIrs']) -> name('viewirs');
+Route::post('/deleteirs',[BuatIrsController::class,'deleteIrs']) -> name('deleteirs');
+
 
 //Registrasi
 Route::get('m/registrasi', function () {
@@ -79,12 +86,14 @@ Route::get('m/registrasi', function () {
 
 
 //Ruang
-Route::resource('/ruang', RuangController::class);
+Route::resource('/ruang', RuangController::class)->names([
+    'index' => 'ruang',
+]);
 Route::get('/plotruang',[RuangController::class,'index2'])->name('plotruang');
 Route::post('/plotruang/{id}',[RuangController::class,'editProdi']);
 Route::get('/prodi',[RuangController::class,'plotProdi']);
 
-Route::get('/ajuanRuang', [RuangController::class, 'index3']);
+Route::get('/ajuanRuang', [RuangController::class, 'index3'])->name('ajuanruang');
 Route::post('/ruang/{id}/update-status', [RuangController::class, 'updateStatus'])->name('ruang.updateStatus');
 
 
@@ -103,7 +112,10 @@ Route::get('p/ajuan-irs', function () {
 })->name('ajuanIrs');
 
 
-Route::resource('/matakuliah', MatakuliahController::class);
+Route::resource('/matakuliah', MatakuliahController::class)->names([
+    'index' => 'matakuliah',
+]);
+
 
 Route::get('k/rombel', function () {
     return view('kpRombel');

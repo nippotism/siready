@@ -12,9 +12,9 @@
 
         {{-- sidebar --}}
   
-          <x-side-bar-ba :active="request()->route()->getName()">
+          <x-side-bar :active="request()->route()->getName()">
               
-          </x-side-bar-ba>
+          </x-side-bar>
         {{-- end sidebar --}}
   
         <div id="main-content" class="relative text-gray-900 dark:text-gray-200 font-poppins w-full h-full overflow-y-auto lg:pl-52">
@@ -274,10 +274,10 @@
                                     ruang.lantai,
                                     ruang.fungsi,
                                     ruang.kapasitas,
-                                    `<td class="${
-                                        ruang.status == 'Pending' ? 'text-yellow-300' :
-                                        ruang.status == 'Disetujui' ? 'text-[#2ACD7F]' : 'text-[#C34444]'
-                                    }">${ruang.status}</td>`,
+                                    `<td> <span class="${
+                                        ruang.status == 'Pending' ? 'bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300' :
+                                        ruang.status == 'Disetujui' ? 'bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300'
+                                    }">${ruang.status}</span></td>`,
                                     `<td>${deleteButton}</td>`
                                 ]).draw(false);  // Draw the row without resetting the entire table
 
