@@ -20,16 +20,19 @@
       {{-- end sidebar --}}
 
 
+
       <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto lg:ml-52 dark:bg-blek-900">
 
-        <div class="z-20 flex justify-between w-full fixed bg-white py-4 dark:bg-blek-600 items-center">
-          <h1 class=" text-3xl px-[10%] font-semibold text-gray-900 dark:text-gray-200">Buat IRS</h1>
-          <div class="flex items-center px-[20%]">
-            <div class="text-right ">  
-              <button id="show-irs-button" class=" my-2 mr-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
-                Show IRS
-              </button>
-            </div>
+        {{-- place this button to right full --}}
+        <div class = " fixed right-0 bottom-28">
+            <button id="show-irs-button" class="my-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800font-medium rounded-l-full text-sm px-4 py-3" type="button" data-drawer-target="drawer-right-example"   data-drawer-body-scrolling="true" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+                Lihat IRS
+            </button>
+        </div>
+
+        <div class="flex justify-between items-center mx-14 my-8">
+            <h1 class=" text-3xl font-semibold text-gray-900 dark:text-gray-200">Buat IRS</h1>
+            <div class="flex items-center justify-right">
             <input type="text" placeholder="Search" class="bg-white dark:bg-blek-700 rounded-lg">
           </div>
 
@@ -64,7 +67,7 @@
         </div>
         </div>
 
-        <div class="pt-24"> <!-- Add enough padding to account for the height of the fixed header -->
+        <div> <!-- Add enough padding to account for the height of the fixed header -->
           @foreach ($data as $matkul)
           <div class="mt-2 mb-8 mx-14 bg-white border border-gray-200 font-semibold text-[#374250] dark:text-white rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
               <h2 class="mt-4">{{ $matkul->matakuliah }} - {{ $matkul->kodemk }} ({{ $matkul->sks }} SKS)</h2>
