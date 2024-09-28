@@ -73,7 +73,7 @@ Route::get('m/make-irs', function () {
 })->name('transkrip');
 
 //Buat IRS
-Route::get('/buat-irs',[BuatIrsController::class,'index']) -> name('buat-irs');
+Route::get('/buat-irs',[BuatIrsController::class,'index']) -> name('buat-irs')->middleware([RegistFirst::class]);
 Route::post('/buat-irstest',[BuatIrsController::class,'createIrs']) -> name('buat-irstest');
 Route::post('/viewirs',[BuatIrsController::class,'viewIrs']) -> name('viewirs');
 Route::post('/deleteirs',[BuatIrsController::class,'deleteIrs']) -> name('deleteirs');
