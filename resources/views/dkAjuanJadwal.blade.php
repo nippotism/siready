@@ -50,9 +50,11 @@
                                                 <button id="reject-btn-{{ $loop->iteration }}" type="button" 
                                                     onclick="rejectJadwal('{{ $jadwal->prodi }}')" 
                                                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 px-3 py-2 text-xs font-medium text-center rounded-lg ml-2">Tolak</button>
+                                                <a type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 px-3 py-2 text-xs font-medium text-center rounded-lg ml-2" href = "reviewjadwal/{{ $jadwal->prodi }}">
+                                                    Detail
+                                                </a>
                                             @else
-                                                <h1 class="text-red-500">Tidak dapat melakukan aksi</h1>
-                                                <h1 class="text-red-500">Terdapat jadwal yang belum dibuat</h1>
+                                                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300">{{ $jadwal->belumcount }} Jadwal yang Belum Dibuat !</span>
                                             @endif
                                         </td>
                                     </tr>
@@ -98,6 +100,11 @@
                     });
                 }
             }
+
+            function reviewjadwal(prodi) {
+                window.location.href = `reviewjadwal/${prodi}`;
+            }
+
         </script>
         {{-- datatable  --}}
             <script>
