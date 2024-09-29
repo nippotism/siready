@@ -78,7 +78,11 @@ class JadwalController extends Controller
 
     public function index2()
     {
-        $data = Jadwal::where('status', 'Disetujui')->get();
+         // Get the authenticated user
+        $user = auth()->user();
+        $data = Jadwal::where('status', 'Disetujui')
+                ->where('prodi', $user->prodi)
+                ->get();
 
         //from kodemk get the name of the matakuliah
         
