@@ -23,11 +23,30 @@
                 <div class="bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
                     <div class="2xl:col-span-2 sm:p-6 ">
                         <div class="flex justify-between">
-                            <input id = "searchMk" type="text" placeholder="Cari Mata Kuliah" class="bg-white dark:bg-gray-700 rounded-lg">
-                            <button id="selectAll" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">
-                                Review Tampilan
-                            </button> 
+                            <input id="searchMk" type="text" placeholder="Cari Mata Kuliah" class="bg-white dark:bg-gray-700 rounded-lg">
+                            <li class="list-none relative">
+                                <button type="button" class="flex px-14 py-4 text-center items-center text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-gray-200 bg-gray-700" aria-controls="dropdown-layouts" data-collapse-toggle="dropdown-layouts" onclick="toggleDropdown()">
+                                  <span class="flex-1 ml-3 text-left whitespace-nowrap">Mata Kuliah</span>
+                                  <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                  </svg>
+                                </button>
+                              
+                                <!-- Dropdown -->
+                                <ul id="dropdown-layouts" class="hidden justify py-2 w-60 space-y-2 z-50 absolute right-0 bg-white dark:bg-gray-700 rounded-lg shadow-md max-h-60 overflow-y-auto">
+                                    @foreach ($data as $jadwal) 
+                                      @if ($jadwal->status == 'Belum Dibuat')
+                                        <li>
+                                          <button type="button" data-modal-target="updateModal-{{ $jadwal->id }}" data-modal-toggle="updateModal-{{ $jadwal->id }}"  class="flex items-center p-2 text-gray-900 dark:text-gray-200 pl-11 group hover:bg-gray-100 dark:hover:bg-gray-700" href="">{{ $jadwal->matakuliah }} {{ $jadwal->kelas }}</button>
+                                        </li>
+                                      @endif
+                                    @endforeach
+                                </ul>    
+                            </li> 
                         </div>
+                        @if ($jadwal->belumDibuatCount != 0)
+                        <h1 class="mt-4 text-red-500">Terdapat {{ $jadwal->belumDibuatCount }} jadwal belum dibuat</h1>
+                        @endif
                     </div>
                     <table id="Jadwal" class = "display">
                             <thead>
@@ -153,7 +172,12 @@
         </div>
 
 
-
+        <script>
+            function toggleDropdown() {
+              const dropdown = document.getElementById('dropdown-layouts');
+              dropdown.classList.toggle('hidden');
+            }
+          </script>
         {{-- datatable  --}}
         <script>
             $(document).ready( function () {
