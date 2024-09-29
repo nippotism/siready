@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Ruang;
 use App\Models\Jadwal;
 use App\Models\Matakuliah;
@@ -15,7 +16,8 @@ class JadwalController extends Controller
 
     public function index()
     {
-        $data = Jadwal::all();
+        $user = auth()->user();
+        $data = Jadwal::where('prodi', $user->prodi)->get(); 
 
         //from kodemk get the name of the matakuliah
         
@@ -70,9 +72,27 @@ class JadwalController extends Controller
             $d->belumDibuatCount = $data->where('status', 'Belum Dibuat')->count();
         }
         //and prodi = Informatika
-        $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', 'Informatika')->get();
+        $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', $user->prodi)->get();
         return view('kpBuatJadwal', compact('data', 'dataruang', 'jamend'));
     }
+
+    public function index2()
+    {
+        // Group by 'prodi' and get the count of Jadwal entries for each program studi
+        $data = Jadwal::select('prodi', DB::raw('COUNT(*) as jadwal_count'))
+            ->where('status', 'Pending')
+            ->groupBy('prodi')
+            ->get();
+    
+        // Optionally add a status for each program studi (assuming there's a status in Jadwal)
+        foreach ($data as $jadwal) {
+            $jadwal->status = Jadwal::where('prodi', $jadwal->prodi)->first()->status ?? 'No Status';
+        }
+    
+        return view('dkAjuanJadwal', compact('data'));
+    }
+    
+    
 
     public function isJadwalExist(Request $request)
     {
@@ -126,6 +146,7 @@ class JadwalController extends Controller
             'kapasitas' => 'required',
         ]);
 
+        $user = auth()->user();
         $data = [
             'hari' => $request->hari,
             'jammulai' => $request->jammulai,
@@ -141,4 +162,33 @@ class JadwalController extends Controller
         Jadwal::find($id)->update($data);
         return redirect()->route('buatjadwal');
     }
+
+    public function approve(Request $request)
+    {
+        $request->validate([
+            'prodi' => 'required'
+        ]);
+
+        // Update all 'pending' Jadwal entries for the selected prodi to 'Disetujui'
+        Jadwal::where('prodi', $request->prodi)
+            ->where('status', 'Pending')
+            ->update(['status' => 'Disetujui']);
+
+        return response()->json(['message' => 'Jadwal has been approved for ' . $request->prodi]);
+    }
+
+    public function reject(Request $request)
+    {
+        $request->validate([
+            'prodi' => 'required'
+        ]);
+
+        // Update all 'pending' Jadwal entries for the selected prodi to 'Ditolak'
+        Jadwal::where('prodi', $request->prodi)
+            ->where('status', 'Pending')
+            ->update(['status' => 'Ditolak']);
+
+        return response()->json(['message' => 'Jadwal has been rejected for ' . $request->prodi]);
+    }
+
 }
