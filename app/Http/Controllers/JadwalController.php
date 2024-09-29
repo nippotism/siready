@@ -67,6 +67,7 @@ class JadwalController extends Controller
             $d->jammulai = $jamstart[$d->jammulai];
             $d->jamselesai = $jamend[$d->jamselesai];
             $d->hari = $day[$d->hari];
+            $d->belumDibuatCount = $data->where('status', 'Belum Dibuat')->count();
         }
         //and prodi = Informatika
         $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', 'Informatika')->get();
