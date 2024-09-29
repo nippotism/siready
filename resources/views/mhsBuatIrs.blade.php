@@ -25,7 +25,7 @@
 
         {{-- place this button to right full --}}
         <div class = " fixed -right-2 bottom-28">
-            <button id="show-irs-button" class="my-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800font-medium rounded-l-full text-sm px-4 py-3 hover:-translate-x-2 hover:pr-6 transition-all" type="button" data-drawer-target="drawer-right-example"   data-drawer-body-scrolling="true" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
+            <button id="show-irs-button" class="my-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-l-full text-sm px-4 py-3 hover:-translate-x-2 hover:pr-6 transition-all" type="button" data-drawer-target="drawer-right-example"   data-drawer-body-scrolling="true" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                 Lihat IRS
                 <span id = "skscount" class="inline-flex items-center justify-center w-4 h-4 ms-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
                     {{$total}}

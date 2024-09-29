@@ -25,7 +25,7 @@
                         <div class="flex justify-between">
                             <input id="searchMk" type="text" placeholder="Cari Mata Kuliah" class="bg-white dark:bg-gray-700 rounded-lg">
                             <li class="list-none relative">
-                                <button type="button" class="flex px-14 py-4 text-center items-center text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-800 dark:text-gray-200 bg-gray-700" aria-controls="dropdown-layouts" data-collapse-toggle="dropdown-layouts" onclick="toggleDropdown()">
+                                <button type="button" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" aria-controls="dropdown-layouts" data-collapse-toggle="dropdown-layouts" onclick="toggleDropdown()">
                                   <span class="flex-1 ml-3 text-left whitespace-nowrap">Mata Kuliah</span>
                                   <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -37,15 +37,23 @@
                                     @foreach ($data as $jadwal) 
                                       @if ($jadwal->status == 'Belum Dibuat')
                                         <li>
-                                          <button type="button" data-modal-target="updateModal-{{ $jadwal->id }}" data-modal-toggle="updateModal-{{ $jadwal->id }}"  class="flex items-center p-2 text-gray-900 dark:text-gray-200 pl-11 group hover:bg-gray-100 dark:hover:bg-gray-700" href="">{{ $jadwal->matakuliah }} {{ $jadwal->kelas }}</button>
+                                          <button type="button" data-modal-target="updateModal-{{ $jadwal->id }}" data-modal-toggle="updateModal-{{ $jadwal->id }}"  class="font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center text-gray-900 dark:text-gray-200 pl-11 group hover:bg-gray-100 dark:hover:bg-gray-700" href="">{{ $jadwal->matakuliah }} {{ $jadwal->kelas }}</button>
                                         </li>
                                       @endif
                                     @endforeach
                                 </ul>    
-                            </li> 
+                            </li>
                         </div>
                         @if ($jadwal->belumDibuatCount != 0)
-                        <h1 class="mt-4 text-red-500">Terdapat {{ $jadwal->belumDibuatCount }} jadwal belum dibuat</h1>
+                        <div class="flex items-center p-2.5 mb-1 mt-2 w-[40%] text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                            </svg>
+                            <span class="sr-only">Info</span>
+                            <div>
+                              <span class="font-medium">Perhatian!</span> Terdapat {{ $jadwal->belumDibuatCount }} jadwal belum dibuat
+                            </div>
+                          </div>
                         @endif
                     </div>
                     <table id="Jadwal" class = "display">
@@ -194,6 +202,7 @@
                         {className: "dt-head-center", "targets": [0,1,2,3,4,5,6,7] },
                         {className: "dt-body-center", "targets": [0,1,2,3,4,5,6,7] },
                     ],
+                    order: [[7, 'asc']]
                 });
 
                 setTimeout(() => {

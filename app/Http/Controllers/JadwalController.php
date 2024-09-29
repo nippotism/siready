@@ -78,21 +78,63 @@ class JadwalController extends Controller
 
     public function index2()
     {
-        // Group by 'prodi' and get the count of Jadwal entries for each program studi
-        $data = Jadwal::select('prodi', DB::raw('COUNT(*) as jadwal_count'))
-            ->where('status', 'Pending')
-            ->groupBy('prodi')
-            ->get();
-    
-        // Optionally add a status for each program studi (assuming there's a status in Jadwal)
-        foreach ($data as $jadwal) {
-            $jadwal->status = Jadwal::where('prodi', $jadwal->prodi)->first()->status ?? 'No Status';
+        $data = Jadwal::where('status', 'Disetujui')->get();
+
+        //from kodemk get the name of the matakuliah
+        
+        $jamend = [
+            "" => '',
+            1 => '07.50',
+            2 => '08.40',
+            3 => '09.30',
+            4 => '10.30',
+            5 => '11.20',
+            6 => '12.10',
+            7 => '13.00',
+            8 => '13.50',
+            9 => '14.40',
+            10 => '15.40',
+            11 => '16.30',
+            12 => '17.20',
+            13 => '18.10',
+        ];
+
+        $jamstart = [
+            "" => '',
+            0 => '07.00',
+            1 => '07.50',
+            2 => '08.40',
+            3 => '09.40',
+            4 => '10.30',
+            5 => '11.20',
+            6 => '12.10',
+            7 => '13.00',
+            8 => '13.50',
+            9 => '14.40',
+            10 => '15.40',
+            11 => '16.30',
+        ];
+
+        $day = [
+            "" => '',
+            1 => 'Senin',
+            2 => 'Selasa',
+            3 => 'Rabu',
+            4 => 'Kamis',
+            5 => 'Jumat',
+        ];
+        
+        foreach($data as $d){
+            $d->matakuliah = Matakuliah::where('kodemk', $d->kodemk)->first()->nama;
+            $d->sks = Matakuliah::where('kodemk', $d->kodemk)->first()->sks;
+            $d->jammulai = $jamstart[$d->jammulai];
+            $d->jamselesai = $jamend[$d->jamselesai];
+            $d->hari = $day[$d->hari];
+            $d->belumDibuatCount = $data->where('status', 'Belum Dibuat')->count();
         }
-    
-        return view('dkAjuanJadwal', compact('data'));
+        //and prodi = Informatika
+        return view('kpReviewJadwal', compact('data'));
     }
-    
-    
 
     public function isJadwalExist(Request $request)
     {

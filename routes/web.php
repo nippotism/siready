@@ -127,3 +127,5 @@ Route::get('k/rombel', function () {
 })->name('rombel');
 
 
+Route::get('/reviewjadwal',[JadwalController::class,'index2']);
+
