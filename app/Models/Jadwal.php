@@ -18,6 +18,7 @@ class Jadwal extends Model
         'kodemk',
         'kelas',
         'kapasitas',
+        'prodi',
         'status'
     ];
 }

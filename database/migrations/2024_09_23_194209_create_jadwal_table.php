@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('kodemk');
             $table->string('kelas')->nullable();
             $table->string('kapasitas')->nullable();
+            $table->string('prodi');
             $table->string('status');
             $table->timestamps();
         });

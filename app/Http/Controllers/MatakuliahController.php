@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Jadwal;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
@@ -10,7 +11,8 @@ class MatakuliahController extends Controller
 {
     public function index()
     {
-        $data = Matakuliah::all();
+        $user = auth()->user();
+        $data = Matakuliah::where('program_studi', $user->prodi)->get(); 
         return view('kpBuatMk', compact('data'));
     }
 
@@ -36,12 +38,12 @@ class MatakuliahController extends Controller
             'sifat' => 'required',
             'jumlah_kelas' => 'required',
         ]);
-
+        $user = auth()->user();
         $data = [
             'kodemk' => $request->kodemk,
             'nama' => $request->nama,
             'plotsemester' => $request->plotsemester,
-            'program_studi' => 'Informatika',
+            'program_studi' => $user->prodi,
             'sks' => $request->sks,
             'sifat' => $request->sifat,
             'jumlah_kelas' => $request->jumlah_kelas,
@@ -55,13 +57,12 @@ class MatakuliahController extends Controller
                 'kodemk' => $request->kodemk,
                 'kelas' => chr(65+$i),
                 'kapasitas'=> null,
+                'prodi' => $user->prodi,
                 'status' => 'Belum Dibuat'
             ];
 
             Jadwal::create($datajadwal);
         }
-
-
 
         Matakuliah::create($data);
         return redirect()->route('matakuliah');
@@ -110,7 +111,7 @@ class MatakuliahController extends Controller
             'sifat' => 'required',
             'jumlah_kelas' => 'required',
         ]);
-
+        $user = auth()->user();
         $data = [
             'kodemk' => $request->kodemk,
             'nama' => $request->nama,
@@ -129,6 +130,7 @@ class MatakuliahController extends Controller
                     'kodemk' => $request->kodemk,
                     'kelas' => chr(65+$i),
                     'kapasitas'=> null,
+                    'prodi' => $user->prodi,
                     'status' => 'Belum Dibuat'
                 ];
     
