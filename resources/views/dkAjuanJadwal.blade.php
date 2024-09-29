@@ -42,7 +42,7 @@
                                         <td class="[30%]">{{ $jadwal->prodi }}</td>
                                         <td class="[30%]">{{ $jadwal->jadwal_count }}</td>
                                         <td class="[25%]">
-                                            @if ($jadwal->status == 'Pending')
+                                            @if ($jadwal->all_pending)
                                                 <button id="approve-btn-{{ $loop->iteration }}" type="button" 
                                                     onclick="approveJadwal('{{ $jadwal->prodi }}')" 
                                                     class="text-white bg-[#2ACD7F] px-3 py-2 text-xs font-medium text-center rounded-lg ml-2">Setuju</button>
@@ -50,6 +50,9 @@
                                                 <button id="reject-btn-{{ $loop->iteration }}" type="button" 
                                                     onclick="rejectJadwal('{{ $jadwal->prodi }}')" 
                                                     class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 px-3 py-2 text-xs font-medium text-center rounded-lg ml-2">Tolak</button>
+                                            @else
+                                                <h1 class="text-red-500">Tidak dapat melakukan aksi</h1>
+                                                <h1 class="text-red-500">Terdapat jadwal yang belum dibuat</h1>
                                             @endif
                                         </td>
                                     </tr>

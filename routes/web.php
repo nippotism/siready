@@ -103,7 +103,7 @@ Route::get('/buatjadwal',[JadwalController::class,'index'])->name('buatjadwal');
 Route::post('/buatjadwal/{id}',[JadwalController::class,'update']);
 Route::post('/checkjadwal',[JadwalController::class,'isJadwalExist']);
 
-Route::get('/ajuanJadwal', [JadwalController::class, 'index2'])->name('ajuanjadwal');
+Route::get('/ajuanJadwal', [JadwalController::class, 'index3'])->name('ajuanjadwal');
 Route::post('/jadwal/approve', [JadwalController::class, 'approve'])->name('jadwal.approve');
 Route::post('/jadwal/reject', [JadwalController::class, 'reject'])->name('jadwal.reject');
 

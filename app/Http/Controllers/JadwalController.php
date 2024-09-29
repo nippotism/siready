@@ -135,6 +135,23 @@ class JadwalController extends Controller
         //and prodi = Informatika
         return view('kpReviewJadwal', compact('data'));
     }
+    public function index3()
+    {
+        // Group by 'prodi' and get the count of Jadwal entries with 'Pending' status for each program studi
+        $data = Jadwal::select('prodi', DB::raw('COUNT(*) as jadwal_count'))
+        ->where('status', 'pending')
+        ->groupBy('prodi')
+        ->get();
+            
+        // Add a flag to check if all jadwal for the program studi are 'Pending'
+        foreach ($data as $jadwal) {
+        $jadwal->all_pending = Jadwal::where('prodi', $jadwal->prodi)
+            ->where('status', '=', 'Belum Dibuat')
+            ->exists() ? false : true;  // If any jadwal is not 'Pending', set to false
+        }
+        
+        return view('dkAjuanJadwal', compact('data'));
+    }
 
     public function isJadwalExist(Request $request)
     {

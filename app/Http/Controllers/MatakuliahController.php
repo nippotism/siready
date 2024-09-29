@@ -111,7 +111,7 @@ class MatakuliahController extends Controller
             'sifat' => 'required',
             'jumlah_kelas' => 'required',
         ]);
-
+        $user = auth()->user();
         $data = [
             'kodemk' => $request->kodemk,
             'nama' => $request->nama,
@@ -130,6 +130,7 @@ class MatakuliahController extends Controller
                     'kodemk' => $request->kodemk,
                     'kelas' => chr(65+$i),
                     'kapasitas'=> null,
+                    'prodi' => $user->prodi,
                     'status' => 'Belum Dibuat'
                 ];
     
