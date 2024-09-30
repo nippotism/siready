@@ -19,7 +19,7 @@
   
         <div id="main-content" class="relative text-gray-900 dark:text-gray-200 font-poppins w-full h-full overflow-y-auto lg:pl-52">
             <div class="px-8 py-8">
-                <h1 class="font-bold text-center text-3xl my-10">Jadwal Kuliah S1 {{ $data->prodi }}</h1>
+                <h1 class="font-bold text-center text-3xl my-10">Jadwal Kuliah S1 {{ $data->first()->prodi }}</h1>
                 <div class="mx-18 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                         @php
