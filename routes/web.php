@@ -23,23 +23,18 @@ Route::get('/login',[LoginController::class,'index'])->name('login')->middleware
 Route::post('/login',[LoginController::class,'authenticate']);
 
 Route::get('dashboard', function() {
-    switch(auth()->user()->role) {
-        case 'Mahasiswa':
-            return app('App\Http\Controllers\DashboardController')->index();
-            break;
-        case 'Pembimbing Akademik':
-            return view('paDashboard');
-            break;
-        case 'Kaprodi':
-            return view('kpDashboard');
-            break;
-        case 'Dekan':
-            return view('dkDashboard');
-            break;
-        case 'BA':
-            return app('App\Http\Controllers\RuangController')->dashboard();
-            break;
+    if (auth()->user()->mhs == 1) {
+        return app('App\Http\Controllers\DashboardController')->index();
+    } else if (auth()->user()->ba == 1) {
+        return view('baDashboard');
+    } else if (auth()->user()->dk == 1) {
+        return view('dkDashboard');
+    } else if (auth()->user()->kp == 1) {
+        return view('kpDashboard');
+    } else if (auth()->user()->pa == 1) {
+        return view('paDashboard');
     }
+    
 })->name('dashboard')->middleware('auth');
 
 

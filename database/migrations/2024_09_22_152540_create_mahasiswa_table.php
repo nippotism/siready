@@ -19,8 +19,10 @@ return new class extends Migration
             $table->string('no_telp')->nullable();
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->date('tanggal_lahir');
+            $table->string('prodi');
             $table->string('jalur_masuk');
             $table->year('angkatan');
+            $table->float('ipk');
             $table->text('alamat')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
