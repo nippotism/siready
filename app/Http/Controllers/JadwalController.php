@@ -69,9 +69,9 @@ class JadwalController extends Controller
             $d->jammulai = $jamstart[$d->jammulai];
             $d->jamselesai = $jamend[$d->jamselesai];
             $d->hari = $day[$d->hari];
-            $d->belumDibuatCount = $data->where('status', 'Belum Dibuat')->count();
         }
         //and prodi = Informatika
+        $data->belumcount = $data->where('status', 'Belum Dibuat')->count();
         $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', $user->prodi)->get();
         return view('kpBuatJadwal', compact('data', 'dataruang', 'jamend'));
     }
@@ -139,11 +139,11 @@ class JadwalController extends Controller
         //and prodi = Informatika
         return view('kpReviewJadwal', compact('data'));
     }
+
     public function index3()
     {
-        // Group by 'prodi' and get the count of Jadwal entries with 'Pending' status for each program studi
+
         $data = Jadwal::select('prodi', DB::raw('COUNT(*) as jadwal_count'))
-        ->where('status', 'pending')
         ->groupBy('prodi')
         ->get();
             
@@ -151,8 +151,10 @@ class JadwalController extends Controller
         foreach ($data as $jadwal) {
         $jadwal->all_pending = Jadwal::where('prodi', $jadwal->prodi)
             ->where('status', '=', 'Belum Dibuat')
-            ->exists() ? false : true;  // If any jadwal is not 'Pending', set to false
+            ->exists() ? false : true; 
+        $jadwal->belumcount = Jadwal::where('prodi', $jadwal->prodi)->where('status', 'Belum Dibuat')->count();
         }
+
         
         return view('dkAjuanJadwal', compact('data'));
     }
@@ -206,7 +208,6 @@ class JadwalController extends Controller
             'hari' => 'required',
             'jammulai' => 'required',
             'ruang' => 'required',
-            'kapasitas' => 'required',
         ]);
 
         $user = auth()->user();
@@ -217,7 +218,7 @@ class JadwalController extends Controller
             'ruang' => $request->ruang,
             'kodemk' => Jadwal::find($id)->kodemk,
             'kelas' => Jadwal::find($id)->kelas,
-            'kapasitas' => $request->kapasitas,
+            'kapasitas' => Ruang::where('noruang', $request->ruang)->first()->kapasitas,
             'status' => 'Pending'
         ];
 
@@ -253,5 +254,66 @@ class JadwalController extends Controller
 
         return response()->json(['message' => 'Jadwal has been rejected for ' . $request->prodi]);
     }
+
+    public function reviewJadwalProdi($prodi)
+    {
+
+
+       $data = Jadwal::where('prodi', $prodi)->get();
+
+       $data->prodi = $prodi;
+       
+       $jamend = [
+           "" => '',
+           1 => '07.50',
+           2 => '08.40',
+           3 => '09.30',
+           4 => '10.30',
+           5 => '11.20',
+           6 => '12.10',
+           7 => '13.00',
+           8 => '13.50',
+           9 => '14.40',
+           10 => '15.40',
+           11 => '16.30',
+           12 => '17.20',
+           13 => '18.10',
+       ];
+
+       $jamstart = [
+           "" => '',
+           0 => '07.00',
+           1 => '07.50',
+           2 => '08.40',
+           3 => '09.40',
+           4 => '10.30',
+           5 => '11.20',
+           6 => '12.10',
+           7 => '13.00',
+           8 => '13.50',
+           9 => '14.40',
+           10 => '15.40',
+           11 => '16.30',
+       ];
+
+       $day = [
+           "" => '',
+           1 => 'Senin',
+           2 => 'Selasa',
+           3 => 'Rabu',
+           4 => 'Kamis',
+           5 => 'Jumat',
+       ];
+       
+       foreach($data as $d){
+           $d->matakuliah = Matakuliah::where('kodemk', $d->kodemk)->first()->nama;
+           $d->sks = Matakuliah::where('kodemk', $d->kodemk)->first()->sks;
+           $d->jammulai = $jamstart[$d->jammulai];
+           $d->jamselesai = $jamend[$d->jamselesai];
+           $d->hari = $day[$d->hari];
+       }
+       //and prodi = Informatika
+       return view('kpReviewJadwal', compact('data'));
+   }
 
 }

@@ -44,14 +44,14 @@
                                 </ul>    
                             </li>
                         </div>
-                        @if ($jadwal->belumDibuatCount != 0)
+                        @if ($data->belumcount != 0)
                         <div class="flex items-center p-2.5 mb-1 mt-2 w-[40%] text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
                             <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                             </svg>
                             <span class="sr-only">Info</span>
                             <div>
-                              <span class="font-medium">Perhatian!</span> Terdapat {{ $jadwal->belumDibuatCount }} jadwal belum dibuat
+                              <span class="font-medium">Perhatian!</span> Terdapat {{ $data->belumcount }} jadwal belum dibuat
                             </div>
                           </div>
                         @endif
@@ -118,6 +118,8 @@
                                 <!-- Modal Edit Jadwal -->
                                 <form class="p-4 md:p-5" action = "buatjadwal/{{ $jadwal->id }}" method = "POST">
                                     @csrf
+                                    <div id = "alerta-{{ $jadwal->id }}">
+                                    </div>
                                     <div class="grid gap-4 mb-4 grid-cols-2">
                                         <div class="col-span-1 ">
                                             <label for="hari" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hari</label>
@@ -158,11 +160,7 @@
                                         <div class="col-span-1" data-sks="{{ $jadwal->sks }}" id="sks-{{ $jadwal->id }}">
                                             <label for="jamselesai" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jam Selesai</label>
                                             <input type="text" name="jamselesai" id="jamselesai-{{ $jadwal->id }}" aria-label="disabled input" class=" bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="00:00" disabled>
-                                        </div>
-                                        <div class="col-span-1 ">
-                                            <label for="kapasitas" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kapasitas</label>
-                                            <input type="number" name="kapasitas" id="kapasitas" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="example : 50" required="">
-                                        </div>  
+                                        </div> 
                                     </div>
                                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                         <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
@@ -275,13 +273,35 @@
                     success: function(response) {
                         data = response.data;
                         if (response.bool === true) {
-                            alert(`Jadwal sudah terpakai oleh ${data[0].matakuliah} ${data[0].kelas}`);
+                            //disable button
+                            $(`#updateModal-${id} button[type='submit']`).attr('disabled', true);
+                            $(`#alerta-${id}`).html(`<div class="flex items-center p-4 mb-4 text-xs text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+  <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+  </svg>
+  <span class="sr-only">Info</span>
+  <div>
+    <span class="font-medium">Jadwal Tabrakan !</span> Jadwal sudah terpakai oleh ${data[0].matakuliah} ${data[0].kelas}
+  </div>
+</div>`);
+                            console.log(alerta);
+                            // alert(`Jadwal sudah terpakai oleh ${data[0].matakuliah} ${data[0].kelas}`);
                         }else{
-                            alert('Jadwal belum terpakai!');
+                            $(`#updateModal-${id} button[type='submit']`).attr('disabled', false);
+                            $(`#alerta-${id}`).html(`<div class="flex items-center p-4 mb-4 text-xs text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+  <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+  </svg>
+  <span class="sr-only">Info</span>
+  <div>
+    <span class="font-medium">Jadwal Aman!</span> Jadwal tidak tabrakan dengan jadwal manapun
+  </div>
+</div>`);
+
                         }
                     },
                     error: function() {
-                        //show why error
+                        
                         console.log('error');
                         alert('Error checking jadwal');
                     }
