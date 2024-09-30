@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Mahasiswa;
 
 class DashboardController extends Controller
 {
@@ -16,14 +17,15 @@ class DashboardController extends Controller
         // Access user name
         $userName = $user->name;
         $status = $user->status;
+        $ipk = Mahasiswa::where('email', $user->email)->first()->ipk;
 
         $data = [
             'userName' => $userName,
-            'status' => $status
+            'status' => $status,
         ];
 
         // Pass the user data to a view, or return a response
-        return view('MhsDashboard',compact('data'));
+        return view('MhsDashboard',compact('data', 'ipk'));
     }
     public function index2()
     {
