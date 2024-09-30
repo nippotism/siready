@@ -71,183 +71,60 @@
         </div>
 
         <div> <!-- Add enough padding to account for the height of the fixed header -->
-            <div class="relative mx-14 overflow-x-auto shadow-md sm:rounded-lg">
-                @php
-                    // Define the available days and times
-                    $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
-                    $times = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
-                @endphp
-            
-                <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                    <thead>
-                        <tr class="text-center">
-                            <th>#</th>
-                            @foreach($days as $day)
-                                <th class="py-4 w-[20%]">{{ $day }}</th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                                        <!-- Your HTML structure for each schedule -->
-                    <tbody>
-                        @foreach($times as $timeIndex => $time)
-                            <tr class="h-20">
-                                <td class="px-4">{{ $time }}</td>
-                                @foreach($days as $dayIndex => $day)
-                                    @php
-                                        $isEvenCell = ($timeIndex % 2 == 0 && $dayIndex % 2 == 0) || ($timeIndex % 2 != 0 && $dayIndex % 2 != 0);
-                                        $cellClass = $isEvenCell ? 'bg-white dark:bg-blek-700' : 'bg-gray-100 dark:bg-blek-600';
-                                    @endphp
-                                    <td class="{{ $cellClass }}">
-                                        @foreach($data as $matkul)
-                                            @foreach($matkul->kelas as $kelas)
-                                                @if($kelas->hari == $day && substr($kelas->jam, 0, 2) == substr($time, 0, 2))
-                                                    <div class="mx-[5%] my-2">
-                                                        <a id="matkul-{{ $kelas->id }}" href="javascript:void(0)" 
-                                                           class="block p-3 rounded-lg bg-white border border-gray-200 shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 jadwal-container"
-                                                           data-kodemk="{{ $matkul->kodemk }}" 
-                                                           data-id="{{ $kelas->id }}" 
-                                                           data-hari="{{ $kelas->hari }}" 
-                                                           data-jam="{{ $kelas->jam }}" 
-                                                           onclick="handleScheduleClick(this, '{{ $email }}');">
-                                                            <span class="mb-2 text-xs font-bold text-gray-900 dark:text-white">{{ $matkul->matakuliah }} {{ $kelas->kelas }}</span>
-                                                            <p class="text-xs text-gray-700 dark:text-gray-400">
-                                                                Semester 1 / {{ $matkul->sks }} SKS <br> 
-                                                                {{ $kelas->jam }} <br>
-                                                                Ruang: {{ $kelas->ruang }}
-                                                            </p>
-                                                        </a>
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        @endforeach
-                                    </td>
-                                @endforeach
-                            </tr>
-                        @endforeach
-                    </tbody>
-
-                </table>
-            </div>
+          @foreach ($data as $matkul)
+          <div class="mt-2 mb-8 mx-14 bg-white border border-gray-200 font-semibold text-[#374250] dark:text-white rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
+              <h2 class="mt-4">{{ $matkul->matakuliah }} - {{ $matkul->kodemk }} ({{ $matkul->sks }} SKS)</h2>
+              <div class="mt-4">
+                  <div class="overflow-x-auto text-m font-normal">
+                      <table class="min-w-full text-center table-auto">
+                          <thead></thead>
+                          <tbody>
+                              @foreach($matkul->kelas as $kelas)
+                              <tr class="border-y">
+                                  <td class="px-auto py-4 w-[10%]">
+                                      <input type="radio"name="{{ $matkul->matakuliah }}"id="kelas-{{ $kelas->id }}"onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}'); checkConflict(this)"data-hari="{{ $kelas->hari }}"data-jam="{{ $kelas->jam }}" {{ $kelas->isselected ? 'checked' : '' }} />
+                                  </td>
+                                  <td class="px-auto py-4 w-[40%]">{{ $matkul->matakuliah }} {{ $kelas->kelas }}</td>
+                                  <td class="px-auto py-4 w-[10%]">{{ $kelas->kapasitas }}</td>
+                                  <td class="px-auto py-4 w-[20%]">{{ $kelas->hari }}, {{ $kelas->jam }}</td>
+                                  <td class="px-auto py-4 w-[20%]">{{ $kelas->ruang }}</td>
+                              </tr>
+                              @endforeach
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          @endforeach
       </div>
   </div>
 
     <script>
-let selectedClasses = JSON.parse(localStorage.getItem('selectedClasses')) || []; // Load selected classes from localStorage
+      function submitClass(kodejadwal,email,kodemk) {
+          $.ajax({
+              url: "/buat-irstest",  // Laravel route
+              type: "POST",
+              data: {
+                  _token: '{{ csrf_token() }}',          // CSRF token
+                  email: email,           // Email address
+                  kodejadwal: kodejadwal,
+                  kodemk: kodemk
+              },
+              success: function(response) {
+                  // Handle success
+                  // alert('Success: ' + response.data);
+                  console.log(response.data+response.check);
+                  //change skscount value to response.sks
+                document.getElementById('skscount').innerText = response.data.sks;
 
-// Function to submit the selected schedule
-function submitClass(kodejadwal, email, kodemk, element) {
-    $.ajax({
-        url: "/buat-irstest", // Laravel route
-        type: "POST",
-        data: {
-            _token: '{{ csrf_token() }}', // CSRF token
-            email: email, // Email address
-            kodejadwal: kodejadwal,
-            kodemk: kodemk
-        },
-        success: function(response) {
-            console.log(response.data + response.check);
-            document.getElementById('skscount').innerText = response.data.sks; // Update SKS count
-
-            // Change the background to green after successful submission
-            element.classList.add('bg-green-500');
-
-            // Handle removing any previously selected class at the same time
-            handlePreviousSelection(element);
-
-            // Add the newly selected class to the array
-            selectedClasses.push({ hari: element.getAttribute('data-hari'), jam: element.getAttribute('data-jam'), id: kodejadwal });
-
-            // Save updated selected classes to localStorage
-            localStorage.setItem('selectedClasses', JSON.stringify(selectedClasses));
-
-            // Check conflicts with other schedules
-            checkConflict();
-        },
-        error: function(xhr, status, error) {
-            console.log('Error: ' + error);
-        }
-    });
-}
-
-// Function to handle previous selections
-function handlePreviousSelection(newElement) {
-    let selectedHari = newElement.getAttribute('data-hari');
-    let selectedJam = newElement.getAttribute('data-jam');
-
-    // Find if any schedule at the same time is already selected
-    let previousSelectionIndex = selectedClasses.findIndex(cls => cls.hari === selectedHari && cls.jam === selectedJam);
-
-    if (previousSelectionIndex !== -1) {
-        // Find the previous element by its ID
-        let previousElement = document.querySelector(`.jadwal-container[data-id="${selectedClasses[previousSelectionIndex].id}"]`);
-        if (previousElement) {
-            // Remove the green background from the previously selected element
-            previousElement.classList.remove('bg-green-500');
-        }
-
-        // Remove the previous selection from the selectedClasses array
-        selectedClasses.splice(previousSelectionIndex, 1);
-    }
-}
-
-// Function to handle the schedule click
-function handleScheduleClick(element, email) {
-    let kodejadwal = element.getAttribute('data-id');
-    let kodemk = element.getAttribute('data-kodemk');
-    
-    submitClass(kodejadwal, email, kodemk, element);
-}
-
-// Function to extract the time range from a string (e.g., "08:00 - 10:00")
-function extractTimeRange(jamString) {
-    let [startTime, endTime] = jamString.split(' - ');
-    return { startTime, endTime };
-}
-
-// Function to check for conflicts
-function checkConflict() {
-    let conflictElements = [];
-    
-    document.querySelectorAll('.jadwal-container').forEach(jadwalElement => {
-        let selectedHari = jadwalElement.getAttribute('data-hari');
-        let selectedJam = jadwalElement.getAttribute('data-jam');
-        let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
-
-        selectedClasses.forEach(cls => {
-            if (cls.hari === selectedHari && jadwalElement.getAttribute('data-id') !== cls.id) {
-                let { startTime: existingStartTime, endTime: existingEndTime } = extractTimeRange(cls.jam);
-
-                // Check for time overlap (conflict)
-                if (
-                    (selectedStartTime < existingEndTime && selectedStartTime >= existingStartTime) ||
-                    (existingStartTime < selectedEndTime && existingStartTime >= selectedStartTime)
-                ) {
-                    // Conflict detected, highlight the element in red
-                    jadwalElement.classList.add('bg-red-800');
-                    conflictElements.push(jadwalElement);
-                }
-            }
-        });
-    });
-}
-
-// When the page loads, restore selected schedules and conflict highlights
-document.addEventListener('DOMContentLoaded', function() {
-    selectedClasses.forEach(cls => {
-        const jadwalElement = document.querySelector(`.jadwal-container[data-id="${cls.id}"]`);
-        if (jadwalElement) {
-            // Highlight previously selected schedules in green
-            jadwalElement.classList.add('bg-green-500');
-
-            // Check for conflicts and highlight in red if necessary
-            checkConflict();
-        }
-    });
-});
-
-
-</script>
+              },
+              error: function(xhr, status, error) {
+                  // Handle error
+                  console.log('Error: ' + error);
+              }
+          });
+      }
+  </script>
 
 <script>
   let isload = false;
@@ -353,7 +230,80 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 </script>
 
+<script>
 
+  function extractTimeRange(jamString) {
+      let [startTime, endTime] = jamString.split(' - ');
+      console.log(`Extracted time range: Start - ${startTime}, End - ${endTime}`);
+      return { startTime, endTime };
+  }
+
+  function checkConflict(selectedRadio) {
+      let selectedHari = selectedRadio.getAttribute('data-hari');
+      let selectedJam = selectedRadio.getAttribute('data-jam');
+      let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
+
+      console.log(`Selected Schedule: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
+
+      let conflict = [];
+
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+          let hari = radio.getAttribute('data-hari');
+          let jam = radio.getAttribute('data-jam');
+          let { startTime, endTime } = extractTimeRange(jam);
+
+          // Reference to the table row containing this radio button
+          let row = radio.closest('tr');
+
+          // Log details for each radio button
+          console.log(`Checking against: ${hari} from ${startTime} to ${endTime}`);
+
+          // Reset all radios and rows (in case some were disabled or styled previously)
+          radio.disabled = false;
+          row.classList.remove('bg-red-800'); // Remove any previous conflict highlighting
+
+          // If it's the same day and there's a time conflict
+          if (hari === selectedHari && selectedRadio !== radio) {
+              console.log(`Same day as selected (${hari}). Checking time conflict...`);
+
+              if (
+                  (startTime < selectedEndTime && startTime >= selectedStartTime) ||
+                  (selectedStartTime < endTime && selectedStartTime >= startTime)
+              ) {
+                  console.log(`Conflict found! Disabling radio and adding 'bg-red-800' for time: ${startTime} - ${endTime}`);
+                  // Disable the conflicting schedule and highlight the row
+                  radio.disabled = true;
+                  // Add the conflicting radio id to the list
+                    conflict.push(radio.getAttribute('id'));
+                  row.classList.add('bg-red-800');  // Add bg-red-800 to the conflicting row
+              } else {
+                  console.log(`No conflict with ${startTime} - ${endTime}`);
+              }
+          }
+      });
+
+        console.log('Conflicting radio buttons:', conflict);
+        return conflict;
+  }
+
+  function removeConflict(conflict) {
+      conflict.forEach(radioId => {
+          let radio = document.getElementById(radioId);
+          let row = radio.closest('tr');
+          radio.disabled = false;
+          row.classList.remove('bg-red-800');
+      });
+  }
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+        // Find the already selected radio button (if any) and check for conflicts
+        let selectedRadio = document.querySelector('input[type="radio"]:checked');
+        if (selectedRadio) {
+            checkConflict(selectedRadio);  // Call the function to check conflicts for the selected radio button
+        }
+    })
 
 
 </script>
