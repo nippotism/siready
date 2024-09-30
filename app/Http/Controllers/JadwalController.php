@@ -259,9 +259,7 @@ class JadwalController extends Controller
     {
 
 
-       $data = Jadwal::where('status', 'Disetujui')
-               ->where('prodi', $prodi)
-               ->get();
+       $data = Jadwal::where('prodi', $prodi)->get();
 
        $data->prodi = $prodi;
        
