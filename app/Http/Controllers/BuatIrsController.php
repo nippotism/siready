@@ -12,10 +12,10 @@ class BuatIrsController extends Controller
 {
     public function index()
     {
-        $data = Jadwal::select('kodemk')->groupBy('kodemk')->get();
-
+        
         $user = auth()->user();
         $email = $user->email;
+        $data = Jadwal::select('kodemk')->where('prodi', $user->prodi)->groupBy('kodemk')->get();
         //from kodemk get the name of the matakuliah
         
         $jamend = [
