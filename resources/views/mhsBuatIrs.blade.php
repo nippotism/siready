@@ -77,7 +77,7 @@
                     $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
                     $times = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
                 @endphp
-            
+
                 <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead>
                         <tr class="text-center">
@@ -102,23 +102,23 @@
                                             @foreach($matkul->kelas as $kelas)
                                                 @if($kelas->hari == $day && substr($kelas->jam, 0, 2) == substr($time, 0, 2))
                                                     <div class="mx-[5%] my-2">
-                                                        <a id="matkul-{{ $kelas->id }}" href="javascript:void(0)" 
+                                                        <a id="matkul-{{ $kelas->id }}" href="javascript:void(0)"
                                                            class="block p-3 rounded-lg bg-white border border-gray-200 shadow hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-700  jadwal-container"
-                                                           data-kodemk="{{ $matkul->kodemk }}" 
-                                                           data-id="{{ $kelas->id }}" 
-                                                           data-hari="{{ $kelas->hari }}" 
+                                                           data-kodemk="{{ $matkul->kodemk }}"
+                                                           data-id="{{ $kelas->id }}"
+                                                           data-hari="{{ $kelas->hari }}"
                                                            data-jam="{{ $kelas->jam }}">
 
-                                                           <span><input type="radio" 
-                                                            name="{{ $matkul->matakuliah }}" 
-                                                            id="kelas-{{ $kelas->id }}" 
-                                                            onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}');  handleRadioClick(this)" 
-                                                            data-hari="{{ $kelas->hari }}" 
+                                                           <span><input type="radio"
+                                                            name="{{ $matkul->matakuliah }}"
+                                                            id="kelas-{{ $kelas->id }}"
+                                                            onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}');  handleRadioClick(this)"
+                                                            data-hari="{{ $kelas->hari }}"
                                                             data-jam="{{ $kelas->jam }}"  {{-- "jam" in the format "07.00 - 09.30" --}}
                                                             {{ $kelas->isselected ? 'checked' : '' }} /></span>
                                                             <span class="mb-2 text-xs font-bold text-gray-900 dark:text-white">&ensp;{{ $matkul->matakuliah }} {{ $kelas->kelas }}</span>
                                                             <p class="text-xs mt-1 text-gray-700 dark:text-gray-400">
-                                                                Semester 1 / {{ $matkul->sks }} SKS <br> 
+                                                                Semester 1 / {{ $matkul->sks }} SKS <br>
                                                                 {{ $kelas->jam }} <br>
                                                                 Ruang: {{ $kelas->ruang }}
                                                             </p>
@@ -146,11 +146,11 @@
                               @foreach($matkul->kelas as $kelas)
                               <tr class="border-y">
                                   <td class="px-auto py-4 w-[10%]">
-                                    <input type="radio" 
-                                           name="{{ $matkul->matakuliah }}" 
-                                           id="kelas-{{ $kelas->id }}" 
-                                           onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}');  handleRadioClick(this)" 
-                                           data-hari="{{ $kelas->hari }}" 
+                                    <input type="radio"
+                                           name="{{ $matkul->matakuliah }}"
+                                           id="kelas-{{ $kelas->id }}"
+                                           onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}');  handleRadioClick(this)"
+                                           data-hari="{{ $kelas->hari }}"
                                            data-jam="{{ $kelas->jam }}"  {{-- "jam" in the format "07.00 - 09.30" --}}
                                            {{-- {{ $kelas->isselected ? 'checked' : '' }} />
                                 </td>
@@ -165,7 +165,7 @@
                   </div>
               </div>
           </div>
-          @endforeach --}} 
+          @endforeach --}}
       </div>
   </div>
 
@@ -349,7 +349,7 @@ function checkConflict(selectedRadio) {
                 (selectedStartTime < endTime && selectedStartTime >= startTime)
             ) {
                 console.log(`Conflict found! Disabling radio and adding 'bg-red-800' for time: ${startTime} - ${endTime}`);
-                
+
                 // Disable the conflicting schedule and highlight the row
                 radio.disabled = true;
                 row.classList.remove('bg-white');
@@ -358,7 +358,7 @@ function checkConflict(selectedRadio) {
                 row.classList.remove('dark:hover:bg-gray-700');
 
                 row.classList.add('bg-red-700');
-                
+
                 // Add the conflicting radio id to the conflict array
                 if (!conflictArray.includes(radio.getAttribute('id'))) {
                     conflictArray.push(radio.getAttribute('id'));
@@ -387,7 +387,7 @@ function removeConflict(selectedRadio) {
 
         // Re-enable the radio and remove the bg-red-800 class if it no longer conflicts
         if (hari === selectedHari && (
-            (startTime < selectedEndTime && startTime >= selectedStartTime) || 
+            (startTime < selectedEndTime && startTime >= selectedStartTime) ||
             (selectedStartTime < endTime && selectedStartTime >= startTime)
         )) {
             console.log(`Enabling ${radioId}, no longer in conflict`);
@@ -398,6 +398,7 @@ function removeConflict(selectedRadio) {
             row.classList.add('dark:bg-gray-800');
             row.classList.add('hover:bg-gray-100');
             row.classList.add('dark:hover:bg-gray-700');
+            console.log('Updated conflict array after removal:', conflictArray);
             return false; // Remove this radioId from the conflict array
         }
         return true; // Keep this radioId in the conflict array
@@ -406,23 +407,38 @@ function removeConflict(selectedRadio) {
     console.log('Updated conflict array after removal:', conflictArray);
 }
 
-// Function to handle radio button selection and deselection
 function handleRadioClick(radio) {
-    // If radio was previously selected (i.e., it's being deselected), remove its conflicts
-    if (radio.checked) {
-        checkConflict(radio);
-    } else {
-        removeConflict(radio);
-    }
+
+        conflictArray.forEach(radioId => {
+            let radio = document.getElementById(radioId);
+            let row = radio.closest('a');
+            radio.disabled = false;
+            row.classList.remove('bg-red-700');
+            row.classList.add('bg-white');
+            row.classList.add('dark:bg-gray-800');
+            row.classList.add('hover:bg-gray-100');
+            row.classList.add('dark:hover:bg-gray-700');
+        });
+
+        let selectedRadios = document.querySelectorAll('input[type="radio"]:checked');
+        console.log('Selected radio buttons found:', selectedRadios);
+
+        selectedRadios.forEach(selectedRadio => {
+            checkConflict(selectedRadio);
+        });
+
 }
 
 // Automatically check for conflicts after page reload
 document.addEventListener('DOMContentLoaded', function() {
-    // Find the already selected radio button (if any) and check for conflicts
-    let selectedRadio = document.querySelector('input[type="radio"]:checked');
-    if (selectedRadio) {
-        checkConflict(selectedRadio);  // Call the function to check conflicts for the selected radio button
-    }
+    // Find all selected radio buttons (if any) and check for conflicts
+    let selectedRadios = document.querySelectorAll('input[type="radio"]:checked');
+    console.log('Selected radio buttons found:', selectedRadios);
+
+    // Iterate over the selected radio buttons and check conflicts for each one
+    selectedRadios.forEach(selectedRadio => {
+        checkConflict(selectedRadio);  // Call the function to check conflicts for each selected radio button
+    });
 });
 
 
