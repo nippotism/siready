@@ -71,7 +71,7 @@
         </div>
 
         <div> <!-- Add enough padding to account for the height of the fixed header -->
-            <div class="relative mx-32 overflow-x-auto shadow-md sm:rounded-lg">
+            <div class="relative mx-14 overflow-x-auto shadow-md sm:rounded-lg">
                 @php
                     // Define the available days and times
                     $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
@@ -114,12 +114,12 @@
                                                             required
                                                         />
                                                         
-                                                        <label for="kelas-{{ $kelas->id }}" class="inline-flex items-center justify-between min-h-32 w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700  peer-checked:bg-green-400 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                                        <label for="kelas-{{ $kelas->id }}" class="inline-flex items-center justify-between min-h-32 w-full p-5 bg-white border border-gray-200 rounded-lg cursor-pointer dark:border-gray-700  peer-checked:bg-green-200 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 peer-checked:hover:bg-green-100 peer-checked:border-l-4 peer-checked:dark:bg-green-900 peer-checked:dark:border-green-500 peer-checked:dark:hover:bg-[#013d30] peer-checked:border-green-400 text-gray-900 dark:text-white">
                                                             <div class="block">
-                                                                <div class="mb-2 text-xs font-bold text-gray-900 dark:text-white">
+                                                                <div class="mb-2 text-xs font-bold">
                                                                     {{ $matkul->matakuliah }} {{ $kelas->kelas }}
                                                                 </div>
-                                                                <div class="text-xs mt-1 text-gray-700 dark:text-white">
+                                                                <div class="text-xs mt-1 text-gray-900 dark:text-white">
                                                                     Semester {{ $matkul->semester }} / {{ $matkul->sks }} SKS <br>
                                                                     {{ $kelas->jam }} <br>
                                                                     Ruang: {{ $kelas->ruang }}
@@ -157,6 +157,7 @@
                   // Handle success
                   // alert('Success: ' + response.data);
                   console.log(response.data+response.check);
+                  console.log(response.data.position);
                   //change skscount value to response.sks
                 document.getElementById('skscount').innerText = response.data.sks;
 
@@ -197,6 +198,7 @@
                                   <th class="border-b py-2 w-[20%]">Mata Kuliah</th>
                                   <th class="border-b py-2 w-[15%]">Kelas</th>
                                   <th class="border-b py-2 w-[15%]">SKS</th>
+                                  <th class="border-b py-2 w-[15%]">Antrian</th>
                                   <th class="border-b py-2 w-[15%]">Aksi</th>
                               </tr>
                           </thead>
@@ -208,6 +210,7 @@
                       <td class="border-b text-left px-4 py-2 w-[20%]">${row.nama}</td>
                       <td class="border-b px-4 py-2 w-[15%]"> ${row.kelas.kelas}</td>
                       <td class="border-b px-4 py-2 w-[15%]">${row.sks}</td>
+                      <td class="border-b px-4 py-2 w-[15%]">${row.position}/${row.kapasitas}</td>
                       <td class="border-b px-4 py-2 w-[15%]"><button type="submit" onclick = deleteIrs(${row.id})>
                                                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash text-red-600" viewBox="0 0 16 16">
                                                                   <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
@@ -306,11 +309,7 @@ function checkConflict(selectedRadio) {
         // Reset the specific radio if it's not already in the conflict array
         if (!conflictArray.includes(radio.getAttribute('id'))) {
             radio.disabled = false;
-            row.classList.remove('bg-[#E71B1B]');
-            row.classList.add('bg-white');
-            row.classList.add('dark:bg-gray-800');
-            row.classList.add('hover:bg-gray-100');
-            row.classList.add('dark:hover:bg-gray-700');
+            toggleRowHighlight(row, false);
         }
 
         // If it's the same day and there's a time conflict
@@ -325,12 +324,7 @@ function checkConflict(selectedRadio) {
 
                 // Disable the conflicting schedule and highlight the row
                 radio.disabled = true;
-                row.classList.remove('bg-white');
-                row.classList.remove('dark:bg-gray-800');
-                row.classList.remove('hover:bg-gray-100');
-                row.classList.remove('dark:hover:bg-gray-700');
-
-                row.classList.add('bg-[#E71B1B]');
+                toggleRowHighlight(row, true);
 
                 // Add the conflicting radio id to the conflict array
                 if (!conflictArray.includes(radio.getAttribute('id'))) {
@@ -366,12 +360,7 @@ function removeConflict(selectedRadio) {
             console.log(`Enabling ${radioId}, no longer in conflict`);
             radio.disabled = false;
             let row = document.querySelector(`label[for="${radio.id}"]`);
-            row.classList.remove('bg-[#E71B1B]');
-            row.classList.add('bg-white');
-            row.classList.add('dark:bg-gray-800');
-            row.classList.add('hover:bg-gray-100');
-            row.classList.add('dark:hover:bg-gray-700');
-            console.log('Updated conflict array after removal:', conflictArray);
+            toggleRowHighlight(row, false);
             return false; // Remove this radioId from the conflict array
         }
         return true; // Keep this radioId in the conflict array
@@ -386,11 +375,7 @@ function handleRadioClick(radio) {
             let radio = document.getElementById(radioId);
             let row = document.querySelector(`label[for="${radio.id}"]`);
             radio.disabled = false;
-            row.classList.remove('bg-[#E71B1B]');
-            row.classList.add('bg-white');
-            row.classList.add('dark:bg-gray-800');
-            row.classList.add('hover:bg-gray-100');
-            row.classList.add('dark:hover:bg-gray-700');
+            toggleRowHighlight(row, false);
         });
 
         let selectedRadios = document.querySelectorAll('input[type="radio"]:checked');
@@ -413,6 +398,17 @@ document.addEventListener('DOMContentLoaded', function() {
         checkConflict(selectedRadio);  // Call the function to check conflicts for each selected radio button
     });
 });
+
+
+function toggleRowHighlight(row, isHighlighted) {
+    if (isHighlighted) {
+        row.classList.remove('border-gray-200','text-gray-900','dark:text-white','bg-white', 'dark:bg-gray-800', 'hover:bg-gray-100', 'dark:hover:bg-gray-700','dark:hover:text-gray-300');
+        row.classList.add('text-red-800','border-l-4', 'border-red-300' ,'bg-red-50' ,'dark:text-red-400' ,'dark:bg-blek-800', 'dark:border-red-800', 'dark:hover:bg-blek-900','hover:bg-[#faf7f7]');
+    } else {
+        row.classList.add('border-gray-200','text-gray-900','dark:text-white','bg-white', 'dark:bg-gray-800', 'hover:bg-gray-100', 'dark:hover:bg-gray-700','dark:hover:text-gray-300');
+        row.classList.remove('text-red-800','border-l-4', 'border-red-300' ,'bg-red-50' ,'dark:text-red-400' ,'dark:bg-blek-800', 'dark:border-red-800', 'dark:hover:bg-blek-900','hover:bg-[#faf7f7]');
+    }
+}
 
 
 

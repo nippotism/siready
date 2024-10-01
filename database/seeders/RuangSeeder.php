@@ -16,7 +16,10 @@ class RuangSeeder extends Seeder
         
         $ruang = [
             ['noruang' => 'A101', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Disetujui', 'prodi' => 'Informatika'],
+            ['noruang' => 'E101', 'blokgedung' => 'E', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Disetujui', 'prodi' => 'Informatika'],
             ['noruang' => 'A102', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Disetujui', 'prodi' => 'Informatika'],
+            ['noruang' => 'E102', 'blokgedung' => 'E', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Disetujui', 'prodi' => 'Informatika'],
+            ['noruang' => 'E103', 'blokgedung' => 'E', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Disetujui', 'prodi' => 'Informatika'],
             ['noruang' => 'A103', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Disetujui', 'prodi' => 'Informatika'],
             ['noruang' => 'A104', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Disetujui', 'prodi' => 'Biologi'],
             ['noruang' => 'A105', 'blokgedung' => 'A', 'lantai' => '1', 'fungsi' => 'Ruang Kelas', 'kapasitas' => '50', 'status' => 'Disetujui', 'prodi' => 'Biologi'],

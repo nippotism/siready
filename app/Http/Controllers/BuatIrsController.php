@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Jadwal;
-use App\Models\Matakuliah;
 use App\Models\Ruang;
+use App\Models\Jadwal;
 use App\Models\Irstest;
+use App\Models\Mahasiswa;
+use App\Models\Matakuliah;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BuatIrsController extends Controller
 {
@@ -94,24 +96,58 @@ class BuatIrsController extends Controller
             'kodemk' => 'required'
         ]);
 
-        
+        //counting prioritas
+        $smtMahasiswa = Mahasiswa::where('email', $request->email)->first()->semester;
+        $smtMatakuliah = Matakuliah::where('kodemk', $request->kodemk)->first()->plotsemester;
+
+        if($smtMahasiswa > $smtMatakuliah){
+            $prioritas = 3;
+        }else if($smtMahasiswa == $smtMatakuliah){
+            $prioritas = 2;
+        }else{
+            $prioritas = 1;
+        }
+
+        //end of counting prioritas
 
         $data = [
             'email' => $request->email,
             'kodejadwal' => $request->kodejadwal,
-            'kodemk' => $request->kodemk
+            'kodemk' => $request->kodemk,
+            'prioritas' => $prioritas
         ];
 
         
         //check if the email and kodemk already exist in the database
         $check = Irstest::where('email', $data['email'])->where('kodemk', $data['kodemk'])->first();
-        // $check = Irstest::all();
         if($check) {
             $check->update($data);
         }else{
 
             Irstest::create($data);
         }
+
+        //sort the irs by created at and prioritas and get the position of the data
+        $row_index = Irstest::select(DB::raw('ROW_NUMBER() OVER (ORDER BY updated_at ASC, prioritas ASC) AS row_index,email'))
+        ->where('kodejadwal', $data['kodejadwal'])
+        ->get();
+
+        $jadwal = Jadwal::where('id', $data['kodejadwal'])->first();
+
+        $position = 0;
+        foreach($row_index as $r){
+            if($r->email == $data['email']){
+                $position = $r->row_index;
+            }
+
+            if($r->row_index > $jadwal->kapasitas){
+                $delete = Irstest::where('email', $r->email)->where('kodejadwal', $data['kodejadwal'])->first();
+                $delete->delete();
+            }
+
+        }
+
+
 
         //count the total sks where email = data[email]
         $picked = Irstest::where('email', $data['email'])->get();
@@ -121,6 +157,7 @@ class BuatIrsController extends Controller
         }
 
         $data['sks'] = $total;
+        $data['position'] = $position;
         
 
 
@@ -165,6 +202,20 @@ class BuatIrsController extends Controller
             $d->nama = $matkul ? $matkul->nama : 'N/A';
             $d->sks = $matkul ? $matkul->sks : 0;
             $d->kelas = Jadwal::where('id', $d->kodejadwal)->first();
+            $d->kapasitas = $d->kelas->kapasitas;
+
+            //check position in priorty queue
+            $row_index = Irstest::select(DB::raw('ROW_NUMBER() OVER (ORDER BY updated_at ASC, prioritas ASC) AS row_index,email'))
+            ->where('kodejadwal', $d->kodejadwal)
+            ->get();
+            $position = 0;
+            foreach($row_index as $r){
+                if($r->email == $request->email){
+                    $position = $r->row_index;
+                }
+            }
+            $d->position = $position;
+
         }
     
         return response()->json($data);

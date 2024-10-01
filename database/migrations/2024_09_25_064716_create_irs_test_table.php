@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('kodejadwal');
             $table->string('kodemk');
+            $table->integer('prioritas')->default(0);
             $table->timestamps();
         });
     }
