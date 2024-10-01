@@ -157,7 +157,7 @@
                   // Handle success
                   // alert('Success: ' + response.data);
                   console.log(response.data+response.check);
-                  console.log(response.data.position);
+                  console.log(response.position);
                   //change skscount value to response.sks
                 document.getElementById('skscount').innerText = response.data.sks;
 

@@ -97,7 +97,7 @@ class BuatIrsController extends Controller
         ]);
 
         //counting prioritas
-        $smtMahasiswa = Mahasiswa::where('email', $request->email)->first()->semester;
+        $smtMahasiswa = Mahasiswa::where('email', $request->email)->first()->semester_berjalan;
         $smtMatakuliah = Matakuliah::where('kodemk', $request->kodemk)->first()->plotsemester;
 
         if($smtMahasiswa > $smtMatakuliah){
@@ -128,7 +128,7 @@ class BuatIrsController extends Controller
         }
 
         //sort the irs by created at and prioritas and get the position of the data
-        $row_index = Irstest::select(DB::raw('ROW_NUMBER() OVER (ORDER BY updated_at ASC, prioritas ASC) AS row_index,email'))
+        $row_index = Irstest::select(DB::raw('ROW_NUMBER() OVER (ORDER BY prioritas DESC,updated_at ASC) AS row_index,email'))
         ->where('kodejadwal', $data['kodejadwal'])
         ->get();
 
@@ -162,7 +162,7 @@ class BuatIrsController extends Controller
 
 
 
-        return response()->json(['data' => $data]);   
+        return response()->json(['data' => $data, 'position' => $row_index]);   
         
 
     }
@@ -205,7 +205,7 @@ class BuatIrsController extends Controller
             $d->kapasitas = $d->kelas->kapasitas;
 
             //check position in priorty queue
-            $row_index = Irstest::select(DB::raw('ROW_NUMBER() OVER (ORDER BY updated_at ASC, prioritas ASC) AS row_index,email'))
+            $row_index = Irstest::select(DB::raw('ROW_NUMBER() OVER (ORDER BY prioritas DESC, updated_at ASC) AS row_index,email'))
             ->where('kodejadwal', $d->kodejadwal)
             ->get();
             $position = 0;

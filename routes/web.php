@@ -26,7 +26,7 @@ Route::get('dashboard', function() {
     if (auth()->user()->mhs == 1) {
         return app('App\Http\Controllers\DashboardController')->index();
     } else if (auth()->user()->ba == 1) {
-        return view('baDashboard');
+        return app('App\Http\Controllers\RuangController')->dashboard();
     } else if (auth()->user()->dk == 1) {
         return view('dkDashboard');
     } else if (auth()->user()->kp == 1) {

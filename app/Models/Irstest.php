@@ -13,6 +13,7 @@ class Irstest extends Model
     protected $fillable = [
         'email',
         'kodejadwal',
-        'kodemk'
+        'kodemk',
+        'prioritas',
     ];
 }
