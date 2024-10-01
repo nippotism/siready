@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('prodi');
             $table->string('jalur_masuk');
             $table->year('angkatan');
+            $table->int('semester_berjalan');
             $table->float('ipk');
             $table->text('alamat')->nullable();
             $table->string('status')->nullable();

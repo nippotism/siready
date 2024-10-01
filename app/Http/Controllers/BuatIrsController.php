@@ -64,6 +64,7 @@ class BuatIrsController extends Controller
             $d->matakuliah = Matakuliah::where('kodemk', $d->kodemk)->first()->nama;
             $d->sks = Matakuliah::where('kodemk', $d->kodemk)->first()->sks;
             $d->kelas = Jadwal::where('kodemk', $d->kodemk)->get();
+            $d->semester = Matakuliah::where('kodemk', $d->kodemk)->first()->plotsemester;
             foreach($d->kelas as $k){
                 $k->isselected = Irstest::where('email', $email)->where('kodejadwal', $k->id)->where('kodemk', $d->kodemk)->first() ? true : false;
                 $k->hari = $day[$k->hari];
