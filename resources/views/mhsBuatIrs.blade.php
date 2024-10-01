@@ -82,8 +82,14 @@
                               @foreach($matkul->kelas as $kelas)
                               <tr class="border-y">
                                   <td class="px-auto py-4 w-[10%]">
-                                      <input type="radio"name="{{ $matkul->matakuliah }}"id="kelas-{{ $kelas->id }}"onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}'); checkConflict(this)"data-hari="{{ $kelas->hari }}"data-jam="{{ $kelas->jam }}" {{ $kelas->isselected ? 'checked' : '' }} />
-                                  </td>
+                                    <input type="radio" 
+                                           name="{{ $matkul->matakuliah }}" 
+                                           id="kelas-{{ $kelas->id }}" 
+                                           onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}');  handleRadioClick(this)" 
+                                           data-hari="{{ $kelas->hari }}" 
+                                           data-jam="{{ $kelas->jam }}"  {{-- "jam" in the format "07.00 - 09.30" --}}
+                                           {{ $kelas->isselected ? 'checked' : '' }} />
+                                </td>
                                   <td class="px-auto py-4 w-[40%]">{{ $matkul->matakuliah }} {{ $kelas->kelas }}</td>
                                   <td class="px-auto py-4 w-[10%]">{{ $kelas->kapasitas }}</td>
                                   <td class="px-auto py-4 w-[20%]">{{ $kelas->hari }}, {{ $kelas->jam }}</td>
@@ -203,107 +209,145 @@
 
 <script>
   function deleteIrs(id) {
-      console.log('Deleting IRS with ID: ' + id);
-      $.ajax({
-          url: "/deleteirs",  // Your Laravel route to delete IRS data
-          type: "POST",
-          data: {
-              _token : '{{ csrf_token() }}', // CSRF token
-              id: id // IRS ID
-          },
-          success: function(response) {
-              // Handle success
-            //   console.log('Deleting IRS with ID: ' + id);
-              console.log(response);
-              $(`#kelas-${response.kodejadwal}`).prop('checked', false);
-              document.getElementById('skscount').innerText = response.sks;
-              removeConflict(checkConflict(document.querySelector(`#kelas-${response.kodejadwal}`)));
+    console.log('Deleting IRS with ID: ' + id);
+    $.ajax({
+        url: "/deleteirs",  // Your Laravel route to delete IRS data
+        type: "POST",
+        data: {
+            _token : '{{ csrf_token() }}', // CSRF token
+            id: id // IRS ID
+        },
+        success: function(response) {
+            console.log(response);
+            // Uncheck the radio button for the deleted schedule
+            let radioId = `#kelas-${response.kodejadwal}`;
+            $(radioId).prop('checked', false);
 
-              fetchIrsData('{{ $email }}');
+            // Remove conflicts related to the deleted schedule
+            removeConflict(document.querySelector(radioId));
 
-          },
-          error: function(xhr, status, error) {
-              // Handle error
-              console.log('Error: ' + error);
-          }
-      });
-  }
+            // Update the SKS count
+            document.getElementById('skscount').innerText = response.sks;
+
+            // Fetch updated IRS data (if necessary)
+            fetchIrsData('{{ $email }}');
+        },
+        error: function(xhr, status, error) {
+            console.log('Error: ' + error);
+        }
+    });
+}
+
 </script>
 
 <script>
 
-  function extractTimeRange(jamString) {
-      let [startTime, endTime] = jamString.split(' - ');
-      console.log(`Extracted time range: Start - ${startTime}, End - ${endTime}`);
-      return { startTime, endTime };
-  }
+let conflictArray = []; // Global array to track conflicting schedules
 
-  function checkConflict(selectedRadio) {
-      let selectedHari = selectedRadio.getAttribute('data-hari');
-      let selectedJam = selectedRadio.getAttribute('data-jam');
-      let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
+// Function to extract start and end times from "jam" string (e.g., "07.00 - 09.30")
+function extractTimeRange(jamString) {
+    let [startTime, endTime] = jamString.split(' - ');
+    console.log(`Extracted time range: Start - ${startTime}, End - ${endTime}`);
+    return { startTime, endTime };
+}
 
-      console.log(`Selected Schedule: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
+// Function to check for conflicts and update the conflict array
+function checkConflict(selectedRadio) {
+    let selectedHari = selectedRadio.getAttribute('data-hari');
+    let selectedJam = selectedRadio.getAttribute('data-jam');
+    let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
 
-      let conflict = [];
+    console.log(`Selected Schedule: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
 
-      document.querySelectorAll('input[type="radio"]').forEach(radio => {
-          let hari = radio.getAttribute('data-hari');
-          let jam = radio.getAttribute('data-jam');
-          let { startTime, endTime } = extractTimeRange(jam);
+    document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        let hari = radio.getAttribute('data-hari');
+        let jam = radio.getAttribute('data-jam');
+        let { startTime, endTime } = extractTimeRange(jam);
 
-          // Reference to the table row containing this radio button
-          let row = radio.closest('tr');
+        let row = radio.closest('tr');
 
-          // Log details for each radio button
-          console.log(`Checking against: ${hari} from ${startTime} to ${endTime}`);
-
-          // Reset all radios and rows (in case some were disabled or styled previously)
-          radio.disabled = false;
-          row.classList.remove('bg-red-800'); // Remove any previous conflict highlighting
-
-          // If it's the same day and there's a time conflict
-          if (hari === selectedHari && selectedRadio !== radio) {
-              console.log(`Same day as selected (${hari}). Checking time conflict...`);
-
-              if (
-                  (startTime < selectedEndTime && startTime >= selectedStartTime) ||
-                  (selectedStartTime < endTime && selectedStartTime >= startTime)
-              ) {
-                  console.log(`Conflict found! Disabling radio and adding 'bg-red-800' for time: ${startTime} - ${endTime}`);
-                  // Disable the conflicting schedule and highlight the row
-                  radio.disabled = true;
-                  // Add the conflicting radio id to the list
-                    conflict.push(radio.getAttribute('id'));
-                  row.classList.add('bg-red-800');  // Add bg-red-800 to the conflicting row
-              } else {
-                  console.log(`No conflict with ${startTime} - ${endTime}`);
-              }
-          }
-      });
-
-        console.log('Conflicting radio buttons:', conflict);
-        return conflict;
-  }
-
-  function removeConflict(conflict) {
-      conflict.forEach(radioId => {
-          let radio = document.getElementById(radioId);
-          let row = radio.closest('tr');
-          radio.disabled = false;
-          row.classList.remove('bg-red-800');
-      });
-  }
-
-
-
-  document.addEventListener('DOMContentLoaded', function() {
-        // Find the already selected radio button (if any) and check for conflicts
-        let selectedRadio = document.querySelector('input[type="radio"]:checked');
-        if (selectedRadio) {
-            checkConflict(selectedRadio);  // Call the function to check conflicts for the selected radio button
+        // Reset the specific radio if it's not already in the conflict array
+        if (!conflictArray.includes(radio.getAttribute('id'))) {
+            radio.disabled = false;
+            row.classList.remove('bg-red-800');
         }
-    })
+
+        // If it's the same day and there's a time conflict
+        if (hari === selectedHari && selectedRadio !== radio) {
+            console.log(`Same day as selected (${hari}). Checking time conflict...`);
+
+            if (
+                (startTime < selectedEndTime && startTime >= selectedStartTime) ||
+                (selectedStartTime < endTime && selectedStartTime >= startTime)
+            ) {
+                console.log(`Conflict found! Disabling radio and adding 'bg-red-800' for time: ${startTime} - ${endTime}`);
+                
+                // Disable the conflicting schedule and highlight the row
+                radio.disabled = true;
+                row.classList.add('bg-red-800');
+                
+                // Add the conflicting radio id to the conflict array
+                if (!conflictArray.includes(radio.getAttribute('id'))) {
+                    conflictArray.push(radio.getAttribute('id'));
+                }
+            }
+        }
+    });
+
+    console.log('Conflicting radio buttons:', conflictArray);
+}
+
+// Function to remove conflicts when a schedule is deselected
+function removeConflict(selectedRadio) {
+    let selectedHari = selectedRadio.getAttribute('data-hari');
+    let selectedJam = selectedRadio.getAttribute('data-jam');
+    let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
+
+    console.log(`Removing conflicts for: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
+
+    // Iterate through conflictArray to remove conflicts associated with the deselected schedule
+    conflictArray = conflictArray.filter(radioId => {
+        let radio = document.getElementById(radioId);
+        let hari = radio.getAttribute('data-hari');
+        let jam = radio.getAttribute('data-jam');
+        let { startTime, endTime } = extractTimeRange(jam);
+
+        // Re-enable the radio and remove the bg-red-800 class if it no longer conflicts
+        if (hari === selectedHari && (
+            (startTime < selectedEndTime && startTime >= selectedStartTime) || 
+            (selectedStartTime < endTime && selectedStartTime >= startTime)
+        )) {
+            console.log(`Enabling ${radioId}, no longer in conflict`);
+            radio.disabled = false;
+            let row = radio.closest('tr');
+            row.classList.remove('bg-red-800');
+            return false; // Remove this radioId from the conflict array
+        }
+        return true; // Keep this radioId in the conflict array
+    });
+
+    console.log('Updated conflict array after removal:', conflictArray);
+}
+
+// Function to handle radio button selection and deselection
+function handleRadioClick(radio) {
+    // If radio was previously selected (i.e., it's being deselected), remove its conflicts
+    if (radio.checked) {
+        checkConflict(radio);
+    } else {
+        removeConflict(radio);
+    }
+}
+
+// Automatically check for conflicts after page reload
+document.addEventListener('DOMContentLoaded', function() {
+    // Find the already selected radio button (if any) and check for conflicts
+    let selectedRadio = document.querySelector('input[type="radio"]:checked');
+    if (selectedRadio) {
+        checkConflict(selectedRadio);  // Call the function to check conflicts for the selected radio button
+    }
+});
+
 
 
 </script>
