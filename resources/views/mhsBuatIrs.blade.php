@@ -24,7 +24,7 @@
       <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto lg:ml-52 dark:bg-blek-900">
 
         {{-- place this button to right full --}}
-        <div class = " fixed -right-2 bottom-28">
+        <div class = " fixed -right-2 bottom-28 z-50">
             <button id="show-irs-button" class="my-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-l-full text-sm px-4 py-3 hover:-translate-x-2 hover:pr-6 transition-all" type="button" data-drawer-target="drawer-right-example"   data-drawer-body-scrolling="true" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                 Lihat IRS
                 <span id = "skscount" class="inline-flex items-center justify-center w-4 h-4 ms-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
@@ -71,7 +71,71 @@
         </div>
 
         <div> <!-- Add enough padding to account for the height of the fixed header -->
-          @foreach ($data as $matkul)
+            <div class="relative mx-14 overflow-x-auto shadow-md sm:rounded-lg">
+                @php
+                    // Define the available days and times
+                    $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
+                    $times = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+                @endphp
+            
+                <table class="w-full table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead>
+                        <tr class="text-center">
+                            <th>#</th>
+                            @foreach($days as $day)
+                                <th class="py-4 w-[20%]">{{ $day }}</th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                                        <!-- Your HTML structure for each schedule -->
+                    <tbody>
+                        @foreach($times as $timeIndex => $time)
+                            <tr class="h-20">
+                                <td class="px-4">{{ $time }}</td>
+                                @foreach($days as $dayIndex => $day)
+                                    @php
+                                        $isEvenCell = ($timeIndex % 2 == 0 && $dayIndex % 2 == 0) || ($timeIndex % 2 != 0 && $dayIndex % 2 != 0);
+                                        $cellClass = $isEvenCell ? 'bg-white dark:bg-blek-700' : 'bg-gray-100 dark:bg-blek-600';
+                                    @endphp
+                                    <td class="{{ $cellClass }}">
+                                        @foreach($data as $matkul)
+                                            @foreach($matkul->kelas as $kelas)
+                                                @if($kelas->hari == $day && substr($kelas->jam, 0, 2) == substr($time, 0, 2))
+                                                    <div class="mx-[5%] my-2">
+                                                        <a id="matkul-{{ $kelas->id }}" href="javascript:void(0)" 
+                                                           class="block p-3 rounded-lg bg-white border border-gray-200 shadow hover:bg-gray-100 dark:hover:bg-gray-700 dark:bg-gray-800 dark:border-gray-700  jadwal-container"
+                                                           data-kodemk="{{ $matkul->kodemk }}" 
+                                                           data-id="{{ $kelas->id }}" 
+                                                           data-hari="{{ $kelas->hari }}" 
+                                                           data-jam="{{ $kelas->jam }}">
+
+                                                           <span><input type="radio" 
+                                                            name="{{ $matkul->matakuliah }}" 
+                                                            id="kelas-{{ $kelas->id }}" 
+                                                            onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}');  handleRadioClick(this)" 
+                                                            data-hari="{{ $kelas->hari }}" 
+                                                            data-jam="{{ $kelas->jam }}"  {{-- "jam" in the format "07.00 - 09.30" --}}
+                                                            {{ $kelas->isselected ? 'checked' : '' }} /></span>
+                                                            <span class="mb-2 text-xs font-bold text-gray-900 dark:text-white">&ensp;{{ $matkul->matakuliah }} {{ $kelas->kelas }}</span>
+                                                            <p class="text-xs mt-1 text-gray-700 dark:text-gray-400">
+                                                                Semester 1 / {{ $matkul->sks }} SKS <br> 
+                                                                {{ $kelas->jam }} <br>
+                                                                Ruang: {{ $kelas->ruang }}
+                                                            </p>
+                                                        </a>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
+                                    </td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    </tbody>
+
+                </table>
+            </div>
+          {{-- @foreach ($data as $matkul)
           <div class="mt-2 mb-8 mx-14 bg-white border border-gray-200 font-semibold text-[#374250] dark:text-white rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
               <h2 class="mt-4">{{ $matkul->matakuliah }} - {{ $matkul->kodemk }} ({{ $matkul->sks }} SKS)</h2>
               <div class="mt-4">
@@ -88,7 +152,7 @@
                                            onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}');  handleRadioClick(this)" 
                                            data-hari="{{ $kelas->hari }}" 
                                            data-jam="{{ $kelas->jam }}"  {{-- "jam" in the format "07.00 - 09.30" --}}
-                                           {{ $kelas->isselected ? 'checked' : '' }} />
+                                           {{-- {{ $kelas->isselected ? 'checked' : '' }} />
                                 </td>
                                   <td class="px-auto py-4 w-[40%]">{{ $matkul->matakuliah }} {{ $kelas->kelas }}</td>
                                   <td class="px-auto py-4 w-[10%]">{{ $kelas->kapasitas }}</td>
@@ -101,7 +165,7 @@
                   </div>
               </div>
           </div>
-          @endforeach
+          @endforeach --}} 
       </div>
   </div>
 
@@ -264,12 +328,16 @@ function checkConflict(selectedRadio) {
         let jam = radio.getAttribute('data-jam');
         let { startTime, endTime } = extractTimeRange(jam);
 
-        let row = radio.closest('tr');
+        let row = radio.closest('a');
 
         // Reset the specific radio if it's not already in the conflict array
         if (!conflictArray.includes(radio.getAttribute('id'))) {
             radio.disabled = false;
-            row.classList.remove('bg-red-800');
+            row.classList.remove('bg-red-700');
+            row.classList.add('bg-white');
+            row.classList.add('dark:bg-gray-800');
+            row.classList.add('hover:bg-gray-100');
+            row.classList.add('dark:hover:bg-gray-700');
         }
 
         // If it's the same day and there's a time conflict
@@ -284,7 +352,12 @@ function checkConflict(selectedRadio) {
                 
                 // Disable the conflicting schedule and highlight the row
                 radio.disabled = true;
-                row.classList.add('bg-red-800');
+                row.classList.remove('bg-white');
+                row.classList.remove('dark:bg-gray-800');
+                row.classList.remove('hover:bg-gray-100');
+                row.classList.remove('dark:hover:bg-gray-700');
+
+                row.classList.add('bg-red-700');
                 
                 // Add the conflicting radio id to the conflict array
                 if (!conflictArray.includes(radio.getAttribute('id'))) {
@@ -319,8 +392,12 @@ function removeConflict(selectedRadio) {
         )) {
             console.log(`Enabling ${radioId}, no longer in conflict`);
             radio.disabled = false;
-            let row = radio.closest('tr');
-            row.classList.remove('bg-red-800');
+            let row = radio.closest('a');
+            row.classList.remove('bg-red-700');
+            row.classList.add('bg-white');
+            row.classList.add('dark:bg-gray-800');
+            row.classList.add('hover:bg-gray-100');
+            row.classList.add('dark:hover:bg-gray-700');
             return false; // Remove this radioId from the conflict array
         }
         return true; // Keep this radioId in the conflict array
