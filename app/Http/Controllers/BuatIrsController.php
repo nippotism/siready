@@ -7,6 +7,7 @@ use App\Models\Jadwal;
 use App\Models\Irstest;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
+use App\Models\Khs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -89,6 +90,30 @@ class BuatIrsController extends Controller
         return view('mhsBuatIrs', compact('data','email','total'));
     }
 
+    public function index2()
+    {
+        // Retrieve the list of students who have pending IRS entries
+        $data = Irstest::select('irs_test.email', 'mahasiswa.nim', 'mahasiswa.nama', DB::raw('SUM(mata_kuliah.sks) as total_sks'))
+        ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk') // Join with Matakuliah to get SKS
+        ->join('mahasiswa', 'irs_test.email', '=', 'mahasiswa.email')     // Join with Mahasiswa to get NIM and nama
+        ->where('irs_test.status', 'Pending')                            // Filter by status Pending
+        ->groupBy('irs_test.email', 'mahasiswa.nim', 'mahasiswa.nama')    // Group by email, NIM, and nama
+        ->get();
+
+        // dd($data);
+        // Loop through the result to check if all jadwal for the student are 'Pending'
+        foreach ($data as $irstest) {
+            // Check if the student has any IRS that are not 'Pending'
+            $irstest->all_pending = !Irstest::where('email', $irstest->email)
+                ->where('status', '!=', 'Pending')
+                ->exists(); // If no non-pending records exist, all are pending
+        }
+
+        // Pass the data to the view
+        return view('paAjuanIrs', compact('data'));
+    }
+
+
     public function createIrs(Request $request) {
         $request -> validate([
             'email' => 'required',
@@ -97,13 +122,24 @@ class BuatIrsController extends Controller
         ]);
 
         //counting prioritas
-        $smtMahasiswa = Mahasiswa::where('email', $request->email)->first()->semester_berjalan;
+        $Mahasiswa = Mahasiswa::where('email', $request->email)->first();
+        $smtMahasiswa = $Mahasiswa->semester_berjalan;
         $smtMatakuliah = Matakuliah::where('kodemk', $request->kodemk)->first()->plotsemester;
+        //check is empty query if yes fill with S
+        $nilaiKhs = Khs::where('nim', $Mahasiswa->nim)->where('kode', $request->kodemk)->first() ? Khs::where('nim', $Mahasiswa->nim)->where('kode', $request->kodemk)->first()->nilai : 'S';
+        
+        // return response()->json(['data' => $nilaiKhs]);
 
         if($smtMahasiswa > $smtMatakuliah){
-            $prioritas = 3;
+            if($nilaiKhs == 'D' || $nilaiKhs == 'E'){
+                $prioritas = 3;
+            }else if($nilaiKhs == 'A'|| $nilaiKhs == 'C' || $nilaiKhs == 'B'){
+                $prioritas = 2;
+            }else{
+                $prioritas = 4;
+            }
         }else if($smtMahasiswa == $smtMatakuliah){
-            $prioritas = 2;
+            $prioritas = 5;
         }else{
             $prioritas = 1;
         }
@@ -114,8 +150,11 @@ class BuatIrsController extends Controller
             'email' => $request->email,
             'kodejadwal' => $request->kodejadwal,
             'kodemk' => $request->kodemk,
-            'prioritas' => $prioritas
+            'prioritas' => $prioritas,
+            'status' => 'Pending'
         ];
+
+        // return response()->json(['data' => $data]);
 
         
         //check if the email and kodemk already exist in the database
@@ -219,6 +258,33 @@ class BuatIrsController extends Controller
         }
     
         return response()->json($data);
+    }
+
+    public function approve(Request $request)
+    {
+        $request->validate([
+            'email' => 'required'
+        ]);
+
+        // Update all 'pending' Jadwal entries for the selected prodi to 'Disetujui'
+        Irstest::where('email', $request->email)
+            ->where('status', 'Pending')
+            ->update(['status' => 'Disetujui']);
+
+        return response()->json(['message' => 'Jadwal has been approved for ' . $request->email]);
+    }
+    public function reject(Request $request)
+    {
+        $request->validate([
+            'email' => 'required'
+        ]);
+
+        // Update all 'pending' Jadwal entries for the selected prodi to 'Disetujui'
+        Irstest::where('email', $request->email)
+            ->where('status', 'Pending')
+            ->update(['status' => 'Ditolak']);
+
+        return response()->json(['message' => 'Jadwal has been rejected for ' . $request->email]);
     }
     
 }
