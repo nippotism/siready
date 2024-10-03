@@ -51,7 +51,7 @@ Route::get('/tes',function(){
 
 //IRS
 Route::get('/irs',[IrsController::class,'all']) -> name('irs');
-Route::get('/irs/{id}',[IrsController::class,'index']);
+Route::get('/irs/{id}/{email}',[IrsController::class,'index']);
 
 
 //KHS
