@@ -18,6 +18,7 @@ class DashboardController extends Controller
         $userName = $user->name;
         $status = $user->status;
         $ipk = Mahasiswa::where('email', $user->email)->first()->ipk;
+        $semester_berjalan = Mahasiswa::where('email', $user->email)->first()->semester_berjalan;
 
         $data = [
             'userName' => $userName,
@@ -25,7 +26,7 @@ class DashboardController extends Controller
         ];
 
         // Pass the user data to a view, or return a response
-        return view('MhsDashboard',compact('data', 'ipk'));
+        return view('MhsDashboard',compact('data', 'ipk', 'semester_berjalan'));
     }
     public function index2()
     {
