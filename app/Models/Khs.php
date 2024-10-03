@@ -11,11 +11,8 @@ class Khs extends Model
     protected $table = 'khs';
 
     protected $fillable = [
+        'nim',
         'kode',
-        'mata_kuliah',
-        'status',
-        'sks',
-        'semester',
         'nilai',
     ];
 

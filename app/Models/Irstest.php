@@ -15,5 +15,6 @@ class Irstest extends Model
         'kodejadwal',
         'kodemk',
         'prioritas',
+        'status',
     ];
 }

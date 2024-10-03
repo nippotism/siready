@@ -73,6 +73,9 @@ Route::post('/buat-irstest',[BuatIrsController::class,'createIrs']) -> name('bua
 Route::post('/viewirs',[BuatIrsController::class,'viewIrs']) -> name('viewirs');
 Route::post('/deleteirs',[BuatIrsController::class,'deleteIrs']) -> name('deleteirs');
 
+Route::get('/ajuanIrs', [BuatIrsController::class, 'index2'])->name('ajuanIrs');
+Route::post('/irs/approve', [BuatIrsController::class, 'approve'])->name('irs.approve');
+Route::post('/irs/reject', [BuatIrsController::class, 'reject'])->name('irs.reject');
 
 //Registrasi
 Route::get('m/registrasi', function () {
@@ -98,18 +101,15 @@ Route::get('/buatjadwal',[JadwalController::class,'index'])->name('buatjadwal');
 Route::post('/buatjadwal/{id}',[JadwalController::class,'update']);
 Route::post('/checkjadwal',[JadwalController::class,'isJadwalExist']);
 
+
 Route::get('/ajuanJadwal', [JadwalController::class, 'index3'])->name('ajuanjadwal');
 Route::post('/jadwal/approve', [JadwalController::class, 'approve'])->name('jadwal.approve');
 Route::post('/jadwal/reject', [JadwalController::class, 'reject'])->name('jadwal.reject');
-
 
 Route::get('p/perwalian', function () {
     return view('paPerwalian');
 })->name('perwalian');
 
-Route::get('p/ajuan-irs', function () {
-    return view('paAjuanIrs');
-})->name('ajuanIrs');
 
 
 Route::resource('/matakuliah', MatakuliahController::class)->names([
