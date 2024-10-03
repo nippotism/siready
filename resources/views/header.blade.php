@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
 
+    {{-- typesjs --}}
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 
 </head>
 
