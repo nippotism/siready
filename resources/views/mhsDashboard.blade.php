@@ -19,7 +19,7 @@
 
       <div id="main-content" class="relative font-poppins w-full h-full overflow-y-auto lg:pl-52">
         <div class = "text-gray-900 dark:text-gray-200">
-          <h1 class="font-bold text-3xl mb-0 px-14 mt-6">Hai {{ $data['userName'] }}👋</h1>
+          <h1 class="font-bold text-3xl mb-0 pl-14 pr-20 mt-6"><span id = "nama_user"></span></h1>
           <div class="px-14 pt-3 pb-2">
             <div class="p-10 bg- border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-[#1D2125]"> 
                 <div class="grid grid-cols-3 pt-4 py-8">
@@ -30,8 +30,11 @@
                         <h1>Status Mahasiswa</h1>
                     </div>
                     <div class="text-white bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 p-6 rounded-2xl text-right mx-9">
-                        <h1 class="text-2xl font-bold">{{ $ipk }}</h1>
+                        <h1 class="text-2xl font-bold"><span><svg class=" -mb-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg></span>{{ $ipk }}</h1>
                         <h1>IP Kumulatif</h1>
+                          
                     </div>
                     <div class="text-white bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 p-6 rounded-2xl text-right mx-9">
                         <h1 class="text-2xl font-bold">86</h1>
@@ -89,5 +92,18 @@
           </div>
         </div>
       </div>
+
+
+      <script>
+        var typed = new Typed("#nama_user", {
+            strings: ['Welcome, ^750 {{ $data['userName'] }}👋.'],
+            typeSpeed: 50
+        });
+      </script>
+      <style>
+        .typed-cursor--blink {
+            display: none;
+        }
+      </style>
 
 @endsection
