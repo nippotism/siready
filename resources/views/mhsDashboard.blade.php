@@ -19,7 +19,7 @@
 
       <div id="main-content" class="relative font-poppins w-full h-full overflow-y-auto lg:pl-52">
         <div class = "text-gray-900 dark:text-gray-200">
-          <h1 class="font-bold text-3xl mb-0 pl-14 pr-20 mt-6">Welcome <span id = "nama_user"></span></h1>
+          <h1 class="font-bold text-3xl mb-0 pl-14 pr-20 mt-6">Welcome, <span id = "nama_user"></span></h1>
           <div class="px-14 pt-3 pb-2">
             <div class="p-10 bg-white border border-gray-200 rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-[#1D2125]"> 
                 <div class="grid grid-cols-3 pt-4 py-8">
@@ -33,7 +33,7 @@
                         <h1 class="text-2xl font-bold flex items-center justify-between">
                             <button id="toggle-button">
                                 <span id="svg-icon">
-                                    <svg class="w-7 h-7 text-gray-800 dark:text-white ipk-toggle" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="cursor: pointer;">
+                                    <svg class="w-7 h-7 dark:text-white ipk-toggle" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="cursor: pointer;">
                                         <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
                                         <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                     </svg>
@@ -110,14 +110,14 @@
                 if (isHidden) {
                     $('#ipk-value').text(ipkValue); // Show original IPK
                     $('#svg-icon').html(`
-                        <svg class="w-7 h-7 text-gray-800 dark:text-white ipk-toggle" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-7 h-7 dark:text-white ipk-toggle" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/><path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                         </svg>
                     `);
                 } else {
                     $('#ipk-value').text('***'); // Show ***
                     $('#svg-icon').html(`
-                        <svg class="w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <svg class="w-7 h-7 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                         </svg>
 

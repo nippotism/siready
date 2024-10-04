@@ -11,17 +11,18 @@ class IrsController extends Controller
 {
     public function all()
     {
+        $email = auth()->user()->email;
         // Join the mahasiswa table to group by semester in matakuliah and sum SKS
         $data = Irstest::select('mata_kuliah.plotsemester as semester', DB::raw('SUM(mata_kuliah.sks) as total_sks'))
             ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk')
             ->where('irs_test.status', 'Disetujui')  // Filter by status 'Disetujui'
+            ->where('email', $email)
             ->groupBy('mata_kuliah.plotsemester')
             ->orderBy('mata_kuliah.plotsemester', 'asc')
             ->get();
 
         // dd($data);
 
-        $email = auth()->user()->email;
 
         return view('mhsIrs', compact('data', 'email'));
     }

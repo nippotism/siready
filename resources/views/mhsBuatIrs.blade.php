@@ -119,7 +119,7 @@
                                                                 <div class="mb-2 text-xs font-bold">
                                                                     {{ $matkul->matakuliah }} {{ $kelas->kelas }}
                                                                 </div>
-                                                                <div class="text-xs mt-1 text-gray-900 dark:text-white">
+                                                                <div class="text-xs mt-1 ">
                                                                     Semester {{ $matkul->semester }} / {{ $matkul->sks }} SKS <br>
                                                                     {{ $kelas->jam }} <br>
                                                                     Ruang: {{ $kelas->ruang }}
@@ -276,139 +276,197 @@
             console.log('Error: ' + error);
         }
     });
-}
+    }
 
 </script>
 
 <script>
 
-let conflictArray = []; // Global array to track conflicting schedules
+    let conflictArray = []; // Global array to track conflicting schedules
 
-// Function to extract start and end times from "jam" string (e.g., "07.00 - 09.30")
-function extractTimeRange(jamString) {
-    let [startTime, endTime] = jamString.split(' - ');
-    console.log(`Extracted time range: Start - ${startTime}, End - ${endTime}`);
-    return { startTime, endTime };
-}
+    // Function to extract start and end times from "jam" string (e.g., "07.00 - 09.30")
+    function extractTimeRange(jamString) {
+        let [startTime, endTime] = jamString.split(' - ');
+        console.log(`Extracted time range: Start - ${startTime}, End - ${endTime}`);
+        return { startTime, endTime };
+    }
 
-// Function to check for conflicts and update the conflict array
-function checkConflict(selectedRadio) {
-    let selectedHari = selectedRadio.getAttribute('data-hari');
-    let selectedJam = selectedRadio.getAttribute('data-jam');
-    let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
+    // Function to check for conflicts and update the conflict array
+    function checkConflict(selectedRadio) {
+        let selectedHari = selectedRadio.getAttribute('data-hari');
+        let selectedJam = selectedRadio.getAttribute('data-jam');
+        let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
 
-    console.log(`Selected Schedule: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
+        console.log(`Selected Schedule: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
 
-    document.querySelectorAll('input[type="radio"]').forEach(radio => {
-        let hari = radio.getAttribute('data-hari');
-        let jam = radio.getAttribute('data-jam');
-        let { startTime, endTime } = extractTimeRange(jam);
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            let hari = radio.getAttribute('data-hari');
+            let jam = radio.getAttribute('data-jam');
+            let { startTime, endTime } = extractTimeRange(jam);
 
-        let row = document.querySelector(`label[for="${radio.id}"]`);
+            let row = document.querySelector(`label[for="${radio.id}"]`);
 
-        // Reset the specific radio if it's not already in the conflict array
-        if (!conflictArray.includes(radio.getAttribute('id'))) {
-            radio.disabled = false;
-            toggleRowHighlight(row, false);
-        }
+            // Reset the specific radio if it's not already in the conflict array
+            if (!conflictArray.includes(radio.getAttribute('id'))) {
+                radio.disabled = false;
+                toggleRowHighlight(row, false);
+            }
 
-        // If it's the same day and there's a time conflict
-        if (hari === selectedHari && selectedRadio !== radio) {
-            console.log(`Same day as selected (${hari}). Checking time conflict...`);
+            // If it's the same day and there's a time conflict
+            if (hari === selectedHari && selectedRadio !== radio) {
+                console.log(`Same day as selected (${hari}). Checking time conflict...`);
 
-            if (
-                (startTime < selectedEndTime && startTime >= selectedStartTime) ||
-                (selectedStartTime < endTime && selectedStartTime >= startTime)
-            ) {
-                console.log(`Conflict found! Disabling radio and adding 'bg-[#E71B1B]' for time: ${startTime} - ${endTime}`);
+                if (
+                    (startTime < selectedEndTime && startTime >= selectedStartTime) ||
+                    (selectedStartTime < endTime && selectedStartTime >= startTime)
+                ) {
+                    console.log(`Conflict found! Disabling radio and adding 'bg-[#E71B1B]' for time: ${startTime} - ${endTime}`);
 
-                // Disable the conflicting schedule and highlight the row
-                radio.disabled = true;
-                toggleRowHighlight(row, true);
+                    // Disable the conflicting schedule and highlight the row
+                    radio.disabled = true;
+                    toggleRowClass(row,false);
+                    toggleRowHighlight(row, true);
 
-                // Add the conflicting radio id to the conflict array
-                if (!conflictArray.includes(radio.getAttribute('id'))) {
-                    conflictArray.push(radio.getAttribute('id'));
+                    // Add the conflicting radio id to the conflict array
+                    if (!conflictArray.includes(radio.getAttribute('id'))) {
+                        conflictArray.push(radio.getAttribute('id'));
+                    }
                 }
             }
-        }
-    });
-
-    console.log('Conflicting radio buttons:', conflictArray);
-}
-
-// Function to remove conflicts when a schedule is deselected
-function removeConflict(selectedRadio) {
-    let selectedHari = selectedRadio.getAttribute('data-hari');
-    let selectedJam = selectedRadio.getAttribute('data-jam');
-    let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
-
-    console.log(`Removing conflicts for: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
-
-    // Iterate through conflictArray to remove conflicts associated with the deselected schedule
-    conflictArray = conflictArray.filter(radioId => {
-        let radio = document.getElementById(radioId);
-        let hari = radio.getAttribute('data-hari');
-        let jam = radio.getAttribute('data-jam');
-        let { startTime, endTime } = extractTimeRange(jam);
-
-        // Re-enable the radio and remove the bg-red-800 class if it no longer conflicts
-        if (hari === selectedHari && (
-            (startTime < selectedEndTime && startTime >= selectedStartTime) ||
-            (selectedStartTime < endTime && selectedStartTime >= startTime)
-        )) {
-            console.log(`Enabling ${radioId}, no longer in conflict`);
-            radio.disabled = false;
-            let row = document.querySelector(`label[for="${radio.id}"]`);
-            toggleRowHighlight(row, false);
-            return false; // Remove this radioId from the conflict array
-        }
-        return true; // Keep this radioId in the conflict array
-    });
-
-    console.log('Updated conflict array after removal:', conflictArray);
-}
-
-function handleRadioClick(radio) {
-
-        conflictArray.forEach(radioId => {
-            let radio = document.getElementById(radioId);
-            let row = document.querySelector(`label[for="${radio.id}"]`);
-            radio.disabled = false;
-            toggleRowHighlight(row, false);
         });
 
+        console.log('Conflicting radio buttons:', conflictArray);
+    }
+
+    // Function to remove conflicts when a schedule is deselected
+    function removeConflict(selectedRadio) {
+        let selectedHari = selectedRadio.getAttribute('data-hari');
+        let selectedJam = selectedRadio.getAttribute('data-jam');
+        let { startTime: selectedStartTime, endTime: selectedEndTime } = extractTimeRange(selectedJam);
+
+        console.log(`Removing conflicts for: ${selectedHari} from ${selectedStartTime} to ${selectedEndTime}`);
+
+        // Iterate through conflictArray to remove conflicts associated with the deselected schedule
+        conflictArray = conflictArray.filter(radioId => {
+            let radio = document.getElementById(radioId);
+            let hari = radio.getAttribute('data-hari');
+            let jam = radio.getAttribute('data-jam');
+            let { startTime, endTime } = extractTimeRange(jam);
+
+            let kode = selectedRadio.name;
+            let radios = document.querySelectorAll(`input[type="radio"][name="${kode}"]`);
+            radios.forEach(radio => {
+                        let row = document.querySelector(`label[for="${radio.id}"]`);
+                        if(radio.checked){
+                            toggleRowClass(row, true);
+                        }else{
+                            toggleRowClass(row, false);
+                        }
+            });
+            // Re-enable the radio and remove the bg-red-800 class if it no longer conflicts
+            if (hari === selectedHari && (
+                (startTime < selectedEndTime && startTime >= selectedStartTime) ||
+                (selectedStartTime < endTime && selectedStartTime >= startTime)
+            )) {
+                console.log(`Enabling ${radioId}, no longer in conflict`);
+                radio.disabled = false;
+                let row = document.querySelector(`label[for="${radio.id}"]`);
+                toggleRowHighlight(row, false);
+                return false; // Remove this radioId from the conflict array
+            }
+
+
+            //restore style for same course
+
+            
+
+
+            return true; // Keep this radioId in the conflict array
+        });
+
+        console.log('Updated conflict array after removal:', conflictArray);
+    }
+
+    function handleRadioClick(radio) {
+
+            conflictArray.forEach(radioId => {
+                let radio = document.getElementById(radioId);
+                let row = document.querySelector(`label[for="${radio.id}"]`);
+                radio.disabled = false;
+                toggleRowHighlight(row, false);
+            });
+
+            let selectedRadios = document.querySelectorAll('input[type="radio"]:checked');
+            console.log('Selected radio buttons found:', selectedRadios);
+
+            selectedRadios.forEach(selectedRadio => {
+                
+                checkConflict(selectedRadio);
+                // nonSelectedClass(selectedRadio);
+            });
+
+            //change style for same course
+            nonSelectedClass(radio);
+
+    }
+
+    // Automatically check for conflicts after page reload
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find all selected radio buttons (if any) and check for conflicts
         let selectedRadios = document.querySelectorAll('input[type="radio"]:checked');
         console.log('Selected radio buttons found:', selectedRadios);
 
+        // Iterate over the selected radio buttons and check conflicts for each one
         selectedRadios.forEach(selectedRadio => {
-            checkConflict(selectedRadio);
+
+            checkConflict(selectedRadio); 
+            //change style for course class that not selected, for ex : Selected Strukdat A, Strukdat B will change style
+            nonSelectedClass(selectedRadio);
+
+            // Check for conflicts
+
         });
-
-}
-
-// Automatically check for conflicts after page reload
-document.addEventListener('DOMContentLoaded', function() {
-    // Find all selected radio buttons (if any) and check for conflicts
-    let selectedRadios = document.querySelectorAll('input[type="radio"]:checked');
-    console.log('Selected radio buttons found:', selectedRadios);
-
-    // Iterate over the selected radio buttons and check conflicts for each one
-    selectedRadios.forEach(selectedRadio => {
-        checkConflict(selectedRadio);  // Call the function to check conflicts for each selected radio button
     });
-});
 
+    function nonSelectedClass(radio){
 
-function toggleRowHighlight(row, isHighlighted) {
-    if (isHighlighted) {
-        row.classList.remove('border-gray-200','text-gray-900','dark:text-white','bg-white', 'dark:bg-gray-800', 'hover:bg-gray-100', 'dark:hover:bg-gray-700','dark:hover:text-gray-300');
-        row.classList.add('text-red-800','border-l-4', 'border-red-300' ,'bg-red-50' ,'dark:text-red-400' ,'dark:bg-blek-800', 'dark:border-red-800', 'dark:hover:bg-blek-900','hover:bg-[#faf7f7]');
-    } else {
-        row.classList.add('border-gray-200','text-gray-900','dark:text-white','bg-white', 'dark:bg-gray-800', 'hover:bg-gray-100', 'dark:hover:bg-gray-700','dark:hover:text-gray-300');
-        row.classList.remove('text-red-800','border-l-4', 'border-red-300' ,'bg-red-50' ,'dark:text-red-400' ,'dark:bg-blek-800', 'dark:border-red-800', 'dark:hover:bg-blek-900','hover:bg-[#faf7f7]');
+        //change style for same course
+        let kode = radio.name;
+        let radios = document.querySelectorAll(`input[type="radio"][name="${kode}"]`);
+        radios.forEach(radio => {
+                    let row = document.querySelector(`label[for="${radio.id}"]`);
+                    if(radio.checked){
+                        toggleRowClass(row, false);
+                    }else{
+                        if(radio.disabled){
+                            console.log('disabled'); 
+                        }else{
+                            toggleRowClass(row, true);
+                        }
+                    }
+        });
     }
-}
+
+
+    function toggleRowHighlight(row, isHighlighted) {
+        if (isHighlighted) {
+            row.classList.remove('border-gray-200','text-gray-900','dark:text-white','bg-white', 'dark:bg-gray-800', 'hover:bg-gray-100', 'dark:hover:bg-gray-700','dark:hover:text-gray-300');
+            row.classList.add('text-red-800','border-l-4', 'border-red-300' ,'bg-red-50' ,'dark:text-red-400' ,'dark:bg-blek-800', 'dark:border-red-800', 'dark:hover:bg-blek-900','hover:bg-[#faf7f7]');
+        } else {
+            row.classList.add('border-gray-200','text-gray-900','dark:text-white','bg-white', 'dark:bg-gray-800', 'hover:bg-gray-100', 'dark:hover:bg-gray-700','dark:hover:text-gray-300');
+            row.classList.remove('text-red-800','border-l-4', 'border-red-300' ,'bg-red-50' ,'dark:text-red-400' ,'dark:bg-blek-800', 'dark:border-red-800', 'dark:hover:bg-blek-900','hover:bg-[#faf7f7]');
+        }
+    }
+
+    function toggleRowClass(row, isHighlighted) {
+        if (isHighlighted) {
+            row.classList.remove('border-gray-200','dark:text-white','dark:bg-gray-800', 'hover:bg-gray-100', 'dark:hover:bg-gray-700','dark:hover:text-gray-300');
+            row.classList.add('dark:bg-gray-600','border-blek-900','dark:text-gray-400','border-l-4');
+        } else {
+            row.classList.add('border-gray-200','dark:text-white','dark:bg-gray-800', 'hover:bg-gray-100', 'dark:hover:bg-gray-700','dark:hover:text-gray-300');
+            row.classList.remove('dark:bg-gray-600','border-gray-400','dark:text-gray-400');
+        }
+    }
 
 
 
