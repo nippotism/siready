@@ -44,7 +44,7 @@
                         <h1>IP Kumulatif</h1>
                     </div>
                     <div class="text-white bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 p-6 rounded-2xl text-right mx-9">
-                        <h1 class="text-2xl font-bold">86</h1>
+                        <h1 class="text-2xl font-bold">{{ $data['total_sks'] }}</h1>
                         <h1>SKS</h1>
                     </div>
                 </div>
@@ -69,25 +69,44 @@
           <div class="flex mt-5 space-x-6 px-14 pb-7 text-gray-500 dark:text-[#9CA3AF]">
             <div class="w-[70%]  ">
                 <h1 class="font-bold text-2xl mb-5 text-gray-900 dark:text-gray-200">Today's Schedule</h1>
-                <div class="grid grid-cols-3 bg-white border border-gray-200 h-[85%] rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-[#1D2125] p-4 text-center ">
-                    <div>
-                        <h1 class="font-bold pt-1 pb-3">Subject</h1>
-                        <h1>Pengembangan Berbasis</h1>
-                        <h1>Proyek Perangkat Lunak</h1>
-                        <h1>Penambangan Data</h1>
+                <div class="bg-white border border-gray-200 h-[85%] rounded-3xl shadow-sm dark:border-gray-700 sm:p-6 dark:bg-[#1D2125] p-4 text-center ">
+                    
+
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Course
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Room
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Time
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($jadwalhariini as $j)
+                                    <tr class="bg-white border-b dark:bg-blek-700 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ $j->nama}} {{ $j->kelas }}
+                                        </th>
+                                        <td class="px-6 py-4">
+                                            {{ $j->ruang }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $j->jammulai }} - {{ $j->jamselesai }}
+                                        </td>
+                                    </tr>
+                                    
+                                @endforeach
+                                
+                            </tbody>
+                        </table>
                     </div>
-                    <div>
-                        <h1 class="font-bold pt-1 pb-3">Room</h1>
-                        <h1>E101</h1>
-                        <h1>A303</h1>
-                        <h1>E102</h1>
-                    </div>
-                    <div>
-                        <h1 class="font-bold pt-1 pb-3">Time</h1>
-                        <h1>13.00-15.30</h1>
-                        <h1>15.30-18.00</h1>
-                        <h1>09.30-12.20</h1>
-                    </div>
+
                 </div>
             </div>
             <div class="w-[30%] h-auto">

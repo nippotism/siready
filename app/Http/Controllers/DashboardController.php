@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Irstest;
+use App\Models\Jadwal;
 use App\Models\Mahasiswa;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -19,14 +22,84 @@ class DashboardController extends Controller
         $status = $user->status;
         $ipk = Mahasiswa::where('email', $user->email)->first()->ipk;
         $semester_berjalan = Mahasiswa::where('email', $user->email)->first()->semester_berjalan;
+        $total_sks = DB::table('irs_test')
+                        ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk')
+                        ->select('mata_kuliah.sks')
+                        ->where('email', $user->email)
+                        ->where('status', 'Disetujui')
+                        ->sum('sks');
 
         $data = [
             'userName' => $userName,
             'status' => $status,
+            'ipk' => $ipk,
+            'total_sks' => $total_sks,
         ];
 
+        $todayNumber = date('N');
+ 
+
+        $jadwalhariini = DB::table('jadwal')
+                        ->join('mata_kuliah', 'jadwal.kodemk', '=', 'mata_kuliah.kodemk')
+                        ->join('irs_test','jadwal.id','=','irs_test.kodejadwal')
+                        ->select('jadwal.kodemk', 'mata_kuliah.nama', 'jadwal.kelas', 'jadwal.hari', 'jadwal.jammulai','jadwal.jamselesai','jadwal.ruang')  
+                        ->where('jadwal.hari', $todayNumber)
+                        ->where('irs_test.email', $user->email)
+                        ->where('irs_test.status', 'Disetujui')
+                        ->orderBy('jadwal.jammulai')
+                        ->get();
+
+        $jamend = [
+            "" => '',
+            1 => '07.50',
+            2 => '08.40',
+            3 => '09.30',
+            4 => '10.30',
+            5 => '11.20',
+            6 => '12.10',
+            7 => '13.00',
+            8 => '13.50',
+            9 => '14.40',
+            10 => '15.40',
+            11 => '16.30',
+            12 => '17.20',
+            13 => '18.10',
+        ];
+
+        $jamstart = [
+            "" => '',
+            0 => '07.00',
+            1 => '07.50',
+            2 => '08.40',
+            3 => '09.40',
+            4 => '10.30',
+            5 => '11.20',
+            6 => '12.10',
+            7 => '13.00',
+            8 => '13.50',
+            9 => '14.40',
+            10 => '15.40',
+            11 => '16.30',
+        ];
+
+        foreach ($jadwalhariini as $d) {
+            $d->jammulai = $jamstart[$d->jammulai];
+            $d->jamselesai = $jamend[$d->jamselesai];
+        }
+
+        // dd($jadwalhariini);
+                        
+        
+                         
+
+
+        
+
         // Pass the user data to a view, or return a response
-        return view('MhsDashboard',compact('data', 'ipk', 'semester_berjalan'));
+        return view('MhsDashboard',compact('data', 'ipk', 'semester_berjalan', 'jadwalhariini'));   
+
+
+
     }
     public function index2()
     {
