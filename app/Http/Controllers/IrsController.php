@@ -31,7 +31,7 @@ class IrsController extends Controller
     {
 
         // Get the specific records for the selected semester from matakuliah
-        $query = "SELECT m.kodemk as kodemk, m.nama as mata_kuliah, j.ruang as ruang, m.sks as sks FROM irs_test i JOIN mata_kuliah m ON i.kodemk = m.kodemk JOIN jadwal j ON i.kodejadwal = j.id WHERE email = '".$email."' AND i.status = 'Disetujui'  AND plotsemester='".$semester."'";
+        $query = "SELECT m.kodemk as kodemk, m.nama as mata_kuliah, j.ruang as ruang, m.sks as sks FROM irs_test i JOIN mata_kuliah m ON i.kodemk = m.kodemk JOIN jadwal j ON i.kodejadwal = j.id JOIN mahasiswa ma ON ma.email = ".$email." WHERE email = '".$email."' AND i.status = 'Disetujui'  AND ma.semester_berjalan='".$semester."'";
 
         $data = DB::select($query);
 

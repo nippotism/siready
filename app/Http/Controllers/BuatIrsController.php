@@ -107,7 +107,17 @@ class BuatIrsController extends Controller
             $irstest->all_pending = !Irstest::where('email', $irstest->email)
                 ->where('status', '!=', 'Pending')
                 ->exists(); // If no non-pending records exist, all are pending
+
+            $irstest->datairs = Irstest::where('email', $irstest->email)->where('status','Pending')->get();
+
+            foreach($irstest->datairs as $d){
+                $d->matakuliah = Matakuliah::where('kodemk', $d->kodemk)->first()->nama;
+                $d->sks = Matakuliah::where('kodemk', $d->kodemk)->first()->sks;
+                $d->kelas = Jadwal::where('id', $d->kodejadwal)->first()->kelas;
+            }
         }
+
+        // dd($data);
 
         // Pass the data to the view
         return view('paAjuanIrs', compact('data'));
