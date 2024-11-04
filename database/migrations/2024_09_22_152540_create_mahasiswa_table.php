@@ -26,6 +26,7 @@ return new class extends Migration
             $table->float('ipk');
             $table->text('alamat')->nullable();
             $table->string('status')->nullable();
+            $table->string('akses_irs')->default('yes');    
             $table->timestamps();
         });
     }

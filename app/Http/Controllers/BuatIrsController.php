@@ -18,6 +18,7 @@ class BuatIrsController extends Controller
         
         $user = auth()->user();
         $email = $user->email;
+        $mhs = Mahasiswa::where('email', $email)->first();
         $data = Jadwal::select('kodemk')->where('prodi', $user->prodi)->groupBy('kodemk')->get();
         //from kodemk get the name of the matakuliah
         
@@ -87,7 +88,13 @@ class BuatIrsController extends Controller
         // dd($data);
         //and prodi = Informatika
         $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', 'Informatika')->get();
-        return view('mhsBuatIrs', compact('data','email','total'));
+
+        if($mhs->akses_irs=='yes'){
+            return view('mhsBuatIrs', compact('data','email','total'));
+        }else{
+            $aksesirs = $mhs->akses_irs;
+            return view('irsClosed',compact('aksesirs','email'));
+        }
     }
 
     public function index2()
@@ -295,6 +302,20 @@ class BuatIrsController extends Controller
             ->update(['status' => 'Ditolak']);
 
         return response()->json(['message' => 'Jadwal has been rejected for ' . $request->email]);
+    }
+
+
+    public function ajuanPerubahan(Request $request)
+    {
+
+        $email = $request->email;
+
+        $mhs = Mahasiswa::where('email', $email)->first();
+        $mhs->akses_irs = 'req';
+        $mhs->save();
+
+        return response()->json(['message' => 'Ajuan perubahan berhasil diajukan', 'mhs' => $mhs]);
+        
     }
     
 }
