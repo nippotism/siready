@@ -45,6 +45,9 @@ Route::get('/logout',[LoginController::class,'logout']);
 Route::get('/maintenance',function(){
     return view('maintenance');
 });
+Route::get('/irs-closed',function(){
+    return view('irsClosed');
+});
 Route::get('/tes',function(){
     return view('tes');
 });
