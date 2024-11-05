@@ -22,15 +22,15 @@
             <div class="px-8 py-8">
                 <div class="bg-white border border-gray-200 h-[80vh] rounded-3xl shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-700">
                     <div class="grid grid-cols-3 gap-16 px-16 py-5">
-                        <div class="bg-[#38A6D6] p-6 rounded-2xl text-right">
+                        <div class="bg-gradient-to-r from-blue-400 via-blue-600 to-blue-800 p-6 rounded-2xl text-right">
                             <h1 class="text-2xl font-bold">30</h1>
                             <h1>Pengajuan IRS</h1>
                         </div>
-                        <div class="bg-[#2ACD7F] p-6 rounded-2xl text-right">
+                        <div class="bg-gradient-to-r from-green-400 via-green-500 to-green-600 p-6 rounded-2xl text-right">
                             <h1 class="text-2xl font-bold">15</h1>
                             <h1>IRS Disetujui</h1>
                         </div>
-                        <div class="bg-[#C34444] p-6 rounded-2xl text-right">
+                        <div class="bg-gradient-to-r from-yellow-300 via-yellow-400 to-yellow-500 p-6 rounded-2xl text-right">
                             <h1 class="text-2xl font-bold">2</h1>
                             <h1>IRS Ditolak</h1>
                         </div>

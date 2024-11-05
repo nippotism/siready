@@ -79,7 +79,10 @@ Route::post('/deleteirs',[BuatIrsController::class,'deleteIrs']) -> name('delete
 Route::get('/ajuanIrs', [BuatIrsController::class, 'index2'])->name('ajuanIrs');
 Route::post('/irs/approve', [BuatIrsController::class, 'approve'])->name('irs.approve');
 Route::post('/irs/reject', [BuatIrsController::class, 'reject'])->name('irs.reject');
+Route::get('/ajuanPerubahanIrs', [BuatIrsController::class, 'index3'])->name('ajuanPerubahanIrs');
 Route::post('/ajuanperubahan', [BuatIrsController::class, 'ajuanPerubahan'])->name('ajukanPerubahanIRS');
+Route::post('/irs/approveperubahan', [BuatIrsController::class, 'approvePerubahan'])->name('irs.approvePerubahan');
+Route::post('/irs/rejectperubahan', [BuatIrsController::class, 'rejectPerubahan'])->name('irs.rejectPerubahan');
 
 //Registrasi
 Route::get('m/registrasi', function () {
