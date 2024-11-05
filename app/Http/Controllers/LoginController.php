@@ -22,6 +22,7 @@ class LoginController extends Controller
 
         if (auth()->attempt($credentials)) {
             $request->session()->regenerate();
+            session()->flash('login_success', true);
 
             // dd($credentials);
 

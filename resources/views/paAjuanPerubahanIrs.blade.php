@@ -204,38 +204,68 @@
 
         <script>
             function approvePerubahanIrs(nama, email) {
-                if(confirm("Are you sure to approve request for " + nama + "?")) {
-                    $.ajax({
-                        url: "{{ route('irs.approvePerubahan') }}",
-                        type: "POST",
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            email: email
-                        },
-                        success: function(response) {
-                            alert('Perubahan IRS diizinkan untuk ' + nama);
-                            location.reload(); // Reload the page to reflect changes
-                        }
-                    });
+                Swal.fire({
+                  title: "Are you sure to approve the IRS change request for " + nama + "?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes, approve it!"
+                }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                    url: "{{ route('irs.approvePerubahan') }}",
+                    type: "POST",
+                    data: {
+                      _token: '{{ csrf_token() }}',
+                      email: email
+                    },
+                    success: function(response) {
+                      Swal.fire({
+                        title: "Approved!",
+                        text: "IRS change request approved for " + nama,
+                        icon: "success"
+                      }).then(() => {
+                        location.reload();
+                      });
+                    }
+                  });
                 }
+              });
             }
         </script>
         <script>
             function rejectPerubahanIrs(nama, email) {
-                if(confirm("Are you sure to reject request for " + nama + "?")) {
-                    $.ajax({
-                        url: "{{ route('irs.rejectPerubahan') }}",
-                        type: "POST",
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            email: email
-                        },
-                        success: function(response) {
-                            alert('Perubahan IRS ditolak untuk ' + nama);
-                            location.reload(); // Reload the page to reflect changes
-                        }
-                    });
+                Swal.fire({
+                  title: "Are you sure to reject the IRS change request for " + nama + "?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes, reject it!"
+                }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                    url: "{{ route('irs.rejectPerubahan') }}",
+                    type: "POST",
+                    data: {
+                      _token: '{{ csrf_token() }}',
+                      email: email
+                    },
+                    success: function(response) {
+                      Swal.fire({
+                        title: "Rejected!",
+                        text: "IRS change request rejected for " + nama,
+                        icon: "error"
+                      }).then(() => {
+                        location.reload();
+                      });
+                    }
+                  });
                 }
+              });
             }
         </script>
         

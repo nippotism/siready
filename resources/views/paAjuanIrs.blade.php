@@ -219,38 +219,69 @@
 
         <script>
             function approveIrs(nama, email) {
-                if(confirm("Are you sure to approve the schedule for " + nama + "?")) {
-                    $.ajax({
-                        url: "{{ route('irs.approve') }}",
-                        type: "POST",
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            email: email
-                        },
-                        success: function(response) {
-                            alert('IRS berhasil disetujui untuk ' + nama);
-                            location.reload(); // Reload the page to reflect changes
-                        }
-                    });
+              Swal.fire({
+                title: "Are you sure to approve the schedule for " + nama + "?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, approve it!"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                    url: "{{ route('irs.approve') }}",
+                    type: "POST",
+                    data: {
+                      _token: '{{ csrf_token() }}',
+                      email: email
+                    },
+                    success: function(response) {
+                      Swal.fire({
+                        title: "Approved!",
+                        text: "IRS approved for " + nama,
+                        icon: "success"
+                      }).then(() => {
+                        location.reload();
+                      });
+                    }
+                  });
                 }
+              });
             }
+
         </script>
         <script>
             function rejectIrs(nama, email) {
-                if(confirm("Are you sure to reject the schedule for " + nama + "?")) {
-                    $.ajax({
-                        url: "{{ route('irs.reject') }}",
-                        type: "POST",
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            email: email
-                        },
-                        success: function(response) {
-                            alert('IRS ditolak untuk ' + nama);
-                            location.reload(); // Reload the page to reflect changes
-                        }
-                    });
+                Swal.fire({
+                title: "Are you sure to reject the schedule for " + nama + "?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, reject it!"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $.ajax({
+                    url: "{{ route('irs.reject') }}",
+                    type: "POST",
+                    data: {
+                      _token: '{{ csrf_token() }}',
+                      email: email
+                    },
+                    success: function(response) {
+                      Swal.fire({
+                        title: "Rejected!",
+                        text: "IRS rejected for " + nama,
+                        icon: "error"
+                      }).then(() => {
+                        location.reload();
+                      });
+                    }
+                  });
                 }
+              });
             }
         </script>
         

@@ -309,6 +309,9 @@ class BuatIrsController extends Controller
         Irstest::where('email', $request->email)
             ->where('status', 'Pending')
             ->update(['status' => 'Disetujui']);
+        
+        Mahasiswa::where('email', $request->email)
+        ->update(['akses_irs' => 'no']);
 
         return response()->json(['message' => 'Jadwal has been approved for ' . $request->email]);
     }
