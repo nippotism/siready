@@ -130,6 +130,28 @@ class BuatIrsController extends Controller
         return view('paAjuanIrs', compact('data'));
     }
 
+    public function index3() {
+        $data = Irstest::select('irs_test.email', 'mahasiswa.nim', 'mahasiswa.nama', DB::raw('SUM(mata_kuliah.sks) as total_sks'))
+        ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk') // Join with Matakuliah to get SKS
+        ->join('mahasiswa', 'irs_test.email', '=', 'mahasiswa.email')     // Join with Mahasiswa to get NIM and nama
+        ->where('mahasiswa.akses_irs', 'req')                            // Filter by status Pending
+        ->groupBy('irs_test.email', 'mahasiswa.nim', 'mahasiswa.nama')    // Group by email, NIM, and nama
+        ->get();
+        
+
+        foreach($data as $irstest){
+
+
+            $irstest->datairs = Irstest::join('mahasiswa', 'irs_test.email', '=', 'mahasiswa.email') -> where('mahasiswa.akses_irs', 'req')->get(); 
+            foreach($irstest->datairs as $d){
+                $d->matakuliah = Matakuliah::where('kodemk', $d->kodemk)->first()->nama;
+                $d->sks = Matakuliah::where('kodemk', $d->kodemk)->first()->sks;
+                $d->kelas = Jadwal::where('id', $d->kodejadwal)->first()->kelas;
+            }
+        }
+        return view('paAjuanPerubahanIrs', compact('data'));
+    }
+
 
     public function createIrs(Request $request) {
         $request -> validate([
@@ -287,9 +309,13 @@ class BuatIrsController extends Controller
         Irstest::where('email', $request->email)
             ->where('status', 'Pending')
             ->update(['status' => 'Disetujui']);
+        
+        Mahasiswa::where('email', $request->email)
+        ->update(['akses_irs' => 'no']);
 
         return response()->json(['message' => 'Jadwal has been approved for ' . $request->email]);
     }
+
     public function reject(Request $request)
     {
         $request->validate([
@@ -302,6 +328,35 @@ class BuatIrsController extends Controller
             ->update(['status' => 'Ditolak']);
 
         return response()->json(['message' => 'Jadwal has been rejected for ' . $request->email]);
+    }
+
+    public function approvePerubahan(Request $request)
+    {
+        $request->validate([
+            'email' => 'required'
+        ]);
+
+        // Update all 'pending' Jadwal entries for the selected prodi to 'Disetujui'
+        Irstest::where('email', $request->email)
+            ->where('status', 'Disetujui')
+            ->update(['status' => 'Pending']);
+
+        Mahasiswa::where('email', $request->email)
+            ->update(['akses_irs' => 'yes']);
+
+        return response()->json(['message' => 'Ajuan perubahan has been approved for ' . $request->email]);
+    }
+
+    public function rejectPerubahan(Request $request)
+    {
+        $request->validate([
+            'email' => 'required'
+        ]);
+
+        Mahasiswa::where('email', $request->email)
+            ->update(['akses_irs' => 'no']);
+
+        return response()->json(['message' => 'Ajuan perubahan has been rejected for ' . $request->email]);
     }
 
 

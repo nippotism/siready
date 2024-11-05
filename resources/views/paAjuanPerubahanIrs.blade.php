@@ -128,7 +128,6 @@
                                 <th class="w-[10%]">No</th>
                                 <th class="w-[25%]">NIM</th>
                                 <th class="w-[30%]">Nama</th>
-                            <th class="w-[10%]">Jumlah SKS</th>
                             <th class="w-[25%]" data-orderable="false">Aksi</th>
                         </tr>
                     </thead>
@@ -138,20 +137,17 @@
                             <td class="[10%]">{{ $loop->iteration }}</td>
                             <td class="[25%]">{{ $mhs->nim }}</td>
                             <td class="[30%]">{{ $mhs->nama }}</td>
-                            <td class="[10%]">{{ $mhs->total_sks }}</td>
                             <td class="[25%]">
-                                    @if ($mhs->all_pending)
                                         <button id="approve-btn-{{ $loop->iteration }}" type="button" 
-                                            onclick="approveIrs('{{ $mhs->nama }}', '{{ $mhs->email }}')" 
+                                            onclick="approvePerubahanIrs('{{ $mhs->nama }}', '{{ $mhs->email }}')" 
                                             class="text-white bg-[#2ACD7F] px-3 py-2 text-xs font-medium text-center rounded-lg ml-2">Setuju</button>
                                         
                                         <button id="reject-btn-{{ $loop->iteration }}" type="button" 
-                                            onclick="rejectIrs('{{ $mhs->nama }}' ,'{{ $mhs->email }}')" 
+                                            onclick="rejectPerubahanIrs('{{ $mhs->nama }}' ,'{{ $mhs->email }}')" 
                                             class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 px-3 py-2 text-xs font-medium text-center rounded-lg ml-2">Tolak</button>
                                         <button data-modal-target="timeline-{{ $loop->iteration }}" data-modal-toggle="timeline-{{ $loop->iteration }}" class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 px-3 py-2 text-xs font-medium text-center rounded-lg ml-2" type="button">
                                             Detail
                                         </button>
-                                        @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -195,19 +191,8 @@
                                         </li>
                                         
                                     @endforeach                
-                                    
-                                    
+   
                                 </ol>
-                                <div class = "grid grid-cols-2 items-center px-2">
-                                    <button id="approve-btn-{{ $loop->iteration }}" type="button" 
-                                        onclick="approveIrs('{{ $mhs->nama }}', '{{ $mhs->email }}')" 
-                                        class="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2 ml-2">Setuju</button>
-                                    
-                                    <button id="reject-btn-{{ $loop->iteration }}" type="button" 
-                                        onclick="rejectIrs('{{ $mhs->nama }}' ,'{{ $mhs->email }}')" 
-                                        class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg px-5 py-2 text-sm font-medium text-center rounded-lg ml-2">Tolak</button>
-
-                                </div>
                             </div>
                         </div>
                 </div>
@@ -218,19 +203,19 @@
         
 
         <script>
-            function approveIrs(nama, email) {
-              Swal.fire({
-                title: "Are you sure to approve the schedule for " + nama + "?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, approve it!"
-              }).then((result) => {
+            function approvePerubahanIrs(nama, email) {
+                Swal.fire({
+                  title: "Are you sure to approve the IRS change request for " + nama + "?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes, approve it!"
+                }).then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({
-                    url: "{{ route('irs.approve') }}",
+                    url: "{{ route('irs.approvePerubahan') }}",
                     type: "POST",
                     data: {
                       _token: '{{ csrf_token() }}',
@@ -239,7 +224,7 @@
                     success: function(response) {
                       Swal.fire({
                         title: "Approved!",
-                        text: "IRS approved for " + nama,
+                        text: "IRS change request approved for " + nama,
                         icon: "success"
                       }).then(() => {
                         location.reload();
@@ -249,22 +234,21 @@
                 }
               });
             }
-
         </script>
         <script>
-            function rejectIrs(nama, email) {
+            function rejectPerubahanIrs(nama, email) {
                 Swal.fire({
-                title: "Are you sure to reject the schedule for " + nama + "?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, reject it!"
-              }).then((result) => {
+                  title: "Are you sure to reject the IRS change request for " + nama + "?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes, reject it!"
+                }).then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({
-                    url: "{{ route('irs.reject') }}",
+                    url: "{{ route('irs.rejectPerubahan') }}",
                     type: "POST",
                     data: {
                       _token: '{{ csrf_token() }}',
@@ -273,7 +257,7 @@
                     success: function(response) {
                       Swal.fire({
                         title: "Rejected!",
-                        text: "IRS rejected for " + nama,
+                        text: "IRS change request rejected for " + nama,
                         icon: "error"
                       }).then(() => {
                         location.reload();
