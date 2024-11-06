@@ -13,12 +13,13 @@ class IrsController extends Controller
     {
         $email = auth()->user()->email;
         // Join the mahasiswa table to group by semester in matakuliah and sum SKS
-        $data = Irstest::select('mata_kuliah.plotsemester as semester', DB::raw('SUM(mata_kuliah.sks) as total_sks'))
+        $data = Irstest::select('mahasiswa.semester_berjalan as semester', DB::raw('SUM(mata_kuliah.sks) as total_sks'))
             ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk')
+            ->join('mahasiswa', 'irs_test.email', '=', 'mahasiswa.email')
             ->where('irs_test.status', 'Disetujui')  // Filter by status 'Disetujui'
-            ->where('email', $email)
-            ->groupBy('mata_kuliah.plotsemester')
-            ->orderBy('mata_kuliah.plotsemester', 'asc')
+            ->where('irs_test.email', $email)
+            ->groupBy('mahasiswa.semester_berjalan')
+            ->orderBy('mahasiswa.semester_berjalan', 'asc')
             ->get();
 
         // dd($data);
@@ -31,7 +32,20 @@ class IrsController extends Controller
     {
 
         // Get the specific records for the selected semester from matakuliah
-        $query = "SELECT m.kodemk as kodemk, m.nama as mata_kuliah, j.ruang as ruang, m.sks as sks FROM irs_test i JOIN mata_kuliah m ON i.kodemk = m.kodemk JOIN jadwal j ON i.kodejadwal = j.id JOIN mahasiswa ma ON ma.email = ".$email." WHERE email = '".$email."' AND i.status = 'Disetujui'  AND ma.semester_berjalan='".$semester."'";
+
+        $query ="SELECT m.kodemk as kodemk, 
+                        m.nama as mata_kuliah, 
+                        j.ruang as ruang, 
+                        m.sks as sks 
+                FROM irs_test i 
+                JOIN mata_kuliah m ON i.kodemk = m.kodemk 
+                JOIN jadwal j ON i.kodejadwal = j.id 
+                JOIN mahasiswa ma ON ma.email = i.email 
+                WHERE ma.email = '".$email."'
+                AND i.status = 'Disetujui'  
+                AND ma.semester_berjalan=".$semester."";
+
+        // return response()->json(['data' => $query]);
 
         $data = DB::select($query);
 
