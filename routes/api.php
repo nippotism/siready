@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\ViewIrs;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Register;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\JadwalController;
 use App\Http\Controllers\Api\DashboardController;
 
 
@@ -27,6 +28,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Dashboard Page
     Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    //Jadwal Page
+    Route::get('/jadwal', [JadwalController::class, 'getJadwalForMonth']);
 });
 
 
