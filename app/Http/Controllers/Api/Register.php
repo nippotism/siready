@@ -18,7 +18,8 @@ class Register extends Controller
 
         
         //change status mahasiwa where email  = email request body
-        $email  = $request->email;
+        $user = auth()->user();
+        $email  = $user->email;
         $status = $request->status;
         $mahasiswa = User::where('email', $email)->first();
         $mahasiswa->status = $status;

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('kodemk');
             $table->integer('prioritas')->default(0);
             $table->string('status');
+            $table->string('semester');
             $table->timestamps();
         });
     }

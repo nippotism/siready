@@ -16,5 +16,6 @@ class Irstest extends Model
         'kodemk',
         'prioritas',
         'status',
+        'semester'
     ];
 }

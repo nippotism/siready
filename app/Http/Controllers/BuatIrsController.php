@@ -190,7 +190,8 @@ class BuatIrsController extends Controller
             'kodejadwal' => $request->kodejadwal,
             'kodemk' => $request->kodemk,
             'prioritas' => $prioritas,
-            'status' => 'Pending'
+            'status' => 'Pending',
+            'semester' => $Mahasiswa->semester_berjalan
         ];
 
         // return response()->json(['data' => $data]);
