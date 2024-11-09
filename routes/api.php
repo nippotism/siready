@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Register;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\JadwalController;
+use App\Http\Controllers\Api\BuatIrsController;
 use App\Http\Controllers\Api\DashboardController;
 
 
@@ -22,6 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Irs Page
     Route::get('/irs', [ViewIrs::class, 'dataIrs']);
+
+    //Buat Irs Page
+    Route::get('/buat-irs', [BuatIrsController::class, 'index']);
+
 
     //Register Page
     Route::post('/register', [Register::class, 'registerStatus']);
