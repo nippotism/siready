@@ -27,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     //Buat Irs Page
     Route::get('/buat-irs', [BuatIrsController::class, 'index']);
     Route::post('/buat-irs', [BuatIrsController::class, 'createIrs']);
+    Route::get('/view-irs', [BuatIrsController::class, 'viewIrs']);
+    Route::post('/delete-irs', [BuatIrsController::class, 'deleteIrs']);
 
 
     //Register Page

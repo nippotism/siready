@@ -205,4 +205,63 @@ class BuatIrsController extends Controller
         
 
     }
+
+    public function viewIrs(Request $request) {
+        
+        $user = auth()->user();
+        $email = $user->email;
+        
+        $data = Irstest::where('email', $email)->get();
+    
+        foreach ($data as $d) {
+            $matkul = Matakuliah::where('kodemk', $d->kodemk)->first();
+            $d->nama = $matkul ? $matkul->nama : 'N/A';
+            $d->sks = $matkul ? $matkul->sks : 0;
+            $d->kelas = Jadwal::where('id', $d->kodejadwal)->first();
+            $d->kapasitas = $d->kelas->kapasitas;
+
+            //check position in priorty queue
+            $row_index = Irstest::select(DB::raw('ROW_NUMBER() OVER (ORDER BY prioritas DESC, updated_at ASC) AS row_index,email'))
+            ->where('kodejadwal', $d->kodejadwal)
+            ->get();
+            $position = 0;
+            foreach($row_index as $r){
+                if($r->email == $email){
+                    $position = $r->row_index;
+                }
+            }
+            $d->posisi = $position;
+
+        }
+    
+        return response()->json($data);
+    }
+
+    public function deleteIrs(Request $request) {
+
+        // return response()->json(['data' => $request->all()]);
+
+        $request->validate(['id' => 'required']);
+
+        $id = $request->id;
+        $data = Irstest::find($id);
+
+        $kodejadwal = $data->kodejadwal;
+        $data->delete();
+
+        //count the total sks where email = data[email]
+        $user = auth()->user();
+        $email = $user->email;
+        $picked = Irstest::where('email', $email)->get();
+        $total = 0;
+        foreach($picked as $p){
+            $total += Matakuliah::where('kodemk', $p->kodemk)->first()->sks;
+        }
+
+
+        
+        
+        return response()->json(['kodejadwal' => $kodejadwal,'sks' => $total]);
+    }
 }
+
