@@ -19,14 +19,17 @@ class RuangController extends Controller
     public function index2()
     {
         //check if there is a last prodi that was edited return ruang data with the last prodi
+
+        $ruangfree = Ruang::where('prodi', 'free')->get();
+
         if(session('lastprodi')){
             $data = Ruang::where('prodi', session('lastprodi'))->get();
             $prodi = session('lastprodi');
-            return view('baPlotRuang', compact('data', 'prodi'));
+            return view('baPlotRuang', compact('data', 'prodi', 'ruangfree'));
         }else{
             $data = [];
             $prodi = '';
-            return view('baPlotRuang', compact('data', 'prodi'));
+            return view('baPlotRuang', compact('data', 'prodi', 'ruangfree'));
         }
     }
     
@@ -156,14 +159,24 @@ class RuangController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function editProdi(string $id){
+    public function editProdi(Request $request){
 
 
-        //select data from database where id = $id and update the prodi to 'free'
-        $data = Ruang::find($id);
-        Ruang::find($id)->update(['prodi' => 'free']);
+        $request -> validate([
+            'id' => 'required',
+            'prodi' => 'required',
+        ]);
 
-        return redirect()->route('plotruang')->with('lastprodi', $data->prodi);
+        $ruang = Ruang::find($request->id);
+
+        $ruang->prodi = 'free';
+        $ruang->save();
+
+        $data = Ruang::where('prodi', $request->prodi)->get();
+
+        $noruang = $ruang->noruang;
+
+        return response()->json(['message' => 'Ruang has been plotted successfully.', 'data' => $data, 'noruang' => $noruang]);
     
     }
 
@@ -184,4 +197,25 @@ class RuangController extends Controller
 
         return response()->json(['message' => 'Status updated successfully.', 'data' => $ruang]);
     }
+
+
+    public function plotRuang(Request $request)
+    {
+        $request -> validate([
+            'id' => 'required',
+            'prodi' => 'required',
+        ]);
+
+        $ruang = Ruang::find($request->id);
+
+        $ruang->prodi = $request->prodi;
+        $ruang->save();
+
+        $data = Ruang::where('prodi', $request->prodi)->get();
+
+        return response()->json(['message' => 'Ruang has been plotted successfully.', 'data' => $data]);
+    }
+
+    
+    
 }

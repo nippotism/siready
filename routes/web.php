@@ -46,20 +46,7 @@ Route::middleware('auth')->group(function () {
         
     })->name('dashboard');
     
-    
-    
-    
-    Route::get('/maintenance',function(){
-        return view('maintenance');
-    });
-    Route::get('/irs-closed',function(){
-        return view('irsClosed');
-    });
-    Route::get('/tes',function(){
-        return view('tes');
-    });
-    
-    
+    //Mahasiswa
     Route::middleware(MahasiswaMiddleware::class)->group(function () {
         
         
@@ -95,10 +82,8 @@ Route::middleware('auth')->group(function () {
         
         
     });
-    
-    
-    
-    
+
+    //Pembimbing Akademik
     Route::middleware(PemAkademikMiddleware::class)->group(function (){
         
         //IRS
@@ -122,9 +107,7 @@ Route::middleware('auth')->group(function () {
         })->name('perwalian');
     });
     
-    
-    
-    
+    //Bagian Akademik
     Route::middleware(BagAkademikMiddleware::class)->group(function (){
         
         //Ruang
@@ -132,16 +115,13 @@ Route::middleware('auth')->group(function () {
             'index' => 'ruang',
         ]);
         Route::get('/plotruang',[RuangController::class,'index2'])->name('plotruang');
-        Route::post('/plotruang/{id}',[RuangController::class,'editProdi']);
+        Route::post('/hapusplot',[RuangController::class,'editProdi']);
+        Route::post('/plotingruang',[RuangController::class,'plotRuang']);
         Route::get('/prodi',[RuangController::class,'plotProdi']);
         
     });
-    
-    
-    
-    
-    
-    
+
+    //Dekan
     Route::middleware(DekanMiddleware::class)->group(function () {
         
         //Ajuan Jadwal
@@ -155,9 +135,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/ruang/{id}/update-status', [RuangController::class, 'updateStatus'])->name('ruang.updateStatus');
     });
     
-    
+    //Kaprodi
     Route::middleware(KaprodiMiddleware::class)->group(function () {
-    
+        
         //Buat Jadwal
         Route::get('/buatjadwal',[JadwalController::class,'index'])->name('buatjadwal');
         Route::post('/buatjadwal/{id}',[JadwalController::class,'update']);
@@ -170,17 +150,17 @@ Route::middleware('auth')->group(function () {
         ]);
         
     });
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    //Debugging
+    Route::get('/maintenance',function(){
+        return view('maintenance');
+    });
+    Route::get('/irs-closed',function(){
+        return view('irsClosed');
+    });
+    Route::get('/tes',function(){
+        return view('tes');
+    });
 
     //Logout
     Route::get('/logout',[LoginController::class,'logout']);

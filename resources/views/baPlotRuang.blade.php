@@ -51,7 +51,22 @@
                                 </ul>
                             </div>
                         
-                            <input id = "searchRuang" type="text" placeholder="Cari Ruang" class="bg-white dark:bg-gray-700 rounded-lg">
+                            <input id = "searchRuang" type="text" placeholder="Cari Ruang" class="bg-white dark:bg-gray-700 rounded-lg  ">
+                            {{-- dropdown Ruang --}}
+                            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdownRuang" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center" type="button">Tambah Ruang<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                </svg>
+                            </button>
+                            <div id="dropdownRuang" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                                <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton" id ="listRuangFree">
+                                    @foreach ($ruangfree as $ruang)
+                                        <li>
+                                            <a onclick="tambahRuang({{ $ruang->id }})" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" id = {{ $ruang->id }}>{{ $ruang->noruang }}</a>
+                                        </li>  
+                                    @endforeach
+                                    
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <table id="plotRuang" class = "display">
@@ -78,15 +93,12 @@
                                     <td>{{ $ruang->kapasitas }}</td>
                                     <td class="text-yellow-300">{{ $ruang->status }}</td>
                                     <td>
-                                        <form action="plotruang/{{ $ruang->id }}" method="POST">
-                                            @csrf
-                                            <button type="submit">
+                                        <button type="submit" onclick="hapusPlot({{ $ruang->id }})">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash text-red-600" viewBox="0 0 16 16">
                                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
                                                     <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
                                                 </svg>
-                                            </button>
-                                        </form>
+                                        </button>
                                     </td>
                                 @endforeach
                             </tbody>
@@ -189,16 +201,12 @@
                                 // Loop through the response data and create new table rows
                                 response.data.forEach(function (ruang, index) {
 
-                                    var deleteButton = `<form action="plotruang/${ruang.id}" method="POST">
-                                                            @csrf
-                                                            <button type="submit">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash text-red-600" viewBox="0 0 16 16">
-                                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                                                                </svg>
-                                                            </button>
-                                                        </form>`;
-
+                                    var deleteButton = `<button type="submit" onclick="hapusPlot(${ruang.id})">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash text-red-600" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                            </svg>
+                                                        </button>`;
 
                                     var modal = `<div id="updateModal-${ruang.id}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                                         <div class="relative p-4 w-full max-w-md max-h-full">
@@ -288,10 +296,168 @@
                             }
                         });
                     });
-
-
                     
                 } );
+            </script>
+
+
+            <script>
+                // Add a click event to each item in the dropdown
+                $('#dropdownProdi a').on('click', function (e) {
+                    e.preventDefault(); // Prevent the default link behavior
+
+                    // Get the 'data-prodi' value of the clicked item
+                    var selectedProdi = $(this).data('prodi');
+
+                    // Update the button's data attribute with the selected prodi
+                    $('#dropdownDefaultButton').data('prodi', selectedProdi);
+
+                    // Optionally, update the button text to show the selected prodi
+                    $('#dropdownDefaultButton').text(selectedProdi);
+                });
+
+                function tambahRuang(id){
+
+                    var buttonprodi = $('#dropdownDefaultButton');
+                    var prodi = buttonprodi.data('prodi');
+
+                    var tableRuang = $('#plotRuang').DataTable();
+
+
+                    if(prodi == ''){
+                        alert('Pilih Prodi terlebih dahulu');
+                    }else{
+                        console.log(id);
+                        console.log(prodi);
+                        $.ajax({
+                            url: '/plotingruang', // Replace with your route to the controller
+                            method: 'POST',
+                            data: {
+                                _token : '{{ csrf_token() }}',
+                                id: id, 
+                                prodi: prodi
+
+                            },
+                            success: function (response) {
+                                console.log('Data fetched:', response.data);
+
+                                tableRuang.clear().draw();
+
+                                //remove li dropdown ruang where id = id and close the dropdown
+                                $('#dropdownRuang').find(`#${id}`).remove();
+                                $('#dropdownRuang').removeClass('block').addClass('hidden');
+
+
+
+                                // Loop through the response data and create new table rows
+                                response.data.forEach(function (ruang, index) {
+
+                                    var deleteButton = `<button type="submit" onclick="hapusPlot(${ruang.id})">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash text-red-600" viewBox="0 0 16 16">
+                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                            </svg>
+                                                        </button>`;
+                                    //append the modal in main content wrapper
+                                    // $('#main-content-wrapper').append(modal);
+
+                                    // Add new row to the DataTable
+                                    tableRuang.row.add([
+                                    index + 1, // Loop iteration for row number
+                                    ruang.noruang,
+                                    ruang.blokgedung,
+                                    ruang.lantai,
+                                    ruang.fungsi,
+                                    ruang.kapasitas,
+                                    `<td> <span class="${
+                                        ruang.status == 'Pending' ? 'bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300' :
+                                        ruang.status == 'Disetujui' ? 'bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300'
+                                    }">${ruang.status}</span></td>`,
+                                    `<td>${deleteButton}</td>`
+                                ]).draw(false);  // Draw the row without resetting the entire table
+                                    
+                                    });
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error fetching data:', error);
+                                }
+                            });
+                    }
+                }
+
+
+                function hapusPlot(id){
+
+                    var buttonprodi = $('#dropdownDefaultButton');
+                    var prodi = buttonprodi.data('prodi');
+
+                    var tableRuang = $('#plotRuang').DataTable();
+
+
+                    if(prodi == ''){
+                        alert('Pilih Prodi terlebih dahulu');
+                    }else{
+                        console.log(id);
+                        console.log(prodi);
+                        $.ajax({
+                            url: '/hapusplot', // Replace with your route to the controller
+                            method: 'POST',
+                            data: {
+                                _token : '{{ csrf_token() }}',
+                                id: id, 
+                                prodi: prodi
+
+                            },
+                            success: function (response) {
+                                console.log('Data fetched:', response.data);
+
+                                tableRuang.clear().draw();
+
+                                //add li dropdown ruang where id = id and close the dropdown
+                                $('#listRuangFree').append(`<li>
+                                    <a onclick="tambahRuang(${id})" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" id = ${id}>${response.noruang}</a>
+                                    </li>`);
+
+
+
+                                // Loop through the response data and create new table rows
+                                response.data.forEach(function (ruang, index) {
+
+                                    var deleteButton = `<button type="submit" onclick="hapusPlot(${ ruang.id})">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash text-red-600" viewBox="0 0 16 16">
+                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                                            </svg>
+                                                        </button>`;
+                                    //append the modal in main content wrapper
+                                    // $('#main-content-wrapper').append(modal);
+
+                                    // Add new row to the DataTable
+                                    tableRuang.row.add([
+                                    index + 1, // Loop iteration for row number
+                                    ruang.noruang,
+                                    ruang.blokgedung,
+                                    ruang.lantai,
+                                    ruang.fungsi,
+                                    ruang.kapasitas,
+                                    `<td> <span class="${
+                                        ruang.status == 'Pending' ? 'bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300' :
+                                        ruang.status == 'Disetujui' ? 'bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300' : 'bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300'
+                                    }">${ruang.status}</span></td>`,
+                                    `<td>${deleteButton}</td>`
+                                ]).draw(false);  // Draw the row without resetting the entire table
+                                    
+                                    });
+                                },
+                                error: function (xhr, status, error) {
+                                    console.error('Error fetching data:', error);
+                                }
+                            });
+                    }
+
+
+
+                }
             </script>
         {{-- datatble_end --}}
 @endsection
