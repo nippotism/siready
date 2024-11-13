@@ -23,7 +23,7 @@
         <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto lg:ml-52 dark:bg-blek-900">
 
             <div class="flex flex-col justify-center items-center px-6 mx-auto h-screen xl:px-0 dark:bg-blek-900">
-                <div class=" md:max-w-md">
+                <div class=" md:max-w-xs animate-bounce ">
                     <img src="{{ asset('images/maintenance.svg') }}"alt="maintenance image">
                 </div>
                 <div class="text-center xl:max-w-4xl">

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\Dosen;
 use App\Models\Irstest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -47,6 +47,10 @@ class IrsController extends Controller
         // return response()->json(['data' => $query]);
 
         $data = DB::select($query);
+
+        foreach ($data as $key => $value) {
+            $value->dosen = DB::select('SELECT d.nama FROM dosen d JOIN dosen_matakuliah dm ON d.nip = dm.nip WHERE dm.kodemk = "'.$value->kodemk.'"');
+        }
 
         //change data to object
         $data = json_decode(json_encode($data));

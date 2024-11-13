@@ -24,10 +24,14 @@ return new class extends Migration
             $table->year('angkatan');
             $table->integer('semester_berjalan');
             $table->float('ipk');
+            $table->string('nip_doswal');
             $table->text('alamat')->nullable();
             $table->string('status')->nullable();
             $table->string('akses_irs')->default('yes');    
             $table->timestamps();
+
+
+            $table->foreign('nip_doswal')->references('nip')->on('dosen')->onDelete('cascade');
         });
     }
 

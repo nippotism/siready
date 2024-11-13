@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dosen;
 use App\Models\Ruang;
 use App\Models\Jadwal;
 use App\Models\Irstest;
@@ -99,11 +100,16 @@ class BuatIrsController extends Controller
 
     public function index2()
     {
+
+        $email = auth()->user()->email;
+        $dosen = Dosen::where('email', $email)->first();
+
         // Retrieve the list of students who have pending IRS entries
         $data = Irstest::select('irs_test.email', 'mahasiswa.nim', 'mahasiswa.nama', DB::raw('SUM(mata_kuliah.sks) as total_sks'))
         ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk') // Join with Matakuliah to get SKS
         ->join('mahasiswa', 'irs_test.email', '=', 'mahasiswa.email')     // Join with Mahasiswa to get NIM and nama
-        ->where('irs_test.status', 'Pending')                            // Filter by status Pending
+        ->where('irs_test.status', 'Pending')
+        ->where('mahasiswa.nip_doswal', $dosen->nip)                    // Filter by status Pending
         ->groupBy('irs_test.email', 'mahasiswa.nim', 'mahasiswa.nama')    // Group by email, NIM, and nama
         ->get();
 
@@ -131,10 +137,15 @@ class BuatIrsController extends Controller
     }
 
     public function index3() {
+
+        $email = auth()->user()->email;
+        $dosen = Dosen::where('email', $email)->first();
+
         $data = Irstest::select('irs_test.email', 'mahasiswa.nim', 'mahasiswa.nama', DB::raw('SUM(mata_kuliah.sks) as total_sks'))
         ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk') // Join with Matakuliah to get SKS
         ->join('mahasiswa', 'irs_test.email', '=', 'mahasiswa.email')     // Join with Mahasiswa to get NIM and nama
-        ->where('mahasiswa.akses_irs', 'req')                            // Filter by status Pending
+        ->where('mahasiswa.akses_irs', 'req')
+        ->where('mahasiswa.nip_doswal', $dosen->nip)     
         ->groupBy('irs_test.email', 'mahasiswa.nim', 'mahasiswa.nama')    // Group by email, NIM, and nama
         ->get();
         

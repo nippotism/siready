@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('nip')->unique();
             $table->string('nama');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('no_telp')->nullable();
             $table->timestamps();
+
+
+            $table->foreignId('email')->references('email')->on('users')->onDelete('cascade');
         });
     }
 
