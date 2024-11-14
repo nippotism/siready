@@ -20,7 +20,7 @@ return new class extends Migration
 
             
             $table->foreign('nip')->references('nip')->on('dosen')->onDelete('cascade');
-            $table->foreign('kodemk')->references('kodemk')->on('matakuliah')->onDelete('cascade');
+            $table->foreign('kodemk')->references('kodemk')->on('mata_kuliah')->onDelete('cascade');
         });
     }
 
