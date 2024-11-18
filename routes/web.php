@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/buat-irstest',[BuatIrsController::class,'createIrs']) -> name('buat-irstest');
         Route::post('/viewirs',[BuatIrsController::class,'viewIrs']) -> name('viewirs');
         Route::post('/deleteirs',[BuatIrsController::class,'deleteIrs']) -> name('deleteirs');
+        Route::post('/ajuanperubahan', [BuatIrsController::class, 'ajuanPerubahan'])->name('ajukanPerubahanIRS');
         
         
         //Registrasi
@@ -91,7 +92,6 @@ Route::middleware('auth')->group(function () {
         Route::post('/irs/approve', [BuatIrsController::class, 'approve'])->name('irs.approve');
         Route::post('/irs/reject', [BuatIrsController::class, 'reject'])->name('irs.reject');
         Route::get('/ajuanPerubahanIrs', [BuatIrsController::class, 'index3'])->name('ajuanPerubahanIrs');
-        Route::post('/ajuanperubahan', [BuatIrsController::class, 'ajuanPerubahan'])->name('ajukanPerubahanIRS');
         Route::post('/irs/approveperubahan', [BuatIrsController::class, 'approvePerubahan'])->name('irs.approvePerubahan');
         Route::post('/irs/rejectperubahan', [BuatIrsController::class, 'rejectPerubahan'])->name('irs.rejectPerubahan');
         
