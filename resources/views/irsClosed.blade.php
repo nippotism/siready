@@ -1,6 +1,6 @@
 @extends('header')
 
-@section('title','Maintenance')
+@section('title','Closed')
 
 @section('page')
 

@@ -211,7 +211,10 @@
                   showCancelButton: true,
                   confirmButtonColor: "#3085d6",
                   cancelButtonColor: "#d33",
-                  confirmButtonText: "Yes, approve it!"
+                  confirmButtonText: "Yes, approve it!",
+                  customClass: {
+                    popup: 'swal-custom-border',
+                  }
                 }).then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({
@@ -244,7 +247,10 @@
                   showCancelButton: true,
                   confirmButtonColor: "#3085d6",
                   cancelButtonColor: "#d33",
-                  confirmButtonText: "Yes, reject it!"
+                  confirmButtonText: "Yes, reject it!",
+                  customClass: {
+                    popup: 'swal-custom-border',
+                  }
                 }).then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({

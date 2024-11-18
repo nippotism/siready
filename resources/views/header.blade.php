@@ -17,8 +17,8 @@
 
     {{-- sweetalert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@4/bulma.css" rel="stylesheet"> --}}
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script> --}}
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2  @11/dist/sweetalert2.min.js"></script> --}}
 
     {{-- datatables --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.css" />
@@ -30,6 +30,14 @@
 </head>
 
 <body class="bg-gray-200 dark:bg-blek-900">
+    <style>
+        .swal-custom-border {
+          border: 2px solid white; /* Add white border */
+          box-shadow: 0 0 7px rgba(255, 255, 255, 0.5);
+          border-radius: 10px; /* Rounded corners (optional) */
+        }
+      </style>
+      
     @yield('page')
 </body>
 </html>
