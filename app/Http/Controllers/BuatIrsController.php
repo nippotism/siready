@@ -420,17 +420,34 @@ class BuatIrsController extends Controller
         $request->validate([
             'email' => 'required'
         ]);
-
-        // Update all 'pending' Jadwal entries for the selected prodi to 'Disetujui'
+    
+        // Fetch the current semester for the user
+        $mahasiswa = Mahasiswa::where('email', $request->email)->first();
+    
+        if (!$mahasiswa) {
+            return response()->json(['error' => 'Mahasiswa not found'], 404);
+        }
+    
+        $semesterBerjalan = $mahasiswa->semester_berjalan;
+    
+        // Delete data from `irs` table for the user and the current semester
+        Irs::where('email', $request->email)
+            ->where('semester', $semesterBerjalan)
+            ->delete();
+    
+        // Update all 'Disetujui' Jadwal entries for the user to 'Pending'
         Irstest::where('email', $request->email)
             ->where('status', 'Disetujui')
             ->update(['status' => 'Pending']);
-
+    
+        // Update Mahasiswa to allow access to IRS
+        
         Mahasiswa::where('email', $request->email)
             ->update(['akses_irs' => 'yes']);
-
-        return response()->json(['message' => 'Ajuan perubahan has been approved for ' . $request->email]);
+    
+        return response()->json(['message' => 'Ajuan perubahan has been approved and IRS data deleted for ' . $request->email]);
     }
+    
 
     public function rejectPerubahan(Request $request)
     {
