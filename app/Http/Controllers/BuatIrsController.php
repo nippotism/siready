@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\Ruang;
 use App\Models\Jadwal;
+use App\Models\Irs;
 use App\Models\Irstest;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
@@ -316,17 +317,89 @@ class BuatIrsController extends Controller
         $request->validate([
             'email' => 'required'
         ]);
-
-        // Update all 'pending' Jadwal entries for the selected prodi to 'Disetujui'
-        Irstest::where('email', $request->email)
+    
+        $day = [
+            "" => '',
+            1 => 'Senin',
+            2 => 'Selasa',
+            3 => 'Rabu',
+            4 => 'Kamis',
+            5 => 'Jumat',
+        ];
+    
+        $jamend = [
+            "" => '',
+            1 => '07.50',
+            2 => '08.40',
+            3 => '09.30',
+            4 => '10.30',
+            5 => '11.20',
+            6 => '12.10',
+            7 => '13.00',
+            8 => '13.50',
+            9 => '14.40',
+            10 => '15.40',
+            11 => '16.30',
+            12 => '17.20',
+            13 => '18.10',
+        ];
+    
+        $jamstart = [
+            "" => '',
+            0 => '07.00',
+            1 => '07.50',
+            2 => '08.40',
+            3 => '09.40',
+            4 => '10.30',
+            5 => '11.20',
+            6 => '12.10',
+            7 => '13.00',
+            8 => '13.50',
+            9 => '14.40',
+            10 => '15.40',
+            11 => '16.30',
+        ];
+    
+        // Update the pending entries to approved in IRSTEST table
+        $pendingEntries = Irstest::where('email', $request->email)
             ->where('status', 'Pending')
-            ->update(['status' => 'Disetujui']);
-        
+            ->get();
+    
+        foreach ($pendingEntries as $entry) {
+            $jadwal = Jadwal::where('id', $entry->kodejadwal)->first();
+    
+            if ($jadwal) {
+                $hari = $day[$jadwal->hari] ?? '';
+                $jam = isset($jadwal->jammulai, $jadwal->jamselesai) 
+                    ? $jamstart[$jadwal->jammulai] . ' - ' . $jamend[$jadwal->jamselesai]
+                    : '';
+    
+                // Insert into the IRS table
+                Irs::create([
+                    'email' => $entry->email,
+                    'kode' => $entry->kodemk,
+                    'mata_kuliah' => Matakuliah::where('kodemk', $entry->kodemk)->first()->nama,
+                    'kelas' => $jadwal->kelas ?? '',
+                    'sks' => Matakuliah::where('kodemk', $entry->kodemk)->first()->sks,
+                    'ruang' => $jadwal->ruang ?? '',
+                    'status' => 'Disetujui',
+                    'hari_jam' => $hari . ' ' . $jam,
+                    'semester' => $entry->semester,
+                ]);
+            }
+    
+            // Update the IRSTEST entry to 'Disetujui'
+            $entry->update(['status' => 'Disetujui']);
+        }
+    
+        // Prevent further access to IRS for the approved student
         Mahasiswa::where('email', $request->email)
-        ->update(['akses_irs' => 'no']);
-
-        return response()->json(['message' => 'Jadwal has been approved for ' . $request->email]);
+            ->update(['akses_irs' => 'no']);
+    
+        return response()->json(['message' => 'IRS approved for ' . $request->email]);
     }
+    
+    
 
     public function reject(Request $request)
     {

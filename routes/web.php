@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function () {
         
         //IRS
         Route::get('/irs',[IrsController::class,'all']) -> name('irs');
-        Route::get('/irs/{id}/{email}',[IrsController::class,'index']);
+        Route::get('/irs/{semester}/{email}',[IrsController::class,'index']);
         
         
         //KHS

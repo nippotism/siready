@@ -228,7 +228,10 @@
                       Swal.fire({
                         title: "Approved!",
                         text: "IRS change request approved for " + nama,
-                        icon: "success"
+                        icon: "success",
+                        customClass: {
+                            popup: 'swal-custom-border',
+                        }
                       }).then(() => {
                         location.reload();
                       });
@@ -264,7 +267,10 @@
                       Swal.fire({
                         title: "Rejected!",
                         text: "IRS change request rejected for " + nama,
-                        icon: "error"
+                        icon: "error",
+                        customClass: {
+                            popup: 'swal-custom-border',
+                        }
                       }).then(() => {
                         location.reload();
                       });

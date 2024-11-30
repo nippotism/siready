@@ -267,7 +267,10 @@ function approveIrs(nama, email) {
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, reject it!"
+                confirmButtonText: "Yes, reject it!",
+                customClass: {
+                    popup: "swal-custom-border", // Add custom class for the popup
+                },
               }).then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({
@@ -281,7 +284,10 @@ function approveIrs(nama, email) {
                       Swal.fire({
                         title: "Rejected!",
                         text: "IRS rejected for " + nama,
-                        icon: "error"
+                        icon: "error",
+                        customClass: {
+                          popup: "swal-custom-border", // Reuse the same custom class
+                        },
                       }).then(() => {
                         location.reload();
                       });

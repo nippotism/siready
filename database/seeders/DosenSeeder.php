@@ -14,10 +14,10 @@ class DosenSeeder extends Seeder
     public function run(): void
     {
         $dosen = [
-            ['nip' => '1234567890', 'nama' => 'Muhaimin Iskandar', 'email' => 'muhaimin@gmail.com', 'no_telp' => '08123456789'],
+            ['nip' => '1234567890', 'nama' => 'Budiono', 'email' => 'budiono@gmail.com', 'no_telp' => '08123456789'],
             ['nip' => '1234567891', 'nama' => 'Anies Baswedan', 'email' => 'anies@gmail.com', 'no_telp' => '08123456790'],
-            ['nip' => '1234567892', 'nama' => 'Mahfud MD', 'email' => 'mahfud@gmail.com', 'no_telp' => '08123456791'],
-            ['nip' => '1234567893', 'nama' => 'Airlangga Hartarto', 'email' => 'airlangga@gmail.com', 'no_telp' => '08123456792'],
+            ['nip' => '1234567892', 'nama' => 'Sidik Sasongko', 'email' => 'sidik@gmail.com', 'no_telp' => '08123456791'],
+            ['nip' => '1234567893', 'nama' => 'Aris Widodo', 'email' => 'aris@gmail.com', 'no_telp' => '08123456792'],
             ['nip' => '1234567894', 'nama' => 'Bahlil Lahadalia', 'email' => 'bahlil@gmail.com', 'no_telp' => '08123456793'],
         ];
 

@@ -27,6 +27,9 @@
     {{-- typesjs --}}
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 
+    {{-- lottie --}}
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
 </head>
 
 <body class="bg-gray-200 dark:bg-blek-900">

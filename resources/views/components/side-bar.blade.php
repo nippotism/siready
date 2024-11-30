@@ -15,7 +15,7 @@
               </form>
             </li>
             <li>
-              <img src="{{ asset('profile.png') }}" class="rounded-full flex mx-auto" width="100" alt="">
+              <img src="{{ asset('blank.png') }}" class="rounded-full flex mx-auto" width="100" alt="">
             </li>
             <ul class=" font-semibold text-base text-center p-2 text-gray-900 rounded-lg dark:text-gray-200 tracking-normal"> 
                 <li>{{ $user->name }}</li>

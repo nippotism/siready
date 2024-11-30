@@ -144,8 +144,8 @@ class MahasiswaSeeder extends Seeder
             ],
             [
                 'nim' => '2022010099',
-                'nama' => 'Bobby Nasution',
-                'email' => 'bobby@gmail.com',
+                'nama' => 'Yoga Saputra',
+                'email' => 'yoga@gmail.com',
                 'no_telp' => '08156332334',
                 'jenis_kelamin' => 'L',
                 'tanggal_lahir' => '2004-05-10',

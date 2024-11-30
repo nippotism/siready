@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('irs', function (Blueprint $table) {
             $table->id();
+            $table->string('email');
             $table->string('kode');
             $table->string('mata_kuliah');
             $table->string('kelas');
             $table->integer('sks');
             $table->string('ruang');
             $table->string('status');
-            $table->string('nama_dosen');
+            $table->string('nama_dosen')->nullable();
             $table->string('hari_jam');
             $table->integer('semester');
             $table->timestamps();
