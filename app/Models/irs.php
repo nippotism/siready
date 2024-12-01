@@ -12,6 +12,7 @@ class Irs extends Model
     protected $table = 'irs';
 
     protected $fillable = [
+        'email',
         'kode',
         'mata_kuliah',
         'kelas',

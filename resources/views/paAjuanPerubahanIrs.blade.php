@@ -211,7 +211,10 @@
                   showCancelButton: true,
                   confirmButtonColor: "#3085d6",
                   cancelButtonColor: "#d33",
-                  confirmButtonText: "Yes, approve it!"
+                  confirmButtonText: "Yes, approve it!",
+                  customClass: {
+                    popup: 'swal-custom-border',
+                  }
                 }).then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({
@@ -225,7 +228,10 @@
                       Swal.fire({
                         title: "Approved!",
                         text: "IRS change request approved for " + nama,
-                        icon: "success"
+                        icon: "success",
+                        customClass: {
+                            popup: 'swal-custom-border',
+                        }
                       }).then(() => {
                         location.reload();
                       });
@@ -244,7 +250,10 @@
                   showCancelButton: true,
                   confirmButtonColor: "#3085d6",
                   cancelButtonColor: "#d33",
-                  confirmButtonText: "Yes, reject it!"
+                  confirmButtonText: "Yes, reject it!",
+                  customClass: {
+                    popup: 'swal-custom-border',
+                  }
                 }).then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({
@@ -258,7 +267,10 @@
                       Swal.fire({
                         title: "Rejected!",
                         text: "IRS change request rejected for " + nama,
-                        icon: "error"
+                        icon: "error",
+                        customClass: {
+                            popup: 'swal-custom-border',
+                        }
                       }).then(() => {
                         location.reload();
                       });

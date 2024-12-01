@@ -4,6 +4,7 @@
 
 @section('page')
 
+
     <x-navbar>
 
     </x-navbar>
@@ -218,37 +219,43 @@
         
 
         <script>
-            function approveIrs(nama, email) {
-              Swal.fire({
-                title: "Are you sure to approve the schedule for " + nama + "?",
-                text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, approve it!"
-              }).then((result) => {
-                if (result.isConfirmed) {
-                  $.ajax({
-                    url: "{{ route('irs.approve') }}",
-                    type: "POST",
-                    data: {
-                      _token: '{{ csrf_token() }}',
-                      email: email
-                    },
-                    success: function(response) {
-                      Swal.fire({
-                        title: "Approved!",
-                        text: "IRS approved for " + nama,
-                        icon: "success"
-                      }).then(() => {
-                        location.reload();
-                      });
-                    }
-                  });
-                }
-              });
-            }
+function approveIrs(nama, email) {
+  Swal.fire({
+    title: "Are you sure to approve the schedule for " + nama + "?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, approve it!",
+    customClass: {
+      popup: "swal-custom-border", // Add custom class for the popup
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "{{ route('irs.approve') }}",
+        type: "POST",
+        data: {
+          _token: '{{ csrf_token() }}',
+          email: email,
+        },
+        success: function (response) {
+          Swal.fire({
+            title: "Approved!",
+            text: "IRS approved for " + nama,
+            icon: "success",
+            customClass: {
+              popup: "swal-custom-border", // Reuse the same custom class
+            },
+          }).then(() => {
+            location.reload();
+          });
+        },
+      });
+    }
+  });
+}
 
         </script>
         <script>
@@ -260,7 +267,10 @@
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, reject it!"
+                confirmButtonText: "Yes, reject it!",
+                customClass: {
+                    popup: "swal-custom-border", // Add custom class for the popup
+                },
               }).then((result) => {
                 if (result.isConfirmed) {
                   $.ajax({
@@ -274,7 +284,10 @@
                       Swal.fire({
                         title: "Rejected!",
                         text: "IRS rejected for " + nama,
-                        icon: "error"
+                        icon: "error",
+                        customClass: {
+                          popup: "swal-custom-border", // Reuse the same custom class
+                        },
                       }).then(() => {
                         location.reload();
                       });
