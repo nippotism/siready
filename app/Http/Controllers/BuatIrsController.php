@@ -357,7 +357,7 @@ class BuatIrsController extends Controller
             ->update(['akses_irs' => 'yes']);
 
         return response()->json(['message' => 'Ajuan perubahan has been approved for ' . $request->email]);
-    }
+    }  
 
     public function rejectPerubahan(Request $request)
     {

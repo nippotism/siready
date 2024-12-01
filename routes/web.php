@@ -1,23 +1,24 @@
 <?php
 
 use Monolog\Registry;
+use App\Http\Middleware\Dekan;
 use App\Http\Middleware\RegistFirst;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IrsController;
 use App\Http\Controllers\KhsController;
+use App\Http\Middleware\DekanMiddleware;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RuangController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Middleware\KaprodiMiddleware;
+use App\Http\Controllers\BuatIrsController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Middleware\MahasiswaMiddleware;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AjuanRuangController;
 use App\Http\Controllers\MatakuliahController;
-use App\Http\Controllers\BuatIrsController;
-use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\BagAkademikMiddleware;
-use App\Http\Middleware\Dekan;
-use App\Http\Middleware\DekanMiddleware;
-use App\Http\Middleware\KaprodiMiddleware;
-use App\Http\Middleware\MahasiswaMiddleware;
 use App\Http\Middleware\PemAkademikMiddleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -77,9 +78,7 @@ Route::middleware('auth')->group(function () {
         
         
         //Registrasi
-        Route::get('m/registrasi', function () {
-            return view('mhsRegistrasi');
-        })->name('registration');
+        Route::get('m/registrasi',[DashboardController::class,'registMhs']);
         
         
     });

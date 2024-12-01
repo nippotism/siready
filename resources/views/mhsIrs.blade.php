@@ -72,8 +72,10 @@
                                         <tr>
                                             <th class="py-2 w-[10%]">Kode</th>
                                             <th class="py-2 w-[20%]">Mata Kuliah</th>
+                                            <th class="py-2 w-[15%]">Jadwal</th>
                                             <th class="py-2 w-[15%]">Ruang</th>
                                             <th class="py-2 w-[15%]">SKS</th>
+                                            <th class="py-2 w-[15%]">Dosen</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-blek-700">`;
@@ -83,8 +85,14 @@
                                 <tr class="text-center">
                                     <td class="px-4 py-2">${row['kodemk']}</td>
                                     <td class="px-4 py-2">${row['mata_kuliah']}</td>
+                                    <td class="px-4 py-2">${row['hari']}, ${row['jammulai']} - ${row['jamselesai']}</td>
                                     <td class="px-4 py-2">${row['ruang']}</td>
                                     <td class="px-4 py-2">${row['sks']}</td>
+                                    <td class="px-4 py-2 text-left text-xs">
+                                        <ul class = "list-disc">
+                                            ${row['dosen'].map(dosen => `<li>${dosen['nama']}</li>`).join('')}
+                                        </ul>
+                                    </td>
                                 </tr>`;
                             });
         
