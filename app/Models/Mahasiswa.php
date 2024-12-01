@@ -18,6 +18,7 @@ class Mahasiswa extends Model
         'no_telp',
         'jenis_kelamin',
         'tanggal_lahir',
+        'nip_doswal',
         'prodi',
         'jalur_masuk',
         'angkatan',

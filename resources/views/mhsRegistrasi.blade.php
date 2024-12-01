@@ -62,7 +62,7 @@
                         </div>
                         <h1 class="text-[#9CA3AF] px-5">Anda akan mengikuti kegiatan perkuliahan pada semester ini serta mengisi Isian Rencana Studi (IRS).</h1>
                     </div>
-                    <button type="button" class="bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 text-white text-center px-6 py-3 font-bold rounded-2xl">Pilih</button>
+                    <button type="button" {{ $mhs->status == 'Aktif' || $mhs->status == 'Cuti' ? 'disabled':'' }} class="{{ $mhs->status == 'Aktif' ? 'bg-gradient-to-r from-green-400 via-green-500 to-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800': ($mhs->status == 'Cuti' ?'bg-gray-500' : 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800')  }} text-white text-center px-6 py-3 font-bold rounded-2xl">{{ $mhs->status=='Aktif'? 'Terpilih' : ($mhs->status == 'Cuti' ? 'Tidak Tersedia' : 'Pilih')}}</button>
                 </div>
                 <div class="bg-white dark:bg-blek-700 dark:border-gray-700 p-6 mx-7 w-[85%] rounded-2xl h-full flex flex-col justify-between">
                     <div>
@@ -72,7 +72,7 @@
                         </div>
                         <h1 class="text-[#9CA3AF] px-5">Menghentikan kuliah sementara untuk semester ini tanpa kehilangan status sebagai mahasiswa Undip.</h1>
                     </div>
-                    <button type="button"  class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 text-center px-6 py-3 font-bold rounded-2xl">Pilih</button>
+                    <button type="button" {{ $mhs->status == 'Aktif' || $mhs->status == 'Cuti' ? 'disabled':'' }}  class="{{ $mhs->status == 'Cuti' ? 'bg-gradient-to-r from-green-400 via-green-500 to-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800': ($mhs->status == 'Aktif' ?'bg-gray-500' : 'bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800')  }} text-white text-center px-6 py-3 font-bold rounded-2xl">{{ $mhs->status=='Cuti'? 'Terpilih' : ($mhs->status == 'Aktif' ? 'Tidak Tersedia' : 'Pilih')}}</button>
                 </div>
             </div>
         </div>

@@ -32,6 +32,48 @@ class IrsController extends Controller
 
     public function index(Request $request, $semester,$email)
     {
+        $jamend = [
+            "" => '',
+            1 => '07.50',
+            2 => '08.40',
+            3 => '09.30',
+            4 => '10.30',
+            5 => '11.20',
+            6 => '12.10',
+            7 => '13.00',
+            8 => '13.50',
+            9 => '14.40',
+            10 => '15.40',
+            11 => '16.30',
+            12 => '17.20',
+            13 => '18.10',
+        ];
+
+        $jamstart = [
+            "" => '',
+            0 => '07.00',
+            1 => '07.50',
+            2 => '08.40',
+            3 => '09.40',
+            4 => '10.30',
+            5 => '11.20',
+            6 => '12.10',
+            7 => '13.00',
+            8 => '13.50',
+            9 => '14.40',
+            10 => '15.40',
+            11 => '16.30',
+        ];
+
+        $day = [
+            "" => '',
+            1 => 'Senin',
+            2 => 'Selasa',
+            3 => 'Rabu',
+            4 => 'Kamis',
+            5 => 'Jumat',
+        ];
+
         // Get the specific records for the selected semester from matakuliah
 
         $query ="SELECT m.kodemk as kodemk, 
@@ -55,6 +97,9 @@ class IrsController extends Controller
 
         foreach ($data as $key => $value) {
             $value->dosen = DB::select('SELECT d.nama FROM dosen d JOIN dosen_matakuliah dm ON d.nip = dm.nip WHERE dm.kodemk = "'.$value->kodemk.'"');
+            $value->jammulai = $jamstart[$value->jammulai];
+            $value->jamselesai = $jamend[$value->jamselesai];
+            $value->hari = $day[$value->hari];
         }
 
         //change data to object

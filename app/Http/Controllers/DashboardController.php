@@ -152,4 +152,18 @@ class DashboardController extends Controller
         // Pass the user data to a view, or return a response
         return view('MhsDashboard',compact('data'));
     }
+
+
+    public function registMhs(){
+
+        $user = auth()->user();
+        $email = $user->email;
+
+        $mhs = Mahasiswa::where('email', $email)->first();
+
+        // dd($mhs);
+
+
+        return view('mhsRegistrasi', compact('mhs'));
+    }
 }

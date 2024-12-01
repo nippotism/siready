@@ -13,5 +13,7 @@ class DosenMatakuliahSeeder extends Seeder
     public function run(): void
     {
         //
+
+        
     }
 }
