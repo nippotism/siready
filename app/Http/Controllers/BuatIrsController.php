@@ -86,13 +86,25 @@ class BuatIrsController extends Controller
             $total += Matakuliah::where('kodemk', $p->kodemk)->first()->sks;
         }
 
+        $batas_sks = 0;
+        
+        if($mhs->ips >= 3.0){
+            $batas_sks = 24;
+        }else if($mhs->ips < 3 && $mhs->ips >=2.5){
+            $batas_sks = 22;
+        }else if($mhs->ips < 2.5 && $mhs->ips >=2.0){
+            $batas_sks = 20;
+        }else{
+            $batas_sks = 18;
+        }
+
 
         // dd($data);
         //and prodi = Informatika
         $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', 'Informatika')->get();
 
         if($mhs->akses_irs=='yes'){
-            return view('mhsBuatIrs', compact('data','email','total'));
+            return view('mhsBuatIrs', compact('data','email','total','batas_sks'));
         }else{
             $aksesirs = $mhs->akses_irs;
             return view('irsClosed',compact('aksesirs','email'));

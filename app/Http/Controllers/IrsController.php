@@ -32,6 +32,8 @@ class IrsController extends Controller
 
     public function index(Request $request, $semester,$email)
     {
+
+        // return response()->json(request()->all());
         $jamend = [
             "" => '',
             1 => '07.50',
@@ -93,19 +95,11 @@ class IrsController extends Controller
 
         // return response()->json(['data' => $query]);
 
+
+
         $data = DB::select($query);
 
-        foreach ($data as $key => $value) {
-            $value->dosen = DB::select('SELECT d.nama FROM dosen d JOIN dosen_matakuliah dm ON d.nip = dm.nip WHERE dm.kodemk = "'.$value->kodemk.'"');
-            $value->jammulai = $jamstart[$value->jammulai];
-            $value->jamselesai = $jamend[$value->jamselesai];
-            $value->hari = $day[$value->hari];
-        }
-
-        //change data to object
-        $data = json_decode(json_encode($data));
         return response()->json(['data' => $data]);
-
 
 
         if ($request->ajax()) {

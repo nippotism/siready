@@ -61,7 +61,7 @@
                                     </svg>
                                 </span>
                             </button>
-                            <span id="ipk-value">{{ $ipk }}</span>
+                            <span id="ipk-value">{{ $data['ipk'] }}</span>
                         </h1>
                         <h1>IP Kumulatif</h1>
                     </div>
@@ -70,8 +70,8 @@
                         <h1>SKS</h1>
                     </div>
                 </div>
-                <h1 class="text-center"><strong>Pembimbing Akademik : </strong>H. Prabowo Subianto</h1>
-                <h1 class="text-center"><strong>NIP : </strong>24060122110001</h1>
+                <h1 class="text-center"><strong>Pembimbing Akademik : </strong>{{ $data['nama_doswal'] }}</h1>
+                <h1 class="text-center"><strong>NIP : </strong>{{ $data['nip_doswal'] }}</h1>
                 <div class="grid grid-cols-3 space-x-2 py-8 text-center font-semibold">
                     <div class="px-3">
                         <h1>Semester Akademik Sekarang</h1>
@@ -83,7 +83,7 @@
                     </div>
                     <div class="px-3">
                         <h1>IP Semester</h1>
-                        <h1 class="text-2xl">2.3</h1>
+                        <h1 class="text-2xl">{{ $data['ips'] }}</h1>
                     </div>
                 </div>    
             </div>
@@ -144,7 +144,7 @@
       <script>
         $(document).ready(function() {
             let isHidden = false;
-            const ipkValue = "{{ $ipk }}"; // Original IPK value
+            const ipkValue = "{{ $data['ipk'] }}"; // Original IPK value
     
             $('#toggle-button').on('click', function() {
                 // Toggle the IPK value between the actual value and ***

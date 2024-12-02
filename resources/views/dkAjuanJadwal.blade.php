@@ -68,20 +68,41 @@
 
         <script>
             function approveJadwal(prodi) {
-                if(confirm("Are you sure to approve the schedule for " + prodi + "?")) {
+                Swal.fire({
+                    title: "Are you sure to approve the schedule for " + prodi + "?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, approve it!",
+                    customClass: {
+                    popup: "swal-custom-border", // Add custom class for the popup
+                    },
+                }).then((result) => {
+                    if (result.isConfirmed) {
                     $.ajax({
                         url: "{{ route('jadwal.approve') }}",
                         type: "POST",
                         data: {
-                            _token: '{{ csrf_token() }}',
-                            prodi: prodi
+                        _token: '{{ csrf_token() }}',
+                        prodi: prodi,
                         },
-                        success: function(response) {
-                            alert(response.message);
-                            location.reload(); // Reload the page to reflect changes
-                        }
+                        success: function (response) {
+                        Swal.fire({
+                            title: "Approved!",
+                            text: "IRS approved for " + prodi,
+                            icon: "success",
+                            customClass: {
+                            popup: "swal-custom-border", // Reuse the same custom class
+                            },
+                        }).then(() => {
+                            location.reload();
+                        });
+                        },
                     });
-                }
+                    }
+                });
             }
         
             function rejectJadwal(prodi) {

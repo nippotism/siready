@@ -23,6 +23,7 @@ class Mahasiswa extends Model
         'jalur_masuk',
         'angkatan',
         'ipk',
+        'ips',
         'alamat',
         'status',
     ];

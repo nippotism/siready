@@ -106,7 +106,7 @@
                                                             type="radio" 
                                                             name="{{ $matkul->matakuliah }}"
                                                             id="kelas-{{ $kelas->id }}"
-                                                            onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}'); handleRadioClick(this)"
+                                                            onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}','{{ $matkul->sks }}',this)"
                                                             data-hari="{{ $kelas->hari }}"
                                                             data-jam="{{ $kelas->jam }}"  
                                                             {{ $kelas->isselected ? 'checked' : '' }} 
@@ -143,31 +143,7 @@
   </div>
 
     <script>
-      function submitClass(kodejadwal,email,kodemk) {
-          $.ajax({
-              url: "/buat-irstest",  // Laravel route
-              type: "POST",
-              data: {
-                  _token: '{{ csrf_token() }}',          // CSRF token
-                  email: email,           // Email address
-                  kodejadwal: kodejadwal,
-                  kodemk: kodemk
-              },
-              success: function(response) {
-                  // Handle success
-                  // alert('Success: ' + response.data);
-                //   console.log(response.data+response.check);
-                  console.log(response.data);
-                  //change skscount value to response.sks
-                document.getElementById('skscount').innerText = response.data.sks;
-
-              },
-              error: function(xhr, status, error) {
-                  // Handle error
-                  console.log('Error: ' + error);
-              }
-          });
-      }
+    
   </script>
 
 <script>

@@ -7,6 +7,7 @@ use App\Models\Jadwal;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Dosen;
 
 class DashboardController extends Controller
 {
@@ -20,20 +21,25 @@ class DashboardController extends Controller
         // Access user name
         $userName = $user->name;
         $status = $user->status;
-        $ipk = Mahasiswa::where('email', $user->email)->first()->ipk;
+        $mhs = Mahasiswa::where('email', $user->email)->first();
         $semester_berjalan = Mahasiswa::where('email', $user->email)->first()->semester_berjalan;
-        $total_sks = DB::table('irs_test')
-                        ->join('mata_kuliah', 'irs_test.kodemk', '=', 'mata_kuliah.kodemk')
+        $total_sks = DB::table('irs')
+                        ->join('mata_kuliah', 'irs.kode', '=', 'mata_kuliah.kodemk')
                         ->select('mata_kuliah.sks')
                         ->where('email', $user->email)
                         ->where('status', 'Disetujui')
-                        ->sum('sks');
+                        ->sum('irs.sks');
+
+        $doswal = Dosen::where('nip', $mhs->nip_doswal)->first();
 
         $data = [
             'userName' => $userName,
             'status' => $status,
-            'ipk' => $ipk,
+            'ipk' => $mhs->ipk,
             'total_sks' => $total_sks,
+            'nama_doswal' => $doswal->nama,
+            'nip_doswal' => $doswal->nip,
+            'ips' => $mhs->ips,
         ];
 
         $todayNumber = date('N');
@@ -93,10 +99,10 @@ class DashboardController extends Controller
                          
 
 
-        
+        // dd($data);
 
         // Pass the user data to a view, or return a response
-        return view('MhsDashboard',compact('data', 'ipk', 'semester_berjalan', 'jadwalhariini'));   
+        return view('MhsDashboard',compact('data', 'semester_berjalan', 'jadwalhariini'));   
 
 
 

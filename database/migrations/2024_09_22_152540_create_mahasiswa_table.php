@@ -24,6 +24,7 @@ return new class extends Migration
             $table->year('angkatan');
             $table->integer('semester_berjalan');
             $table->float('ipk');
+            $table->float('ips');
             $table->string('nip_doswal');
             $table->text('alamat')->nullable();
             $table->string('status')->nullable();

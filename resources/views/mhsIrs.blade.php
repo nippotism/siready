@@ -89,6 +89,7 @@ $(document).ready(function () {
                 url: `/irs/${semester}/${email}`,
                 method: 'GET',
                 success: function (response) {
+                    console.log('Data fetched:', response);
                     let table = `
                     <div class="additional-info dark:text-white mt-4">
                         <table class="min-w-full text-sm bg-white dark:bg-blek-500 dark:text-white">

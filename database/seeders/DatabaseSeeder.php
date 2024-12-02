@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             MahasiswaSeeder::class,
             MatakuliahSeeder::class,
             KhsSeeder::class,  
+            IrsSeeder::class,
         ]);
     }
 }
