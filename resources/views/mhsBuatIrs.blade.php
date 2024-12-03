@@ -163,7 +163,15 @@
               },
               error: function(xhr, status, error) {
                   // Handle error
-                  alert('Error: ' + xhr.responseJSON.error);
+                  Swal.fire({
+                    title: "Error!",
+                    text: "Anda telah mencapai batas SKS",
+                    icon: "warning",
+                    customClass: {
+              popup: "swal-custom-border", // Reuse the same custom class
+            },
+                    });
+           
                   console.log('Error: ' + xhr.responseJSON.error);
                   radio.checked = false;
                   handleRadioClick(radio);
