@@ -106,7 +106,7 @@
                                                             type="radio" 
                                                             name="{{ $matkul->matakuliah }}"
                                                             id="kelas-{{ $kelas->id }}"
-                                                            onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}','{{ $matkul->sks }}',this)"
+                                                            onclick="submitClass({{ $kelas->id }}, '{{ $email }}', '{{ $matkul->kodemk }}',this); handleRadioClick(this)"
                                                             data-hari="{{ $kelas->hari }}"
                                                             data-jam="{{ $kelas->jam }}"  
                                                             {{ $kelas->isselected ? 'checked' : '' }} 
@@ -142,9 +142,37 @@
       </div>
   </div>
 
-    <script>
+<script>
+          function submitClass(kodejadwal,email,kodemk,radio) {
+          $.ajax({
+              url: "/buat-irstest",  // Laravel route
+              type: "POST",
+              data: {
+                  _token: '{{ csrf_token() }}',          // CSRF token
+                  email: email,           // Email address
+                  kodejadwal: kodejadwal,
+                  kodemk: kodemk
+              },
+              success: function(response) {
+                  // Handle success
+                  // alert('Success: ' + response.data);
+                //   console.log(response.data+response.check);
+                  console.log(response.data);
+                  //change skscount value to response.sks
+                document.getElementById('skscount').innerText = response.data.sks;
+              },
+              error: function(xhr, status, error) {
+                  // Handle error
+                  alert('Error: ' + xhr.responseJSON.error);
+                  console.log('Error: ' + xhr.responseJSON.error);
+                  radio.checked = false;
+                  handleRadioClick(radio);
+              }
+          });
+      }
+</script>
     
-  </script>
+
 
 <script>
   let isload = false;
@@ -382,7 +410,7 @@
             });
 
             //change style for same course
-            nonSelectedClass(radio);
+            // nonSelectedClass(radio);
 
     }
 
@@ -397,7 +425,7 @@
 
             checkConflict(selectedRadio); 
             //change style for course class that not selected, for ex : Selected Strukdat A, Strukdat B will change style
-            nonSelectedClass(selectedRadio);
+            // nonSelectedClass(selectedRadio);
 
             // Check for conflicts
 

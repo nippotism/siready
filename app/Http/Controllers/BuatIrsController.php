@@ -184,8 +184,48 @@ class BuatIrsController extends Controller
             'kodemk' => 'required'
         ]);
 
-        //counting prioritas
+
+
         $Mahasiswa = Mahasiswa::where('email', $request->email)->first();
+        $matkulmasuk = Matakuliah::where('kodemk', $request->kodemk)->first();
+        $jadwalmasuk = Jadwal::where('id', $request->kodejadwal)->first();
+
+
+        $batas_sks = 0;
+        
+        if($Mahasiswa->ips >= 3.0){
+            $batas_sks = 24;
+        }else if($Mahasiswa->ips < 3 && $Mahasiswa->ips >=2.5){
+            $batas_sks = 22;
+        }else if($Mahasiswa->ips < 2.5 && $Mahasiswa->ips >=2.0){
+            $batas_sks = 20;
+        }else{
+            $batas_sks = 18;
+        }
+
+        //pick sum sks from irs where email = data[email] and semester = mahasiswa->semester_berjalan
+        $sks_diambil = DB::select('SELECT SUM(mata_kuliah.sks) as total_sks 
+                                    FROM irs_test 
+                                    JOIN mata_kuliah ON irs_test.kodemk = mata_kuliah.kodemk 
+                                    WHERE irs_test.email = ? AND irs_test.semester = ?', [$request->email, $Mahasiswa->semester_berjalan]);
+        
+        $sks_diambil = $sks_diambil[0]->total_sks;
+
+        //check
+        $isPicked = Irstest::where('email', $request->email)->where('kodemk', $request->kodemk)->first();
+
+        //check if the sks is more than the limit
+        if($sks_diambil + $matkulmasuk->sks > $batas_sks && !$isPicked){
+            return response()->json(['error' => 'Sks melebihi batas'],422);
+        }
+        
+        
+
+        
+        
+        
+        
+        //counting prioritas
         $smtMahasiswa = $Mahasiswa->semester_berjalan;
         $smtMatakuliah = Matakuliah::where('kodemk', $request->kodemk)->first()->plotsemester;
         //check is empty query if yes fill with S
