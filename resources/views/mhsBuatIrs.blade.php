@@ -27,16 +27,16 @@
         <div class = " fixed -right-2 bottom-28 z-50">
             <button id="show-irs-button" class="my-2 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-l-full text-sm px-4 py-3 hover:-translate-x-2 hover:pr-6 transition-all" type="button" data-drawer-target="drawer-right-example"   data-drawer-body-scrolling="true" data-drawer-show="drawer-right-example" data-drawer-placement="right" aria-controls="drawer-right-example">
                 Lihat IRS
-                <span id = "skscount" class="inline-flex items-center justify-center w-4 h-4 ms-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                <span id = "skscount" class="inline-flex items-center justify-center w-5 h-5 ms-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
                     {{$total}}
                     </span>
             </button>
         </div>
 
-        <div class="flex justify-between items-center mx-14 my-8">
-            <h1 class=" text-3xl font-semibold text-gray-900 dark:text-gray-200">Buat IRS</h1>
-            <div class="flex items-center justify-right">
-            <input type="text" placeholder="Search" class="bg-white dark:bg-blek-700 rounded-lg">
+        <div class="flex justify-between items-center mx-14 mt-8 mb-2">
+            <h1 class=" text-3xl font-semibold text-gray-900 dark:text-gray-200">Buat <span class = "font-extralight">IRS</span></h1>
+            <div class="flex items-center justify-right mr-3">
+                <h1 class=" text-lg font-semibold text-gray-900 dark:text-gray-200">IPS : <span class = "font-extralight">{{ $ips }}</span> <br/> Max SKS : <span class = "font-extralight">{{ $batas_sks }} </span> </h1>
           </div>
 
         </div>

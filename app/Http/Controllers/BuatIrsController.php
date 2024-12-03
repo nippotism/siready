@@ -98,13 +98,15 @@ class BuatIrsController extends Controller
             $batas_sks = 18;
         }
 
+        $ips = $mhs->ips;
+
 
         // dd($data);
         //and prodi = Informatika
         $dataruang = Ruang::where('status', 'Disetujui')->where('prodi', 'Informatika')->get();
 
         if($mhs->akses_irs=='yes'){
-            return view('mhsBuatIrs', compact('data','email','total','batas_sks'));
+            return view('mhsBuatIrs', compact('data','email','total','batas_sks','ips'));
         }else{
             $aksesirs = $mhs->akses_irs;
             return view('irsClosed',compact('aksesirs','email'));
