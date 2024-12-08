@@ -22,7 +22,7 @@ use App\Http\Middleware\BagAkademikMiddleware;
 use App\Http\Middleware\PemAkademikMiddleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
-Route::get('/', function () {
+Route::get('/', function () {  
     return redirect()->route('login');
 });
 

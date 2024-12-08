@@ -311,7 +311,7 @@ class JadwalController extends Controller
            $d->jammulai = $jamstart[$d->jammulai];
            $d->jamselesai = $jamend[$d->jamselesai];
            $d->hari = $day[$d->hari];
-       }
+       }  
        //and prodi = Informatika
        return view('kpReviewJadwal', compact('data'));
    }

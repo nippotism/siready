@@ -34,7 +34,7 @@
       {{-- end sidebar --}}
 
       <div id="main-content" class="relative w-full h-full font-poppins overflow-y-auto lg:mt-4 bg-gray-50 lg:ml-52 dark:bg-blek-900">
-        <h1 class="mx-14 my-8 text-3xl font-semibold text-gray-900 dark:text-gray-200">Isian Rencana Studi (IRS)</h1>
+        <h1 class="mx-14 my-8 text-3xl font-semibold text-gray-900 dark:text-gray-200"><span class = "font-extralight">IRS |</span> Isian Rencana Studi</h1>
         <div class="mt-2 mx-14 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-800">
             @foreach ($data as $item)
             <div class="container-irs p-10 my-3 transition-all duration-300 ease-in-out bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-blek-500"  data-semester="{{ $item->irs_semester }}" data-email = "{{ $email }}">
