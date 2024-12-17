@@ -54,7 +54,8 @@
         </div>
     </div>
     
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
       <script>
 $(document).ready(function () {
     $('.container-irs').on('click', function () {
@@ -90,6 +91,8 @@ $(document).ready(function () {
                 method: 'GET',
                 success: function (response) {
                     console.log('Data fetched:', response);
+
+                    // Membuat tabel HTML
                     let table = `
                     <div class="additional-info dark:text-white mt-4">
                         <table class="min-w-full text-sm bg-white dark:bg-blek-500 dark:text-white">
@@ -104,8 +107,9 @@ $(document).ready(function () {
                                 </tr>
                             </thead>
                             <tbody class="bg-blek-700">`;
-                    const dataa = response.data;
-                    dataa.forEach(row => {
+
+                    const data = response.data;
+                    data.forEach(row => {
                         table += `
                         <tr class="text-center">
                             <td class="px-4 py-2">${row['kodemk']}</td>
@@ -119,16 +123,21 @@ $(document).ready(function () {
                     table += `
                             </tbody>
                         </table>
-                    </div>`;
+                    </div>
+                    <button id="download-irs" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Download IRS</button>`;
 
-                    // Remove loading spinner and append the table
+
+                    // Menghapus spinner dan menampilkan tabel
                     parentContainer.find('.loading-spinner').remove();
                     parentContainer.append(table);
+
+                    // Menambahkan event listener untuk tombol download
+                    $('#download-irs').on('click', generatePDF);
                 },
                 error: function (xhr, status, error) {
                     console.error('Error fetching data:', error);
 
-                    // Show an error message and remove the spinner
+                    // Menampilkan pesan error dan menghapus spinner
                     parentContainer.find('.loading-spinner').remove();
                     parentContainer.append(`<div class="error-message text-red-500 mt-4">Failed to load data. Please try again.</div>`);
                 }
@@ -139,9 +148,98 @@ $(document).ready(function () {
 
             // Remove the existing table
             parentContainer.find('.additional-info').remove();
+            
+
+            //remove the download button
+            parentContainer.find('#download-irs').remove();
         }
     });
 });
+
+            // Fungsi untuk men-generate PDF
+            function generatePDF() {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Mendapatkan lebar halaman PDF
+                const pageWidth = doc.internal.pageSize.getWidth();
+
+                // Menambahkan header
+                doc.setFontSize(10);
+                doc.setFont("times");
+                doc.text("KEMENTERIAN PENDIDIKAN, KEBUDAYAAN, RISET DAN TEKNOLOGI", pageWidth / 2, 10, { align: "center" });
+                doc.text("FAKULTAS SAINS DAN MATEMATIKA", pageWidth / 2, 16, { align: "center" });
+                doc.text("UNIVERSITAS DIPONEGORO", pageWidth / 2, 22, { align: "center" });
+
+                // Menambahkan judul
+                doc.setFontSize(10);
+                doc.setFont("times", "bold");
+                let currentY = 35;
+                doc.text("ISIAN RENCANA STUDI MAHASISWA", pageWidth / 2, currentY, { align: "center" });
+                currentY += 15;
+
+                // Menambahkan informasi detail
+                const marginLeft = 14; // Margin kiri untuk teks
+                doc.setFontSize(10);
+                doc.setFont("times", "normal");
+                doc.text("NIM                        : {{ $mhs->nim }}", marginLeft, currentY);
+                currentY += 5;
+                doc.text("Nama Mahasiswa   : {{ $mhs->nama }}", marginLeft, currentY);
+                currentY += 5;
+                doc.text("Program Studi        : {{ $mhs->prodi }}", marginLeft, currentY);
+                currentY += 5;
+                doc.text("Dosen Wali            : {{ $mhs->nama_doswal }}", marginLeft, currentY);
+
+                // Membuat tabel di bawah informasi detail
+                doc.autoTable({
+                    html: '.additional-info table',
+                    startY: currentY + 5,
+                    theme: 'grid',
+                    styles: {
+                        font: "times",
+                        fontSize: 8,
+                        cellPadding: 3,
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: [0, 0, 0],
+                        lineWidth: 0.25,
+                        overflow: 'linebreak'
+                    },
+                    headStyles: {
+                        font: "times",
+                        textColor: [0, 0, 0],
+                        fillColor: [255, 255, 255],
+                        fontSize: 8,
+                        fontStyle: "bold"
+                    }
+                });
+
+                // Menambahkan tanda tangan
+                const marginRight = pageWidth - 100; // Posisi margin kanan
+                const endTableY = doc.lastAutoTable.finalY + 10;
+
+                doc.setFontSize(10);
+                doc.text("Pembimbing Akademik (Dosen Wali)", marginLeft, endTableY + 5);
+                doc.text("{{ $mhs->nama_doswal }}", marginLeft, endTableY + 30);
+                doc.text("{{ $mhs->nip_doswal }}", marginLeft, endTableY + 35);
+
+                doc.text("Semarang, " + formatDate(new Date()), marginRight, endTableY);
+                doc.text("Nama Mahasiswa", marginRight, endTableY + 5);
+                doc.text("{{ $mhs->nama }}", marginRight, endTableY + 30);
+                doc.text("NIM: {{ $mhs->nim }}", marginRight, endTableY + 35);
+
+                // Menyimpan file PDF
+                doc.save('IRS_Mahasiswa.pdf');
+            }
+
+            // Fungsi untuk memformat tanggal
+            function formatDate(date) {
+                const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                return day + " " + month + " " + year;
+            }
 
 
 

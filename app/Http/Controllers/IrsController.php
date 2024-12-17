@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dosen;
 use App\Models\Irs;
+use App\Models\Mahasiswa;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -12,6 +13,10 @@ class IrsController extends Controller
     public function all()
     {
         $email = auth()->user()->email;
+
+        $mhs = Mahasiswa::where('email', $email)->first();
+
+        $mhs->nama_doswal = Dosen::where('nip', $mhs->nip_doswal)->first()->nama;
     
         // Fetch semester-specific data with the correct grouping
         $data = Irs::select(
@@ -26,7 +31,7 @@ class IrsController extends Controller
             ->get();
             // dd($data);
     
-        return view('mhsIrs', compact('data', 'email'));
+        return view('mhsIrs', compact('data', 'email', 'mhs'));
     }
     
 
