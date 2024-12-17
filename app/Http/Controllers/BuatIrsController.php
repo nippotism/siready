@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\Irs;
+use App\Models\Khs;
 use App\Models\Dosen;
 use App\Models\Ruang;
 use App\Models\Jadwal;
-use App\Models\Irs;
 use App\Models\Irstest;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
-use App\Models\Khs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -107,9 +108,21 @@ class BuatIrsController extends Controller
 
         if($mhs->akses_irs=='yes'){
             return view('mhsBuatIrs', compact('data','email','total','batas_sks','ips'));
-        }else{
+        }else if($mhs->akses_irs=='cuma_batal'){
+            return view('mhsBuatIrsCumaBatal', compact('data','email','total','batas_sks','ips'));
+        }
+        else{
             $aksesirs = $mhs->akses_irs;
-            return view('irsClosed',compact('aksesirs','email'));
+            $irsdibuka = env('IRS_OPEN');
+            $givenDate = Carbon::parse($irsdibuka);
+            $twoWeeksAgo = Carbon::now()->subWeeks(2);
+            $fourWeeksAgo = Carbon::now()->subWeeks(4);
+
+            if ($givenDate->lessThanOrEqualTo($twoWeeksAgo)) {
+                return view('irsClosedParah',compact('aksesirs','email'));
+            }else {
+                return view('irsClosed',compact('aksesirs','email'));
+            }
         }
     }
 
@@ -495,9 +508,19 @@ class BuatIrsController extends Controller
             ->update(['status' => 'Pending']);
     
         // Update Mahasiswa to allow access to IRS
+
+        $irsdibuka = env('IRS_OPEN');
+        $givenDate = Carbon::parse($irsdibuka);
+        $twoWeeksAgo = Carbon::now()->subWeeks(2);
+
+        if ($givenDate->lessThanOrEqualTo($twoWeeksAgo)) {
+            Mahasiswa::where('email', $request->email)->update(['akses_irs' => 'cuma_batal']);
+        }else {
+            Mahasiswa::where('email', $request->email)->update(['akses_irs' => 'yes']);
+        }
         
-        Mahasiswa::where('email', $request->email)
-            ->update(['akses_irs' => 'yes']);
+
+        
     
         return response()->json(['message' => 'Ajuan perubahan has been approved and IRS data deleted for ' . $request->email]);
     }
